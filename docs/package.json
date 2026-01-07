@@ -1,0 +1,33 @@
+{
+  "name": "docs",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.25.0",
+  "dependencies": {
+    "solid-tiny-context": "catalog:",
+    "solid-tiny-utils": "catalog:",
+    "solid-js": "^1.9.10",
+    "solid-tiny-ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.4",
+    "@solidjs/start": "https://pkg.pr.new/solidjs/solid-start/@solidjs/start@a527e89",
+    "@solidjs/vite-plugin-nitro-2": "https://pkg.pr.new/solidjs/solid-start/@solidjs/vite-plugin-nitro-2@a527e89",
+    "@vitest/browser-playwright": "^4.0.16",
+    "bumpp": "^10.3.2",
+    "typescript": "^5.9.3",
+    "unocss": "catalog:",
+    "@solid-tiny-ui/unocss-preset": "workspace:*",
+    "vite": "^7.1.10",
+    "vite-plugin-solid": "^2.11.10"
+  }
+}

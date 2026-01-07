@@ -1,0 +1,92 @@
+.tiny-modal-vars {
+    --tiny-modal-content-c-bg: var(--tiny-c-neutral-0);
+    --tiny-modal-content-c-bg-dark: var(--tiny-c-neutral-2);
+    --tiny-modal-content-c-border: var(--tiny-c-border);
+    --tiny-modal-content-border-radius: var(--tiny-radius-md);
+    --tiny-modal-content-box-shadow: var(--tiny-shadow-3);
+}
+
+.tiny-modal__wrapper {
+    scrollbar-color: var(--tiny-c-neutral-6) transparent;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+}
+
+.tiny-modal__content {
+    background: var(--tiny-modal-content-c-bg);
+    border-color: var(--tiny-modal-content-c-border);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: var(--tiny-modal-content-border-radius);
+    box-shadow: var(--tiny-modal-content-box-shadow);
+    margin: 0 auto;
+    position: relative;
+    transform-origin: center center;
+    overflow: hidden;
+    margin-top: 100px;
+    margin-bottom: 40px;
+
+    animation-duration: 100ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+
+    transform-origin: top center;
+
+    &[data-opening] {
+        animation-name: tiny-modal-in;
+    }
+
+    &[data-closing] {
+        animation-name: tiny-modal-in;
+        animation-direction: reverse;
+    }
+}
+
+.dark .tiny-modal__content {
+    background: var(--tiny-modal-content-c-bg-dark);
+}
+
+.tiny-modal__mask {
+    background: rgb(0 0 0 / 10%);
+    animation-duration: 100ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    backdrop-filter: blur(4px);
+
+    &[data-opening] {
+        animation-name: tiny-mask-in;
+    }
+
+    &[data-closing] {
+        animation-name: tiny-mask-in;
+        animation-direction: reverse;
+    }
+}
+
+.dark .tiny-modal__mask {
+    background: rgb(0 0 0 / 30%);
+}
+
+@keyframes tiny-modal-in {
+    0% {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tiny-mask-in {
+    0% {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+}

@@ -1,0 +1,46 @@
+.tiny-input-vars {
+  --tiny-input-c-border: var(--tiny-c-border);
+  --tiny-input-c-border-hover: var(--tiny-c-brand-5);
+  --tiny-input-c-border-active: var(--tiny-c-brand-5);
+  --tiny-input-border-radius: var(--tiny-radius-sm);
+  --tiny-input-padding: var(--tiny-space-sm);
+  --tiny-input-c-bg-disabled: var(--tiny-c-neutral-2);
+}
+
+.tiny-input {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--tiny-input-c-border);
+    border-radius: var(--tiny-input-border-radius);
+    padding-left: var(--tiny-input-padding);
+    padding-right: var(--tiny-input-padding);
+    transition: border-color 150ms;
+    width: 100%;
+
+    &:focus-within {
+        border-color: var(--tiny-input-c-border-active);
+    }
+
+    &:hover {
+        border-color: var(--tiny-input-c-border-hover);
+    }
+
+    &[data-size="small"] {
+        height: 24px;
+    }
+
+    &[data-size="medium"] {
+        height: 32px;
+    }
+
+    &[data-size="large"] {
+        height: 40px;
+    }
+
+    &[data-disabled] {
+        pointer-events: none;
+        user-select: none;
+        background-color: var(--tiny-input-c-bg-disabled);
+        opacity: 0.6;
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite/biome/core", "ultracite/biome/solid"],
+  "linter": {
+    "rules": {
+      "performance": {
+        "noBarrelFile": "off"
+      },
+      "suspicious": {
+        "noConsole": "warn",
+        "noUnassignedVariables": "off"
+      },
+      "a11y": {
+        "noStaticElementInteractions": "off"
+      }
+    }
+  }
+}

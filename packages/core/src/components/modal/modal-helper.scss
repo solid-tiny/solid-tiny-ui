@@ -1,0 +1,53 @@
+.tiny-modal-helper-vars {
+  --tiny-modal-header-margin: var(--tiny-space-lg);
+  --tiny-modal-header-padding: var(--tiny-space-lg);
+  --tiny-modal-header-c-text: var(--tiny-c-text-heading);
+  --tiny-modal-header-fs: var(--tiny-fs-lg);
+  --tiny-modal-body-margin: var(--tiny-space-lg);
+  --tiny-modal-body-padding: var(--tiny-space-lg);
+  --tiny-modal-footer-margin: var(--tiny-space-md);
+  --tiny-modal-footer-padding: var(--tiny-space-lg);
+  --tiny-modal-footer-c-bg: var(--tiny-c-neutral-2);
+  --tiny-modal-footer-c-bg-dark: var(--tiny-c-neutral-0);
+}
+
+.tiny-modal__header {
+    display: flex;
+    color: var(--tiny-modal-header-c-text);
+    font-size: var(--tiny-modal-header-fs);
+    padding-left: var(--tiny-modal-header-padding);
+    padding-right: var(--tiny-modal-header-padding);
+    padding-top: var(--tiny-modal-header-padding);
+    align-items: center;
+    position: relative;
+}
+
+.tiny-modal__header-close {
+    position: absolute;
+    right: var(--tiny-modal-header-padding);
+    top: var(--tiny-modal-header-padding);
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+.tiny-modal__body {
+    min-height: 100px;
+    margin-top: var(--tiny-modal-body-margin);
+    padding-left: var(--tiny-modal-body-padding);
+    padding-right: var(--tiny-modal-body-padding);
+    padding-bottom: var(--tiny-modal-body-padding);
+    display: flex;
+}
+
+.tiny-modal__footer {
+    margin-top: var(--tiny-modal-footer-margin);
+    padding: var(--tiny-modal-footer-padding);
+    background: var(--tiny-modal-footer-c-bg);
+}
+
+.dark .tiny-modal__footer {
+    background: var(--tiny-modal-footer-c-bg-dark);
+}

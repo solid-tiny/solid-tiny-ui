@@ -1,0 +1,201 @@
+.tiny-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 6px;
+    border-radius: 4px;
+    border-color: var(--tiny-btn-c-border, transparent);
+    border-style: solid;
+    border-width: 1px;
+    gap: 4px;
+    --tiny-btn-height: 32px;
+    height: var(--tiny-btn-height);
+    width: fit-content;
+
+    &[data-icon-placement="end"] {
+        flex-direction: row-reverse;
+    }
+
+    &[data-size="small"] {
+        --tiny-btn-height: 24px;
+        padding: 0 4px;
+    }
+    &[data-size="large"] {
+        --tiny-btn-height: 40px;
+        font-size: 16px;
+    }
+
+    &[data-rounded] {
+        border-radius: calc(var(--tiny-btn-height) / 2);
+    }
+
+    &[data-icon-only] {
+        width: var(--tiny-btn-height);
+    }
+
+    &[data-color="primary"] {
+        --tiny-btn-c-main: var(--tiny-c-brand-5);
+    }
+
+    &[data-color="secondary"] {
+        --tiny-btn-c-main: var(--tiny-c-neutral-9);
+    }
+
+    &[data-color="link"] {
+        --tiny-btn-c-main: var(--tiny-c-link);
+    }
+    &[data-color="danger"] {
+        --tiny-btn-c-main: var(--tiny-c-danger);
+    }
+    &[data-color="warning"] {
+        --tiny-btn-c-main: var(--tiny-c-warning);
+    }
+    &[data-color="success"] {
+        --tiny-btn-c-main: var(--tiny-c-success);
+    }
+    &[data-color="info"] {
+        --tiny-btn-c-main: var(--tiny-c-info);
+    }
+
+    &[data-variant="solid"] {
+        color: #fff;
+        .tiny-btn__bg {
+            background-color: var(--tiny-btn-c-main);
+        }
+        &:hover {
+            opacity: 0.85;
+        }
+        &:active {
+            opacity: 1;
+        }
+    }
+
+    &[data-variant="outline"] {
+        color: var(--tiny-btn-c-main);
+        border-color: var(--tiny-btn-c-main);
+        .tiny-btn__bg {
+            background-color: var(--tiny-btn-c-main);
+            opacity: 0;
+        }
+
+        &:hover {
+            .tiny-btn__bg {
+                opacity: 0.1;
+            }
+        }
+
+        &:active {
+            .tiny-btn__bg {
+                opacity: 0.2;
+            }
+        }
+
+        &[data-disabled] {
+            .tiny-btn__bg {
+                display: none;
+            }
+
+            border-color: var(--tiny-c-neutral-5);
+        }
+    }
+
+    &[data-variant="subtle"] {
+        color: var(--tiny-btn-c-main);
+
+        .tiny-btn__bg {
+            background-color: var(--tiny-btn-c-main);
+            opacity: 0.2;
+        }
+
+        &:hover {
+            .tiny-btn__bg {
+                opacity: 0.3;
+            }
+        }
+
+        &:active {
+            .tiny-btn__bg {
+                opacity: 0.2;
+            }
+        }
+    }
+
+    &[data-variant="text"] {
+        color: var(--tiny-btn-c-main);
+
+        .tiny-btn__bg {
+            background-color: var(--tiny-btn-c-main);
+            opacity: 0;
+        }
+
+        &:hover {
+            .tiny-btn__bg {
+                opacity: 0.2;
+            }
+        }
+
+        &:active {
+            .tiny-btn__bg {
+                opacity: 0.3;
+            }
+        }
+
+        &[data-disabled] {
+            .tiny-btn__bg {
+                display: none;
+            }
+
+            border-color: transparent;
+        }
+    }
+
+    &[data-variant="link"] {
+        color: var(--tiny-btn-c-main);
+        padding: 0;
+
+        .tiny-btn__bg {
+            opacity: 0;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:active {
+            opacity: 0.8;
+        }
+
+        &[data-disabled] {
+            .tiny-btn__bg {
+                display: none;
+            }
+
+            border-color: transparent;
+        }
+    }
+
+    &[data-disabled] {
+        pointer-events: none;
+        opacity: 0.6;
+        --tiny-btn-c-main: var(--tiny-c-text-disabled);
+        border-color: var(--tiny-c-neutral-5);
+        color: var(--tiny-c-text-description);
+
+        .tiny-btn__bg {
+            opacity: 0.5;
+        }
+    }
+}
+
+.tiny-btn__content {
+    position: relative;
+}
+
+.tiny-btn__bg {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}

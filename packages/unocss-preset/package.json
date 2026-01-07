@@ -1,0 +1,43 @@
+{
+  "name": "@solid-tiny-ui/unocss-preset",
+  "type": "module",
+  "version": "0.4.0",
+  "private": false,
+  "description": "solid-tiny-ui unocss preset",
+  "homepage": "https://github.com/solid-tiny/solid-tiny-ui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solid-tiny/solid-tiny-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/solid-tiny/solid-tiny-ui/issues"
+  },
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "unocss": "^66"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch"
+  },
+  "dependencies": {
+    "solid-tiny-utils": "catalog:"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unocss": "catalog:"
+  }
+}

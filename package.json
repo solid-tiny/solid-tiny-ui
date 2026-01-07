@@ -1,0 +1,30 @@
+{
+  "name": "@solid-tiny-ui/org",
+  "private": true,
+  "description": "Provided bunch of Solid UI components and utilities.",
+  "scripts": {
+    "dev:docs": "pnpm --filter docs dev",
+    "dev:core": "pnpm --filter solid-tiny-ui play",
+    "build:packages": "pnpm run build:unocss-preset && pnpm run build:core",
+    "build:core": "pnpm --filter solid-tiny-ui build",
+    "build:unocss-preset": "pnpm --filter unocss-preset build",
+    "lint": "pnpm ultracite check",
+    "lint:error": "pnpm ultracite check --diagnostic-level error",
+    "lint:fix": "pnpm ultracite fix",
+    "tc": "pnpm run tc:core",
+    "tc:core": "pnpm --filter solid-tiny-ui tc",
+    "bump": "bumpp -r --execute=\"pnpm i\" --no-push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.25.0",
+  "devDependencies": {
+    "@biomejs/biome": "2.3.10",
+    "bumpp": "^10.3.2",
+    "@types/node": "^25.0.3",
+    "typescript": "catalog:",
+    "ultracite": "7.0.5",
+    "vitest": "catalog:"
+  }
+}

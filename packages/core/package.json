@@ -1,0 +1,68 @@
+{
+  "name": "solid-tiny-ui",
+  "type": "module",
+  "version": "0.4.0",
+  "description": "Core package for solid tiny UI library",
+  "author": "solid tiny",
+  "license": "MIT",
+  "homepage": "https://github.com/solid-tiny/solid-tiny-ui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solid-tiny/solid-tiny-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/solid-tiny/solid-tiny-ui/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "solid": "./dist/index.jsx",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "play": "vite --config ./playground/vite.config.ts",
+    "build:play": "vite build --config ./playground/vite.config.ts",
+    "test": "vitest",
+    "tc": "tsc --noEmit --skipLibCheck"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.9.9"
+  },
+  "dependencies": {
+    "solid-tiny-context": "catalog:",
+    "solid-tiny-utils": "catalog:",
+    "@solid-primitives/refs": "catalog:",
+    "@floating-ui/core": "^1.7.3",
+    "@floating-ui/dom": "^1.7.4"
+  },
+  "devDependencies": {
+    "@iconify-json/ri": "^1.2.6",
+    "@solid-primitives/keyed": "^1.5.2",
+    "@solidjs/router": "^0.15.4",
+    "@solidjs/testing-library": "^0.8.10",
+    "@vitest/browser-playwright": "^4.0.16",
+    "rolldown-plugin-solid": "^0.2.1",
+    "rollup-plugin-inline-import": "^0.3.0",
+    "vite-plugin-solid-pages": "^0.3.0",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unocss": "catalog:",
+    "@solid-tiny-ui/unocss-preset": "workspace:*",
+    "vite": "^7.1.10",
+    "vite-plugin-solid": "^2.11.10",
+    "vitest": "^4.0.16"
+  }
+}

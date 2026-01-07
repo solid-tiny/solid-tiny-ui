@@ -1,0 +1,61 @@
+import css from "sass:./textarea.scss";
+import { type JSX, mergeProps } from "solid-js";
+import { combineClass, combineStyle, mountStyle } from "solid-tiny-utils";
+import { createClassStyles } from "../../utils";
+import type { ClassNames, Styles } from "../../utils/types";
+
+export function Textarea(props: {
+  autosize?: boolean;
+  rows?: number;
+  placeholder?: string;
+  disabled?: boolean;
+  maxLength?: number;
+  resize?: JSX.CSSProperties["resize"];
+  classNames?: ClassNames<
+    "root",
+    {
+      disabled: boolean;
+    }
+  >;
+  styles?: Styles<"root", { disabled: boolean }>;
+  onChange?: (value: string) => void;
+  value?: string;
+}) {
+  mountStyle(css, "tiny-textarea");
+
+  const real = mergeProps(
+    {
+      autosize: false,
+      rows: 3,
+      disabled: false,
+    },
+    props
+  );
+
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({ disabled: real.disabled })
+  );
+
+  return (
+    <textarea
+      class={combineClass("tiny-textarea tiny-textarea-vars", classes().root)}
+      disabled={real.disabled}
+      maxLength={real.maxLength}
+      onInput={(e) => {
+        props.onChange?.((e.target as HTMLTextAreaElement).value);
+      }}
+      placeholder={real.placeholder}
+      rows={real.rows}
+      style={combineStyle(
+        {
+          resize: real.resize,
+          "min-height": "88px",
+        },
+        styles().root
+      )}
+      value={real.value}
+    />
+  );
+}

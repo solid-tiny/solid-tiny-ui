@@ -7,6 +7,7 @@ export * from "./components/progress";
 export * from "./components/spin";
 export * from "./components/tabs";
 export * from "./components/textarea";
+export * from "./components/time-picker";
 export * from "./components/tooltip";
 export * from "./layout";
 export * from "./root-provider";

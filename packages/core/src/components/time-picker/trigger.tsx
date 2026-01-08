@@ -32,7 +32,7 @@ export function TimeTrigger(props: {
       </VisuallyHidden>
       <div
         class="tiny-time-picker-trigger__item"
-        data-empty={dataIf(props.minute === null)}
+        data-empty={dataIf(props.hour === null)}
       >
         {toStr(props.hour) || "hh"}
       </div>
@@ -47,7 +47,7 @@ export function TimeTrigger(props: {
       <Show when={typeIndex() > 1}>
         <div
           class="tiny-time-picker-trigger__item"
-          data-empty={dataIf(props.minute === null)}
+          data-empty={dataIf(props.second === null)}
         >
           {toStr(props.second) || "ss"}
         </div>

@@ -40,6 +40,10 @@
 
     &[data-color="secondary"] {
         --tiny-btn-c-main: var(--tiny-c-neutral-9);
+
+        &[data-variant="solid"] {
+            color: var(--tiny-c-neutral-0);
+        }
     }
 
     &[data-color="link"] {
@@ -59,7 +63,7 @@
     }
 
     &[data-variant="solid"] {
-        color: #fff;
+        color: var(--tiny-c-white);
         .tiny-btn__bg {
             background-color: var(--tiny-btn-c-main);
         }

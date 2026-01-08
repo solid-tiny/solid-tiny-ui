@@ -1,5 +1,6 @@
 import css from "sass:./time-picker.scss";
 import { mountStyle, noop } from "solid-tiny-utils";
+import { getHours, getMinutes, getSeconds } from "time-core";
 import { Popover } from "../popover";
 import { TimePanel } from "./panel";
 import { TimeTrigger } from "./trigger";
@@ -47,9 +48,9 @@ export function TimePicker(props: {
           </Popover.Trigger>
           <Popover.Content class="tiny-time-picker-popover tiny-time-picker-popover-vars">
             <TimePanel
-              hour={props.hour || 0}
+              hour={props.hour || getHours(Date.now())}
               itemHeight={state.refTrigger?.clientHeight || 32}
-              minute={props.minute || 0}
+              minute={props.minute || getMinutes(Date.now())}
               onCancel={() => {
                 actions.setOpen(false);
               }}
@@ -62,7 +63,7 @@ export function TimePicker(props: {
                 });
                 actions.setOpen(false);
               }}
-              second={props.second || 0}
+              second={props.second || getSeconds(Date.now())}
               type={props.type || "hour"}
               width={state.refTrigger?.clientWidth || 128}
             />

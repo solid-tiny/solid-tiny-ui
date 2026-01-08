@@ -42,27 +42,28 @@
     "solid-js": "^1.9.9"
   },
   "dependencies": {
+    "@floating-ui/core": "^1.7.3",
+    "@floating-ui/dom": "^1.7.4",
+    "@solid-primitives/refs": "catalog:",
     "solid-tiny-context": "catalog:",
     "solid-tiny-utils": "catalog:",
-    "@solid-primitives/refs": "catalog:",
-    "@floating-ui/core": "^1.7.3",
-    "@floating-ui/dom": "^1.7.4"
+    "time-core": "^0.1.0"
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.6",
     "@solid-primitives/keyed": "^1.5.2",
+    "@solid-tiny-ui/unocss-preset": "workspace:*",
     "@solidjs/router": "^0.15.4",
     "@solidjs/testing-library": "^0.8.10",
     "@vitest/browser-playwright": "^4.0.16",
     "rolldown-plugin-solid": "^0.2.1",
     "rollup-plugin-inline-import": "^0.3.0",
-    "vite-plugin-solid-pages": "^0.3.0",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "unocss": "catalog:",
-    "@solid-tiny-ui/unocss-preset": "workspace:*",
     "vite": "^7.1.10",
     "vite-plugin-solid": "^2.11.10",
+    "vite-plugin-solid-pages": "^0.3.0",
     "vitest": "^4.0.16"
   }
 }

@@ -75,6 +75,10 @@
         transform-origin: center center;
     }
 
+    &[data-size="large"] {
+        font-size: var(--tiny-fs-md);
+    }
+
     padding: 0;
 }
 

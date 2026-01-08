@@ -24,7 +24,7 @@ export function TimePicker(props: {
       disabled={props.disabled}
       floatingOption={{
         offset: ({ rects }) => {
-          return -rects.reference.height * 4;
+          return -rects.reference.height * 4 + 6;
         },
         flip: false,
         shift: {
@@ -46,7 +46,10 @@ export function TimePicker(props: {
               type={props.type ?? "hour"}
             />
           </Popover.Trigger>
-          <Popover.Content class="tiny-time-picker-popover tiny-time-picker-popover-vars">
+          <Popover.Content
+            class="tiny-time-picker-popover tiny-time-picker-popover-vars"
+            data-size={props.size || "medium"}
+          >
             <TimePanel
               hour={props.hour || getHours(Date.now())}
               itemHeight={state.refTrigger?.clientHeight || 32}

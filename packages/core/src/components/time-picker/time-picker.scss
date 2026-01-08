@@ -1,0 +1,138 @@
+.tiny-time-picker-trigger-vars {
+    --tiny-time-picker-trigger-c-border: var(--tiny-c-border);
+    --tiny-time-picker-trigger-radius: var(--tiny-radius-sm);
+    --tiny-time-picker-trigger-width: 116px;
+    --tiny-time-picker-trigger-height: 32px;
+    --tiny-time-picker-trigger-font-size: var(--tiny-fs-sm);
+    --tiny-time-picker-c-text-placeholder: var(--tiny-c-text-description);
+    --tiny-time-picker-trigger-c-bg-disabled: var(--tiny-c-neutral-2);
+}
+
+.tiny-time-picker-trigger {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    border: 1px solid var(--tiny-time-picker-trigger-c-border);
+    border-radius: var(--tiny-time-picker-trigger-radius);
+    width: var(--tiny-time-picker-trigger-width);
+    height: var(--tiny-time-picker-trigger-height);
+    font-size: var(--tiny-time-picker-trigger-font-size);
+
+    &[data-size="small"] {
+        --tiny-time-picker-trigger-width: 96px;
+        --tiny-time-picker-trigger-height: 24px;
+    }
+
+    &[data-size="large"] {
+        --tiny-time-picker-trigger-width: 132px;
+        --tiny-time-picker-trigger-height: 40px;
+        --tiny-time-picker-trigger-font-size: var(--tiny-fs-md);
+    }
+
+    &[data-disabled] {
+        pointer-events: none;
+        user-select: none;
+        background-color: var(--tiny-time-picker-trigger-c-bg-disabled);
+        opacity: 0.6;
+    }
+}
+
+.tiny-time-picker-trigger__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    &:not(:last-child) {
+        &::after {
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            width: 2px;
+            content: ":";
+        }
+    }
+
+    &[data-empty] {
+        color: var(--tiny-time-picker-c-text-placeholder);
+    }
+}
+
+/* panel */
+
+.tiny-time-picker-popover-vars {
+    --tiny-time-picker-thumb-c-bg: var(--tiny-c-brand-2);
+}
+
+.tiny-popover__content.tiny-time-picker-popover {
+    &[data-opening] {
+        animation: time-picker-clip-open 125ms ease both;
+        transform-origin: center center;
+    }
+
+    &[data-size="large"] {
+        font-size: var(--tiny-fs-md);
+    }
+
+    padding: 0;
+}
+
+@keyframes time-picker-clip-open {
+    0% {
+        opacity: 0;
+        transform: scaleY(0.8);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+.tiny-time-picker__listbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.tiny-time-picker__thumb {
+    position: absolute;
+    top: var(--tiny-time-picker-thumb-top);
+    height: var(--tiny-time-picker-thumb-height);
+    width: 100%;
+    background-color: var(--tiny-time-picker-thumb-c-bg);
+}
+
+.tiny-time-picker__action {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--tiny-c-border);
+    padding: var(--tiny-space-xs);
+
+    > button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        font-size: var(--tiny-fs-md);
+        opacity: 0.5;
+        border-radius: var(--tiny-radius-sm);
+
+        &:hover {
+            opacity: 0.6;
+            background-color: var(--tiny-c-neutral-2);
+        }
+    }
+}

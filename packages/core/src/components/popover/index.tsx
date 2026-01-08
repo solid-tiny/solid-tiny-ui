@@ -2,6 +2,7 @@ import css from "sass:./popover.scss";
 import { createMemo, type JSX } from "solid-js";
 import { combineClass, combineStyle, mountStyle } from "solid-tiny-utils";
 import { FloatingUiCore } from "../../primitives/floating";
+import { extraAriasAndDatasets } from "../../utils";
 
 function Root(props: Parameters<typeof FloatingUiCore>[0]) {
   mountStyle(css, "tiny-popover");
@@ -52,6 +53,7 @@ function Content(props: {
 
   return (
     <FloatingUiCore.Content
+      {...extraAriasAndDatasets(props)}
       class={combineClass(
         "tiny-popover__content tiny-popover-vars",
         props.class

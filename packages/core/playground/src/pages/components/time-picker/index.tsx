@@ -2,7 +2,7 @@ import { createStore } from "solid-js/store";
 import { TimePicker } from "~";
 import { PlayIt } from "~play/components/play-it";
 
-export default function ComboBoxPage() {
+export default function TimePickerPage() {
   const [params, setParams] = createStore({
     size: "medium" as const,
     disabled: false,

@@ -4,9 +4,11 @@ import { context } from "./context";
 import { ItemElements } from "./item-element";
 import { ScrollElement } from "./scroll-element";
 
-export function createVirtuaList<T>(opts: { items: Accessor<T[]> }) {
+export function createVirtuaList(opts: {
+  totalItemsCount: Accessor<number> | number;
+}) {
   const Context = context.initial({
-    totalItemsCount: () => access(opts.items).length,
+    totalItemsCount: () => access(opts.totalItemsCount),
   });
   const [state] = Context.value;
 

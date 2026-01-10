@@ -2,13 +2,13 @@ import { list, random } from "solid-tiny-utils";
 import { createVirtuaList } from "~";
 
 export default function BasicUsagePage() {
+  const data = list(1000).map((i) => ({
+    label: `Item ${i}`,
+    height: `${random(20, 100)}px`,
+    bg: `hsl(${random(0, 360)}, 70%, 80%)`,
+  }));
   const [state, Elements] = createVirtuaList({
-    items: () =>
-      list(1000).map((i) => ({
-        label: `Item ${i}`,
-        height: `${random(20, 100)}px`,
-        bg: `hsl(${random(0, 360)}, 70%, 80%)`,
-      })),
+    totalItemsCount: data.length,
   });
   return (
     <Elements.Provider>
@@ -32,7 +32,17 @@ export default function BasicUsagePage() {
             }}
           >
             <Elements.ItemElements>
-              {() => <div>{1122}</div>}
+              {(index) => (
+                <div
+                  style={{
+                    height: data[index].height,
+                    background: data[index].bg,
+                    width: "100%",
+                  }}
+                >
+                  {data[index].label}
+                </div>
+              )}
             </Elements.ItemElements>
           </div>
         </div>

@@ -23,7 +23,8 @@ function ItemElement(props: { index: number; children: JSX.Element }) {
       (offset) => {
         const el = ref();
         if (el) {
-          el.style.transform = `translateY(${offset}px)`;
+          el.style.position = "absolute";
+          el.style.top = `${offset}px`;
         }
       }
     );
@@ -40,12 +41,16 @@ function ItemElement(props: { index: number; children: JSX.Element }) {
   );
 }
 
-export function ItemElements(props: { children: () => JSX.Element }) {
+export function ItemElements(props: {
+  children: (itemIndex: number) => JSX.Element;
+}) {
   const [state] = context.useContext();
 
   return (
     <For each={state.visibleIndexes}>
-      {(index) => <ItemElement index={index}>{props.children()}</ItemElement>}
+      {(index) => (
+        <ItemElement index={index}>{props.children(index)}</ItemElement>
+      )}
     </For>
   );
 }

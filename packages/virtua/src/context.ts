@@ -4,8 +4,9 @@ import { list } from "solid-tiny-utils";
 export const context = createComponentState({
   state: () => ({
     totalItemsCount: 0,
-    refScroller: null as HTMLElement | null,
     heightMap: {} as Record<number, number>,
+    inViewOffsetMap: {} as Record<number, number>,
+    inViewHeightMap: {} as Record<number, number>,
     scrollTop: 0,
     viewportHeight: 0,
   }),
@@ -36,18 +37,6 @@ export const context = createComponentState({
     },
     visibleIndexes() {
       return list(this.state.startIndex, this.state.endIndex);
-    },
-  },
-  methods: {
-    setRefScroller(el: HTMLElement) {
-      this.actions.setState("refScroller", el);
-    },
-    getItemOffset(index: number) {
-      let offset = this.state.startIndex * this.state.averageItemHeight;
-      for (let i = this.state.startIndex; i < index; i++) {
-        offset += this.state.heightMap[i] || this.state.averageItemHeight;
-      }
-      return offset;
     },
   },
 });

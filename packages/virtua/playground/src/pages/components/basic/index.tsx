@@ -2,7 +2,7 @@ import { list, random } from "solid-tiny-utils";
 import { createVirtuaList } from "~";
 
 export default function BasicUsagePage() {
-  const data = list(1000).map((i) => ({
+  const data = list(100_000).map((i) => ({
     label: `Item ${i}`,
     height: `${random(20, 100)}px`,
     bg: `hsl(${random(0, 360)}, 70%, 80%)`,
@@ -38,6 +38,7 @@ export default function BasicUsagePage() {
                     height: data[index].height,
                     background: data[index].bg,
                     width: "100%",
+                    position: "absolute",
                   }}
                 >
                   {data[index].label}

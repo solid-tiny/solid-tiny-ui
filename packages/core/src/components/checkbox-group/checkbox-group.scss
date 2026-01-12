@@ -1,0 +1,13 @@
+.tiny-checkbox-group {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tiny-checkbox-group[data-size="small"] {
+    gap: 6px;
+}
+
+.tiny-checkbox-group[data-size="large"] {
+    gap: 10px;
+}

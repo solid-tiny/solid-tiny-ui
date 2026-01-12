@@ -1,59 +1,49 @@
 .tiny-checkbox {
     display: inline-flex;
     align-items: center;
-    cursor: pointer;
     user-select: none;
-    height: 32px;
+    height: 22px;
     justify-content: center;
     width: fit-content;
+    gap: var(--tiny-space-sm);
 
-    --c-checked: var(--tiny-c-brand-5);
-    --c-checked-border: var(--tiny-c-brand-2);
+    --c-checked: var(--tiny-c-neutral-9);
+    --c-indicator: var(--tiny-c-white);
+    --c-label: var(--tiny-c-text);
 
     &[data-disabled] {
         pointer-events: none;
-        opacity: 0.6;
 
-        --c-checked: var(--tiny-c-neutral-4);
-        --c-checked-border: var(--tiny-c-neutral-5);
+        --c-checked: var(--tiny-c-neutral-5);
+        --c-indicator: var(--tiny-c-text-disabled);
+        --c-label: var(--tiny-c-text-description);
 
         .tiny-checkbox-box:not([data-checked]) {
-            background-color: var(--tiny-c-neutral-3);
-        }
-    }
-
-    &[data-size="small"] {
-        height: 24px;
-
-        .tiny-checkbox-box {
-            width: 18px;
-            height: 18px;
-        }
-    }
-
-    &[data-size="large"] {
-        height: 40px;
-        font-size: var(--tiny-fs-md);
-
-        .tiny-checkbox-box {
-            width: 24px;
-            height: 24px;
+            background-color: var(--tiny-c-neutral-2);
         }
     }
 
     &[data-checked] .tiny-checkbox-box {
         background-color: var(--c-checked);
-        border-color: var(--c-checked-border);
+        border-color: var(--c-checked);
     }
 
-    &[data-checked] .tiny-checkbox-indicator {
-        opacity: 1;
+    &[data-indeterminate] .tiny-checkbox-box {
+        background-color: transparent;
+        --c-indicator: var(--tiny-c-text);
+    }
+
+    &[data-checked],
+    &[data-indeterminate] {
+        .tiny-checkbox-indicator {
+            opacity: 1;
+        }
     }
 }
 
 .tiny-checkbox-box {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border: 2px solid var(--tiny-c-border);
     border-radius: 4px;
     background-color: transparent;
@@ -63,6 +53,10 @@
 }
 
 .tiny-checkbox-indicator {
-    color: var(--tiny-c-white);
+    color: var(--c-indicator);
     opacity: 0;
+}
+
+.tiny-checkbox-label {
+    color: var(--c-label);
 }

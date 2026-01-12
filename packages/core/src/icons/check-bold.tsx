@@ -1,11 +1,12 @@
 import { type IconProps, SvgWrapper } from "./common";
 
-export function ArrowDownSLine(props: IconProps) {
+export function CheckBold(props: IconProps) {
   return (
     <SvgWrapper {...props}>
       <path
-        d="m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z"
+        d="m6 10l-2 2l6 6L20 8l-2-2l-8 8z"
         fill="currentColor"
+        fill-rule="evenodd"
       />
     </SvgWrapper>
   );

@@ -1,0 +1,74 @@
+.tiny-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+
+    /* default (medium) variables */
+    --radio-gap: 8px;
+    --circle-size: 16px;
+    --dot-size: 8px;
+    --radio-font-size: inherit;
+
+    /* color tokens for easy overrides when disabled */
+    --c-dot: var(--tiny-c-neutral-9);
+    --c-border: var(--tiny-c-border);
+    --c-label: var(--tiny-c-text);
+
+    &[data-disabled] {
+        /* mirror checkbox disabled behaviour: variables override, and prevent interactions */
+        pointer-events: none;
+        opacity: 1; /* keep opacity neutral; colors below convey disabled state */
+
+        --c-dot: var(--tiny-c-text-disabled);
+        --c-border: var(--tiny-c-neutral-5);
+        --c-label: var(--tiny-c-text-description);
+    }
+}
+
+.tiny-radio-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--radio-gap);
+    user-select: none;
+    height: 22px;
+}
+
+.tiny-radio-circle {
+    width: var(--circle-size);
+    height: var(--circle-size);
+    border-radius: 50%;
+    border: 2px solid var(--c-border);
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.tiny-radio-circle::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: 50%;
+    background: var(--c-dot);
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.tiny-radio-item[data-checked] .tiny-radio-circle::after {
+    opacity: 1;
+}
+
+.tiny-radio-label {
+    display: inline-block;
+    font-size: var(--radio-font-size);
+}
+
+.tiny-radio-item[data-disabled] {
+    pointer-events: none;
+    opacity: 0.6;
+    /* ensure disabled label color matches group tokens */
+    color: var(--c-label);
+}

@@ -10,7 +10,11 @@ export default function SwitcherPage() {
 
   return (
     <PlayIt onChange={setParams} properties={params} typeDeclaration={{}}>
-      <Switcher checked={params.checked} disabled={params.disabled}>
+      <Switcher
+        checked={params.checked}
+        disabled={params.disabled}
+        onChange={(c) => setParams("checked", c)}
+      >
         Switcher
       </Switcher>
     </PlayIt>

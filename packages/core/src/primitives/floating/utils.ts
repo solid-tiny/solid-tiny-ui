@@ -3,7 +3,7 @@ import type { JSX } from "solid-js/jsx-runtime";
 export function runSolidEventHandler<
   T,
   E extends Event,
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: This allows the event handler to be generic over the event type.
   EHandler extends JSX.EventHandler<T, any> = JSX.EventHandler<T, E>,
 >(event: E, handler?: EHandler | JSX.BoundEventHandler<T, E, EHandler>) {
   if (typeof handler === "function") {

@@ -9,9 +9,10 @@ export default function RadioGroupPage() {
   });
 
   const options = [
-    { label: <span>Option A</span>, value: "a" },
-    { label: <span>Option B</span>, value: "b" },
-    { label: <span>Option C</span>, value: "c" },
+    { label: "Option A", value: "a" },
+    { label: "Option B", value: "b" },
+    { label: "Option C", value: "c" },
+    { label: "Option D", value: "d", disabled: true },
   ];
 
   return (

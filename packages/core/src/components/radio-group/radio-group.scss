@@ -2,19 +2,21 @@
     --radio-gap: var(--tiny-space-sm);
     --circle-size: 16px;
     --dot-size: 8px;
-    --radio-font-size: inherit;
+    --fs-label: var(--tiny-fs-sm);
 
     --c-dot: var(--tiny-c-text-label);
+    --c-dot-bg: transparent;
     --c-border: var(--tiny-c-border);
     --c-label: var(--tiny-c-text-label);
+}
 
-    &[data-disabled] {
-        pointer-events: none;
+.tiny-radio-item[data-disabled] {
+    pointer-events: none;
 
-        --c-dot: var(--tiny-c-text-disabled);
-        --c-border: var(--tiny-c-neutral-5);
-        --c-label: var(--tiny-c-text-description);
-    }
+    --c-dot: var(--tiny-c-text-disabled);
+    --c-dot-bg: var(--tiny-c-neutral-2);
+    --c-border: var(--tiny-c-neutral-3);
+    --c-label: var(--tiny-c-text-description);
 }
 
 .tiny-radio-item {
@@ -35,6 +37,7 @@
     display: inline-block;
     position: relative;
     box-sizing: border-box;
+    background: var(--c-dot-bg);
 }
 
 .tiny-radio-circle::after {
@@ -57,5 +60,6 @@
 
 .tiny-radio-label {
     display: inline-block;
-    font-size: var(--radio-font-size);
+    font-size: var(--fs-label);
+    color: var(--c-label);
 }

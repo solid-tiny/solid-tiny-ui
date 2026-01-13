@@ -1,8 +1,20 @@
 import css from "sass:./visually-hidden.scss";
-import type { JSX } from "solid-js/jsx-runtime";
-import { mountStyle } from "solid-tiny-utils";
+import type { ComponentProps, ValidComponent } from "solid-js";
+import { Dynamic } from "solid-js/web";
+import { combineClass, mountStyle } from "solid-tiny-utils";
 
-export function VisuallyHidden(props: { children: JSX.Element }) {
+export function VisuallyHidden<T extends ValidComponent>(
+  props: {
+    as?: T;
+  } & Omit<ComponentProps<T>, "as" | "component">
+) {
   mountStyle(css, "tiny-visually-hidden");
-  return <span class="tiny-visually-hidden">{props.children}</span>;
+
+  return (
+    <Dynamic
+      {...props}
+      class={combineClass("tiny-visually-hidden", props.class)}
+      component={props.as ?? "span"}
+    />
+  );
 }

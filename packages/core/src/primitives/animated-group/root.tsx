@@ -1,12 +1,12 @@
-import { createWatch } from "solid-tiny-utils";
 import {
-  callMaybeContextChild,
-  type MaybeContextChild,
-} from "../../utils/types";
+  callMaybeCallableChild,
+  createWatch,
+  type MaybeCallableChild,
+} from "solid-tiny-utils";
 import { context } from "./context";
 
 export function Root(props: {
-  children: MaybeContextChild<typeof context>;
+  children: MaybeCallableChild<ReturnType<typeof context.useContext>>;
   activeKey?: string;
   onChange?: (key: string) => void;
 }) {
@@ -27,7 +27,7 @@ export function Root(props: {
 
   return (
     <Context.Provider>
-      {callMaybeContextChild(Context.value, props.children)}
+      {callMaybeCallableChild(props.children, ...Context.value)}
     </Context.Provider>
   );
 }

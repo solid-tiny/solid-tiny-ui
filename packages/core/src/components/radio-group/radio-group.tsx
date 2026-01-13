@@ -1,15 +1,10 @@
 import css from "sass:./radio-group.scss";
-import { createMemo, createSignal, For, Show, splitProps } from "solid-js";
+import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import {
-  createWatch,
-  dataIf,
-  isDefined,
-  isUndefined,
-  mountStyle,
-} from "solid-tiny-utils";
+import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
 import { Flex } from "../../layout";
-import { VisuallyHidden } from "../visually-hidden";
+import { RadioGroupCore } from "../../primitives";
+import type { OmitComponentProps } from "../../utils/types";
 
 export interface RadioOption<T> {
   label: JSX.Element;
@@ -24,93 +19,52 @@ export function RadioGroup<T extends string | number>(
     onChange?: (value: T) => void;
     name?: string;
     disabled?: boolean;
-    children?: (
-      opts: RadioOption<T>[],
-      helpers: {
-        set: (val: T) => void;
-        isChecked: (val: T) => boolean;
-      }
-    ) => JSX.Element;
-  } & Omit<Parameters<typeof Flex>[0], "children">
+  } & OmitComponentProps<typeof Flex, "children">
 ) {
+  mountStyle(css, "tiny-radio-group");
+
   const [local, others] = splitProps(props, [
     "options",
     "value",
     "onChange",
     "name",
     "disabled",
-    "children",
+    "class",
   ]);
 
-  mountStyle(css, "tiny-radio-group");
-
-  const [selected, setSelected] = createSignal<T | undefined>(local.value);
-
-  createWatch(
-    () => local.value,
-    (v) => {
-      if (isDefined(v)) {
-        setSelected(() => v);
-      }
-    },
-    { defer: true }
-  );
-
-  createWatch(selected, (v) => {
-    if (local.value === v) {
-      return;
-    }
-    if (isDefined(v)) {
-      local.onChange?.(v);
-    }
-  });
-
-  const opts = createMemo(() => local.options ?? []);
-
-  const isChecked = (val: T) => selected() === val;
-
   return (
-    <Flex
-      class="tiny-radio-group"
-      data-disabled={dataIf(local.disabled ?? false)}
-      gap={"sm"}
-      {...others}
+    <RadioGroupCore
+      disabled={local.disabled}
+      name={local.name}
+      onChange={local.onChange}
+      value={local.value}
     >
-      <Show
-        fallback={local.children?.(opts(), {
-          set: (v: T) => setSelected(() => v),
-          isChecked,
-        })}
-        when={isUndefined(local.children)}
-      >
-        <For each={opts()}>
-          {(o) => (
-            <label
-              class="tiny-radio-item"
-              data-checked={dataIf(selected() === o.value)}
-              data-disabled={dataIf(!!(local.disabled || o.disabled))}
-            >
-              <VisuallyHidden>
-                <input
-                  checked={selected() === o.value}
-                  disabled={local.disabled || o.disabled}
-                  name={local.name}
-                  onChange={(e) => {
-                    if (e.currentTarget.checked) {
-                      setSelected(() => o.value);
-                    }
-                  }}
-                  type="radio"
-                  value={o.value}
-                />
-              </VisuallyHidden>
-
-              <span class="tiny-radio-circle" />
-              <span class="tiny-radio-label">{o.label}</span>
-            </label>
-          )}
-        </For>
-      </Show>
-    </Flex>
+      {(rootState) => (
+        <Flex
+          class={combineClass("tiny-radio-group", local.class)}
+          data-disabled={dataIf(rootState.disabled)}
+          gap="md"
+          {...others}
+        >
+          <For each={local.options}>
+            {(o) => (
+              <RadioGroupCore.Item disabled={o.disabled} value={o.value}>
+                {(itemState) => (
+                  <RadioGroupCore.ItemLabel
+                    class="tiny-radio-item"
+                    data-checked={dataIf(itemState.checked)}
+                    data-disabled={dataIf(itemState.disabled)}
+                  >
+                    <RadioGroupCore.ItemInput />
+                    <span class="tiny-radio-circle" />
+                    <span class="tiny-radio-label">{o.label}</span>
+                  </RadioGroupCore.ItemLabel>
+                )}
+              </RadioGroupCore.Item>
+            )}
+          </For>
+        </Flex>
+      )}
+    </RadioGroupCore>
   );
 }

@@ -22,7 +22,7 @@ export function PlayIt<
   const thisID = createUniqueId();
 
   const changeIt = (key: string, value: unknown) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: The generic nature of this component makes it difficult to correctly type the arguments for the `SetStoreFunction`.
     props.onChange?.(key as any, value as any);
   };
 

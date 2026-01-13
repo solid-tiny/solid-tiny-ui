@@ -1,30 +1,31 @@
 import { createSignal } from "solid-js";
 import { CircleProgress, LineProgress, LoadingBar } from "~";
-import { ShowcaseBox } from "../../../components/showcase-box";
+import { PlayIt } from "../../../components/play-it";
 
 function ShowcaseForLoadingBar() {
   const [open, setOpen] = createSignal(true);
 
   return (
-    <ShowcaseBox
-      description={
-        <label>
-          <input
-            checked={open()}
-            onChange={(e) => {
-              setOpen(e.target.checked);
-            }}
-            type="checkbox"
-            value="on"
-          />
-          Open
-        </label>
-      }
-    >
-      <div style={{ height: "4px", width: "200px" }}>
-        <LoadingBar open={open()} />
+    <PlayIt properties={{}}>
+      <div>
+        <div class="p-md">
+          <label>
+            <input
+              checked={open()}
+              onChange={(e) => {
+                setOpen(e.target.checked);
+              }}
+              type="checkbox"
+              value="on"
+            />
+            Open
+          </label>
+        </div>
+        <div style={{ height: "4px", width: "200px" }}>
+          <LoadingBar open={open()} />
+        </div>
       </div>
-    </ShowcaseBox>
+    </PlayIt>
   );
 }
 
@@ -33,9 +34,9 @@ export default function ProgressPage() {
   const [indeterminate, setIndeterminate] = createSignal(false);
   return (
     <div>
-      <ShowcaseBox
-        description={
-          <div>
+      <PlayIt properties={{}}>
+        <div>
+          <div class="p-md">
             <input
               max={100}
               min={0}
@@ -57,21 +58,20 @@ export default function ProgressPage() {
               Indeterminate
             </label>
           </div>
-        }
-      >
-        <div>
-          <CircleProgress percent={percent()}>
-            <div>circle</div>
-          </CircleProgress>
+          <div>
+            <CircleProgress percent={percent()}>
+              <div>circle</div>
+            </CircleProgress>
+          </div>
+          <div class="mt-md">
+            <LineProgress
+              indeterminate={indeterminate()}
+              percent={percent()}
+              width="100px"
+            />
+          </div>
         </div>
-        <div class="mt-md">
-          <LineProgress
-            indeterminate={indeterminate()}
-            percent={percent()}
-            width="100px"
-          />
-        </div>
-      </ShowcaseBox>
+      </PlayIt>
       <ShowcaseForLoadingBar />
     </div>
   );

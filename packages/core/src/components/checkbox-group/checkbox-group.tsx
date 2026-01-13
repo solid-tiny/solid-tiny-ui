@@ -84,7 +84,7 @@ export function CheckboxGroup(
           {(o) => (
             <Checkbox
               checked={isChecked(o.value)}
-              disabled={props.disabled || o.disabled}
+              disabled={local.disabled || o.disabled}
               onChange={(c) => toggle(o.value, c)}
             >
               {o.label}

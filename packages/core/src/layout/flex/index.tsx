@@ -1,7 +1,7 @@
 import { createMemo, type JSX, type ValidComponent } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { combineStyle, isString } from "solid-tiny-utils";
-import { getGlobalToken } from "../../utils";
+import { extraAriasAndDatasets, getGlobalToken } from "../../utils";
 
 export function Flex(props: {
   children: JSX.Element;
@@ -25,6 +25,7 @@ export function Flex(props: {
   });
   return (
     <Dynamic
+      {...extraAriasAndDatasets(props)}
       class={props.class}
       component={props.as ?? "div"}
       style={combineStyle(

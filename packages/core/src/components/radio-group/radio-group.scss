@@ -1,23 +1,15 @@
 .tiny-radio-group {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 8px;
-
-    /* default (medium) variables */
-    --radio-gap: 8px;
+    --radio-gap: var(--tiny-space-sm);
     --circle-size: 16px;
     --dot-size: 8px;
     --radio-font-size: inherit;
 
-    /* color tokens for easy overrides when disabled */
-    --c-dot: var(--tiny-c-neutral-9);
+    --c-dot: var(--tiny-c-text-label);
     --c-border: var(--tiny-c-border);
-    --c-label: var(--tiny-c-text);
+    --c-label: var(--tiny-c-text-label);
 
     &[data-disabled] {
-        /* mirror checkbox disabled behaviour: variables override, and prevent interactions */
         pointer-events: none;
-        opacity: 1; /* keep opacity neutral; colors below convey disabled state */
 
         --c-dot: var(--tiny-c-text-disabled);
         --c-border: var(--tiny-c-neutral-5);
@@ -31,6 +23,8 @@
     gap: var(--radio-gap);
     user-select: none;
     height: 22px;
+    width: fit-content;
+    vertical-align: middle;
 }
 
 .tiny-radio-circle {
@@ -64,11 +58,4 @@
 .tiny-radio-label {
     display: inline-block;
     font-size: var(--radio-font-size);
-}
-
-.tiny-radio-item[data-disabled] {
-    pointer-events: none;
-    opacity: 0.6;
-    /* ensure disabled label color matches group tokens */
-    color: var(--c-label);
 }

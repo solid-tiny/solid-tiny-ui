@@ -1,7 +1,8 @@
 import css from "sass:./radio-group.scss";
-import { createSignal, For } from "solid-js";
+import { createMemo, createSignal, For, Show, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { createWatch, dataIf, mountStyle } from "solid-tiny-utils";
+import { createWatch, dataIf, isUndefined, mountStyle } from "solid-tiny-utils";
+import { Flex } from "../../layout";
 import { VisuallyHidden } from "../visually-hidden";
 
 export interface RadioOption {
@@ -10,23 +11,41 @@ export interface RadioOption {
   disabled?: boolean;
 }
 
-export function RadioGroup(props: {
-  options?: RadioOption[];
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  name?: string;
-  disabled?: boolean;
-  children?: JSX.Element;
-}) {
+export function RadioGroup(
+  props: {
+    options?: RadioOption[];
+    value?: string;
+    defaultValue?: string;
+    onChange?: (value: string) => void;
+    name?: string;
+    disabled?: boolean;
+    children?: (
+      opts: RadioOption[],
+      helpers: {
+        set: (val: string) => void;
+        isChecked: (val: string) => boolean;
+      }
+    ) => JSX.Element;
+  } & Omit<Parameters<typeof Flex>[0], "children">
+) {
+  const [local, others] = splitProps(props, [
+    "options",
+    "value",
+    "defaultValue",
+    "onChange",
+    "name",
+    "disabled",
+    "children",
+  ]);
+
   mountStyle(css, "tiny-radio-group");
 
   const [selected, setSelected] = createSignal<string | undefined>(
-    props.value ?? props.defaultValue
+    local.value ?? local.defaultValue
   );
 
   createWatch(
-    () => props.value,
+    () => local.value,
     (v) => {
       if (v !== undefined) {
         setSelected(v);
@@ -36,53 +55,66 @@ export function RadioGroup(props: {
   );
 
   createWatch(selected, (v) => {
-    if (props.value === v) {
+    if (local.value === v) {
       return;
     }
     if (v !== undefined) {
-      props.onChange?.(v);
+      local.onChange?.(v);
     } else {
-      props.onChange?.("");
+      local.onChange?.("");
     }
   });
 
-  const opts = props.options ?? [];
+  const opts = createMemo(() => local.options ?? []);
+
+  const isChecked = (val: string) => selected() === val;
 
   return (
-    <div
+    <Flex
       class="tiny-radio-group"
-      data-disabled={dataIf(props.disabled ?? false)}
-      role="radiogroup"
+      data-disabled={dataIf(local.disabled ?? false)}
+      gap={"sm"}
+      {...others}
     >
-      <For each={opts}>
-        {(o) => (
-          <label
-            class="tiny-radio-item"
-            data-checked={dataIf(selected() === o.value)}
-            data-disabled={dataIf(!!(props.disabled || o.disabled))}
-          >
-            <VisuallyHidden>
-              <input
-                checked={selected() === o.value}
-                disabled={props.disabled || o.disabled}
-                name={props.name}
-                onChange={(e) => {
-                  if (e.currentTarget.checked) {
-                    setSelected(o.value);
-                  }
-                }}
-                type="radio"
-                value={o.value}
-              />
-            </VisuallyHidden>
+      <Show
+        fallback={local.children?.(opts(), {
+          set: (v: string) => setSelected(v),
+          isChecked,
+        })}
+        when={isUndefined(local.children)}
+      >
+        <For each={opts()}>
+          {(o) => (
+            <label
+              class="tiny-radio-item"
+              data-checked={dataIf(selected() === o.value)}
+              data-disabled={dataIf(!!(local.disabled || o.disabled))}
+            >
+              <VisuallyHidden>
+                <input
+                  checked={selected() === o.value}
+                  disabled={local.disabled || o.disabled}
+                  name={local.name}
+                  onChange={(e) => {
+                    if (e.currentTarget.checked) {
+                      setSelected(o.value);
+                    }
+                  }}
+                  type="radio"
+                  value={o.value}
+                />
+              </VisuallyHidden>
 
-            <span class="tiny-radio-circle" />
-            <span class="tiny-radio-label">{o.label}</span>
-          </label>
-        )}
-      </For>
+              <span class="tiny-radio-circle" />
+              <span class="tiny-radio-label">{o.label}</span>
+            </label>
+          )}
+        </For>
+      </Show>
 
-      {props.children}
-    </div>
+      {local.children && typeof local.children !== "function"
+        ? local.children
+        : null}
+    </Flex>
   );
 }

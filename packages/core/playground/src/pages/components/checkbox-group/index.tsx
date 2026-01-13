@@ -1,3 +1,4 @@
+import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Checkbox, CheckboxGroup } from "~";
 import { PlayIt } from "~play/components/play-it";
@@ -5,8 +6,10 @@ import { PlayIt } from "~play/components/play-it";
 export default function CheckboxGroupPage() {
   const [params, setParams] = createStore({
     disabled: false,
-    value: [] as string[],
+    vertical: false,
   });
+
+  const [value, setVal] = createSignal<string[]>([]);
 
   const options = [
     { label: <span>Option A</span>, value: "a" },
@@ -16,26 +19,28 @@ export default function CheckboxGroupPage() {
 
   return (
     <PlayIt onChange={setParams} properties={params} typeDeclaration={{}}>
-      <Checkbox
-        checked={params.value.length === options.length}
-        indeterminate={
-          params.value.length > 0 && params.value.length < options.length
-        }
-        onChange={(v) => {
-          if (v) {
-            setParams("value", ["a", "b", "c"]);
-          } else {
-            setParams("value", []);
-          }
-        }}
-      >
-        All
-      </Checkbox>
+      <div class="mb-md">
+        <Checkbox
+          checked={value().length === options.length}
+          indeterminate={value().length > 0 && value().length < options.length}
+          onChange={(v) => {
+            if (v) {
+              setVal(["a", "b", "c"]);
+            } else {
+              setVal([]);
+            }
+          }}
+        >
+          All
+        </Checkbox>
+      </div>
+
       <CheckboxGroup
         disabled={params.disabled}
-        onChange={(v) => setParams("value", v)}
+        onChange={setVal}
         options={options}
-        value={params.value}
+        value={value()}
+        vertical={params.vertical}
       />
     </PlayIt>
   );

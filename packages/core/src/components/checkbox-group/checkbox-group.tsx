@@ -1,7 +1,7 @@
-import css from "sass:./checkbox-group.scss";
-import { createSignal, For } from "solid-js";
+import { createMemo, createSignal, For, Show, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { createWatch, dataIf, mountStyle } from "solid-tiny-utils";
+import { createWatch, dataIf, isUndefined } from "solid-tiny-utils";
+import { Flex } from "../../layout";
 import { Checkbox } from "../checkbox";
 
 export interface CheckboxOption {
@@ -10,22 +10,33 @@ export interface CheckboxOption {
   disabled?: boolean;
 }
 
-export function CheckboxGroup(props: {
-  options?: CheckboxOption[];
-  value?: string[];
-  defaultValue?: string[];
-  onChange?: (value: string[]) => void;
-  disabled?: boolean;
-  children?: JSX.Element;
-}) {
-  mountStyle(css, "tiny-checkbox-group");
+export function CheckboxGroup(
+  props: {
+    options?: CheckboxOption[];
+    value?: string[];
+    onChange?: (value: string[]) => void;
+    disabled?: boolean;
+    children?: (
+      opts: CheckboxOption[],
+      helpers: {
+        toggle: (val: string, checked: boolean) => void;
+        isChecked: (val: string) => boolean;
+      }
+    ) => JSX.Element;
+  } & Omit<Parameters<typeof Flex>[0], "children">
+) {
+  const [local, others] = splitProps(props, [
+    "options",
+    "value",
+    "onChange",
+    "disabled",
+    "children",
+  ]);
 
-  const [selected, setSelected] = createSignal<string[]>(
-    props.value ?? props.defaultValue ?? []
-  );
+  const [selected, setSelected] = createSignal<string[]>(local.value ?? []);
 
   createWatch(
-    () => props.value,
+    () => local.value,
     (v) => {
       if (v !== undefined) {
         setSelected(v);
@@ -35,10 +46,10 @@ export function CheckboxGroup(props: {
   );
 
   createWatch(selected, (v) => {
-    if (props.value && props.value === v) {
+    if (local.value && local.value === v) {
       return;
     }
-    props.onChange?.(v);
+    local.onChange?.(v);
   });
 
   function toggle(val: string, checked: boolean) {
@@ -51,25 +62,36 @@ export function CheckboxGroup(props: {
     setSelected(Array.from(cur));
   }
 
-  const opts = props.options ?? [];
+  const opts = createMemo(() => local.options ?? []);
+
+  const isChecked = (val: string) => selected().includes(val);
 
   return (
-    <div
+    <Flex
       class="tiny-checkbox-group"
-      data-disabled={dataIf(props.disabled ?? false)}
+      data-disabled={dataIf(local.disabled ?? false)}
+      gap={"sm"}
+      {...others}
     >
-      <For each={opts}>
-        {(o) => (
-          <Checkbox
-            checked={selected().includes(o.value)}
-            disabled={props.disabled || o.disabled}
-            onChange={(c) => toggle(o.value, c)}
-          >
-            {o.label}
-          </Checkbox>
-        )}
-      </For>
-      {props.children}
-    </div>
+      <Show
+        fallback={local.children?.(opts(), {
+          toggle,
+          isChecked,
+        })}
+        when={isUndefined(local.children)}
+      >
+        <For each={opts()}>
+          {(o) => (
+            <Checkbox
+              checked={isChecked(o.value)}
+              disabled={props.disabled || o.disabled}
+              onChange={(c) => toggle(o.value, c)}
+            >
+              {o.label}
+            </Checkbox>
+          )}
+        </For>
+      </Show>
+    </Flex>
   );
 }

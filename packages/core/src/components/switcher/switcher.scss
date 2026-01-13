@@ -5,22 +5,26 @@
     justify-content: center;
     width: fit-content;
     gap: var(--tiny-space-sm);
+    height: 22px;
+    vertical-align: middle;
+    color: var(--c-label);
 
-    /* size variables (defaults) */
     --c-track: var(--tiny-c-neutral-4);
-    /* match checkbox checked background */
     --c-track-checked: var(--tiny-c-neutral-9);
-    --c-thumb: var(--tiny-c-white);
+    --c-thumb: var(--tiny-c-neutral-0);
+    --c-label: var(--tiny-c-text-label);
 
-    --track-width: 40px;
-    --track-height: 20px;
-    --thumb-size: 16px;
+    --track-width: 34px;
+    --track-height: 18px;
+    --thumb-size: 14px;
     --track-padding: 2px;
 
     &[data-disabled] {
         pointer-events: none;
-        opacity: 0.6;
         --c-track-checked: var(--tiny-c-neutral-5);
+        --c-track: var(--tiny-c-neutral-3);
+        --c-thumb: var(--tiny-c-neutral-1);
+        --c-label: var(--tiny-c-text-description);
     }
 
     /* size variants removed — medium is default */

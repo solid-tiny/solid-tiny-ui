@@ -1,0 +1,61 @@
+.tiny-checkbox {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    height: 22px;
+    justify-content: center;
+    width: fit-content;
+    gap: var(--tiny-space-sm);
+    vertical-align: middle;
+
+    --c-checked: var(--tiny-c-neutral-9);
+    --c-indicator: var(--tiny-c-neutral-0);
+    --indicator-op: 0;
+    --c-label: var(--tiny-c-text);
+    --c-box-bg: transparent;
+    --c-box-border: var(--tiny-c-border);
+
+    &[data-disabled] {
+        pointer-events: none;
+
+        --c-indicator: var(--tiny-c-text-disabled);
+        --c-label: var(--tiny-c-text-description);
+        --c-box-bg: var(--tiny-c-neutral-1);
+        --c-box-border: var(--tiny-c-neutral-3);
+    }
+
+    &[data-checked]:not([data-disabled]) {
+        --c-box-bg: var(--c-checked);
+        --c-box-border: var(--c-checked);
+    }
+
+    &[data-indeterminate]:not([data-disabled]) {
+        --c-indicator: var(--tiny-c-text-label);
+        --c-box-bg: transparent;
+    }
+
+    &[data-checked],
+    &[data-indeterminate] {
+        --indicator-op: 1;
+    }
+}
+
+.tiny-checkbox-box {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--c-box-border);
+    border-radius: 4px;
+    background-color: var(--c-box-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tiny-checkbox-indicator {
+    color: var(--c-indicator);
+    opacity: var(--indicator-op);
+}
+
+.tiny-checkbox-label {
+    color: var(--c-label);
+}

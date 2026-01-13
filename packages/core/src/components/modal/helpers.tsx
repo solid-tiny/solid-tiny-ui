@@ -66,7 +66,6 @@ function Footer(props: Parameters<typeof Flex>[0]) {
 function Close(props: { children: JSX.Element }) {
   const [, actions] = ModalCore.useContext();
 
-  // biome-ignore lint/suspicious/noUnassignedVariables: safe
   let ref!: HTMLElement;
 
   onMount(() => {

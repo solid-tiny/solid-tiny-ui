@@ -22,7 +22,7 @@ export function PlayIt<
   const thisID = createUniqueId();
 
   const changeIt = (key: string, value: unknown) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: any needed
     props.onChange?.(key as any, value as any);
   };
 

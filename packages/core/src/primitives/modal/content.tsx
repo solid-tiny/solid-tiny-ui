@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: <explanation> */
+/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: safe */
 
 import { mergeRefs } from "@solid-primitives/refs";
 import type { ComponentProps } from "solid-js";

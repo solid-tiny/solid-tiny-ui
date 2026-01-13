@@ -72,7 +72,7 @@ export function ItemInput(
         }
       }}
       type="radio"
-      value={String(itemState.value) || "on"}
+      value={String(itemState.value)}
       {...props}
     />
   );

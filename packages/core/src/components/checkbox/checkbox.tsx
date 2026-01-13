@@ -1,12 +1,5 @@
 import css from "sass:./checkbox.scss";
-import {
-  type ComponentProps,
-  children,
-  createMemo,
-  createSignal,
-  type JSX,
-  Show,
-} from "solid-js";
+import { children, createMemo, createSignal, type JSX, Show } from "solid-js";
 import { createWatch, dataIf, mountStyle } from "solid-tiny-utils";
 import { Square } from "../../icons";
 import { CheckBold } from "../../icons/check-bold";
@@ -16,10 +9,9 @@ export function Checkbox(props: {
   checked?: boolean;
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
-  nativeProps?: Omit<
-    ComponentProps<"input">,
-    "checked" | "disabled" | "onChange"
-  >;
+
+  name?: string;
+  id?: string;
   children?: JSX.Element;
   indeterminate?: boolean;
 }) {
@@ -47,7 +39,6 @@ export function Checkbox(props: {
   });
 
   const label = children(() => props.children);
-  let inputEl: HTMLInputElement | undefined;
 
   const ariaChecked = createMemo(() => {
     if (props.indeterminate) {
@@ -65,21 +56,16 @@ export function Checkbox(props: {
     >
       <VisuallyHidden>
         <input
-          value="on"
-          {...props.nativeProps}
           aria-checked={ariaChecked()}
           checked={checked()}
           disabled={props.disabled}
+          id={props.id}
+          name={props.name}
           onChange={(e) => {
-            if (inputEl) {
-              inputEl.indeterminate = false;
-            }
             setChecked(e.currentTarget.checked);
           }}
-          ref={(el) => {
-            inputEl = el;
-          }}
           type="checkbox"
+          value="on"
         />
       </VisuallyHidden>
       <div class="tiny-checkbox-box">

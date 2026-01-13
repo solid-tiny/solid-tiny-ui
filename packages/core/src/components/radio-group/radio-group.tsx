@@ -1,29 +1,34 @@
 import css from "sass:./radio-group.scss";
 import { createMemo, createSignal, For, Show, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { createWatch, dataIf, isUndefined, mountStyle } from "solid-tiny-utils";
+import {
+  createWatch,
+  dataIf,
+  isDefined,
+  isUndefined,
+  mountStyle,
+} from "solid-tiny-utils";
 import { Flex } from "../../layout";
 import { VisuallyHidden } from "../visually-hidden";
 
-export interface RadioOption {
+export interface RadioOption<T> {
   label: JSX.Element;
-  value: string;
+  value: T;
   disabled?: boolean;
 }
 
-export function RadioGroup(
+export function RadioGroup<T extends string | number>(
   props: {
-    options?: RadioOption[];
-    value?: string;
-    defaultValue?: string;
-    onChange?: (value: string) => void;
+    options?: RadioOption<T>[];
+    value?: T;
+    onChange?: (value: T) => void;
     name?: string;
     disabled?: boolean;
     children?: (
-      opts: RadioOption[],
+      opts: RadioOption<T>[],
       helpers: {
-        set: (val: string) => void;
-        isChecked: (val: string) => boolean;
+        set: (val: T) => void;
+        isChecked: (val: T) => boolean;
       }
     ) => JSX.Element;
   } & Omit<Parameters<typeof Flex>[0], "children">
@@ -31,7 +36,6 @@ export function RadioGroup(
   const [local, others] = splitProps(props, [
     "options",
     "value",
-    "defaultValue",
     "onChange",
     "name",
     "disabled",
@@ -40,15 +44,13 @@ export function RadioGroup(
 
   mountStyle(css, "tiny-radio-group");
 
-  const [selected, setSelected] = createSignal<string | undefined>(
-    local.value ?? local.defaultValue
-  );
+  const [selected, setSelected] = createSignal<T | undefined>(local.value);
 
   createWatch(
     () => local.value,
     (v) => {
-      if (v !== undefined) {
-        setSelected(v);
+      if (isDefined(v)) {
+        setSelected(() => v);
       }
     },
     { defer: true }
@@ -58,16 +60,14 @@ export function RadioGroup(
     if (local.value === v) {
       return;
     }
-    if (v !== undefined) {
+    if (isDefined(v)) {
       local.onChange?.(v);
-    } else {
-      local.onChange?.("");
     }
   });
 
   const opts = createMemo(() => local.options ?? []);
 
-  const isChecked = (val: string) => selected() === val;
+  const isChecked = (val: T) => selected() === val;
 
   return (
     <Flex
@@ -78,7 +78,7 @@ export function RadioGroup(
     >
       <Show
         fallback={local.children?.(opts(), {
-          set: (v: string) => setSelected(v),
+          set: (v: T) => setSelected(() => v),
           isChecked,
         })}
         when={isUndefined(local.children)}
@@ -97,7 +97,7 @@ export function RadioGroup(
                   name={local.name}
                   onChange={(e) => {
                     if (e.currentTarget.checked) {
-                      setSelected(o.value);
+                      setSelected(() => o.value);
                     }
                   }}
                   type="radio"

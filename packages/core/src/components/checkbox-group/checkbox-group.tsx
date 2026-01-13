@@ -4,23 +4,24 @@ import { createWatch, dataIf, isUndefined } from "solid-tiny-utils";
 import { Flex } from "../../layout";
 import { Checkbox } from "../checkbox";
 
-export interface CheckboxOption {
+export interface CheckboxOption<T> {
   label: JSX.Element;
-  value: string;
+  value: T;
   disabled?: boolean;
 }
 
-export function CheckboxGroup(
+export function CheckboxGroup<T extends string | number>(
   props: {
-    options?: CheckboxOption[];
-    value?: string[];
-    onChange?: (value: string[]) => void;
+    options?: CheckboxOption<T>[];
+    value?: T[];
+    onChange?: (value: T[]) => void;
     disabled?: boolean;
+    name?: string;
     children?: (
-      opts: CheckboxOption[],
+      opts: CheckboxOption<NoInfer<T>>[],
       helpers: {
-        toggle: (val: string, checked: boolean) => void;
-        isChecked: (val: string) => boolean;
+        toggle: (val: T, checked: boolean) => void;
+        isChecked: (val: T) => boolean;
       }
     ) => JSX.Element;
   } & Omit<Parameters<typeof Flex>[0], "children">
@@ -31,9 +32,10 @@ export function CheckboxGroup(
     "onChange",
     "disabled",
     "children",
+    "name",
   ]);
 
-  const [selected, setSelected] = createSignal<string[]>(local.value ?? []);
+  const [selected, setSelected] = createSignal<T[]>(local.value ?? []);
 
   createWatch(
     () => local.value,
@@ -46,13 +48,16 @@ export function CheckboxGroup(
   );
 
   createWatch(selected, (v) => {
-    if (local.value && local.value === v) {
+    if (
+      local.value &&
+      JSON.stringify([...local.value].sort()) === JSON.stringify([...v].sort())
+    ) {
       return;
     }
     local.onChange?.(v);
   });
 
-  function toggle(val: string, checked: boolean) {
+  function toggle(val: T, checked: boolean) {
     const cur = new Set(selected());
     if (checked) {
       cur.add(val);
@@ -64,7 +69,7 @@ export function CheckboxGroup(
 
   const opts = createMemo(() => local.options ?? []);
 
-  const isChecked = (val: string) => selected().includes(val);
+  const isChecked = (val: T) => selected().includes(val);
 
   return (
     <Flex
@@ -85,6 +90,7 @@ export function CheckboxGroup(
             <Checkbox
               checked={isChecked(o.value)}
               disabled={local.disabled || o.disabled}
+              name={local.name}
               onChange={(c) => toggle(o.value, c)}
             >
               {o.label}

@@ -53,7 +53,7 @@ export const Button = (props: ButtonProps) => {
   const real = mergeProps(
     {
       variant: "solid" as const,
-      color: "primary" as const,
+      color: "secondary" as const,
       size: "medium" as const,
       iconPlacement: "start" as const,
       type: "button" as const,

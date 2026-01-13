@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: safe */
+/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: The modal overlay needs to be interactive to handle close events (click outside, Escape key). */
 
 import { mergeRefs } from "@solid-primitives/refs";
 import type { ComponentProps } from "solid-js";

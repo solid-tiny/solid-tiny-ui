@@ -43,7 +43,7 @@ export function CheckboxGroup<T extends string | number>(
                 disabled={state.disabled || o.disabled}
                 name={state.name}
                 onChange={(c) => actions.toggleValue(o.value, c)}
-                value={String(o.value) || "on"}
+                value={String(o.value)}
               >
                 {o.label}
               </Checkbox>

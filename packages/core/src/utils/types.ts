@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/complexity/noBannedTypes: is safe here */
-import type { JSX } from "solid-js";
+import type { ComponentProps, JSX, ValidComponent } from "solid-js";
 
 export type ClassNames<Fields extends string, State extends object = {}> =
   | { [Key in Fields]?: string }
@@ -86,36 +86,7 @@ type TokenNames = [
 
 export type GlobalToken = TokenNames[number];
 
-type ContextChild<
-  T extends [
-    Record<string, unknown>,
-    Record<string, unknown>,
-    Record<string, unknown>,
-  ],
-> = (state: T[0], actions: T[1], staticData: T[2]) => JSX.Element;
-
-interface Context {
-  useContext: () => [
-    Record<string, unknown>,
-    Record<string, unknown>,
-    Record<string, unknown>,
-  ];
-}
-export type MaybeContextChild<T extends Context> =
-  | ContextChild<ReturnType<T["useContext"]>>
-  | JSX.Element;
-
-export function callMaybeContextChild<T extends Context>(
-  context: ReturnType<T["useContext"]>,
-  children: MaybeContextChild<T>
-) {
-  return typeof children === "function"
-    ? children(
-        ...(context as [
-          Record<string, unknown>,
-          Record<string, unknown>,
-          Record<string, unknown>,
-        ])
-      )
-    : children;
-}
+export type OmitComponentProps<
+  T extends ValidComponent,
+  K extends keyof ComponentProps<T>,
+> = Omit<ComponentProps<T>, K>;

@@ -1,15 +1,15 @@
 import css from "sass:./checkbox.scss";
-import { children, createMemo, createSignal, type JSX, Show } from "solid-js";
-import { createWatch, dataIf, mountStyle } from "solid-tiny-utils";
+import { children, type JSX, Show } from "solid-js";
+import { dataIf, mountStyle } from "solid-tiny-utils";
 import { Square } from "../../icons";
 import { CheckBold } from "../../icons/check-bold";
-import { VisuallyHidden } from "../visually-hidden";
+import { CheckboxCore } from "../../primitives";
 
 export function Checkbox(props: {
   checked?: boolean;
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
-
+  value?: string;
   name?: string;
   id?: string;
   children?: JSX.Element;
@@ -17,67 +17,40 @@ export function Checkbox(props: {
 }) {
   mountStyle(css, "tiny-checkbox");
 
-  const [checked, setChecked] = createSignal(props.checked ?? false);
-
-  createWatch(
-    () => props.checked,
-    (v) => {
-      if (v !== undefined) {
-        setChecked(v);
-      }
-    },
-    {
-      defer: true,
-    }
-  );
-
-  createWatch(checked, (v) => {
-    if (props.checked === v) {
-      return;
-    }
-    props.onChange?.(v);
-  });
-
   const label = children(() => props.children);
 
-  const ariaChecked = createMemo(() => {
-    if (props.indeterminate) {
-      return "mixed";
-    }
-    return checked() ? "true" : "false";
-  });
-
   return (
-    <label
-      class="tiny-checkbox"
-      data-checked={dataIf(!props.indeterminate && checked())}
-      data-disabled={dataIf(props.disabled ?? false)}
-      data-indeterminate={dataIf(props.indeterminate ?? false)}
+    <CheckboxCore
+      checked={props.checked}
+      disabled={props.disabled}
+      indeterminate={props.indeterminate}
+      name={props.name}
+      onChange={props.onChange}
+      value={props.value}
     >
-      <VisuallyHidden>
-        <input
-          aria-checked={ariaChecked()}
-          checked={checked()}
-          disabled={props.disabled}
-          id={props.id}
-          name={props.name}
-          onChange={(e) => {
-            setChecked(e.currentTarget.checked);
-          }}
-          type="checkbox"
-          value="on"
-        />
-      </VisuallyHidden>
-      <div class="tiny-checkbox-box">
-        <div class="tiny-checkbox-indicator">
-          <Show fallback={<Square size="0.85em" />} when={!props.indeterminate}>
-            <CheckBold />
+      {(state) => (
+        <CheckboxCore.Label
+          class="tiny-checkbox"
+          data-checked={dataIf(state.checked)}
+          data-disabled={dataIf(state.disabled)}
+          data-indeterminate={dataIf(state.indeterminate)}
+        >
+          <CheckboxCore.Input id={props.id} />
+          <div class="tiny-checkbox-box">
+            <div class="tiny-checkbox-indicator">
+              <Show
+                fallback={<Square size="0.85em" />}
+                when={!props.indeterminate}
+              >
+                <CheckBold />
+              </Show>
+            </div>
+          </div>
+          <Show when={label()}>
+            <span class="tiny-checkbox-label">{label()}</span>
           </Show>
-        </div>
-      </div>
-      <Show when={label()}>
-        <span class="tiny-checkbox-label">{label()}</span>
-      </Show>
-    </label>
+        </CheckboxCore.Label>
+      )}
+    </CheckboxCore>
   );
 }

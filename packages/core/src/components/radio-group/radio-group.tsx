@@ -111,10 +111,6 @@ export function RadioGroup<T extends string | number>(
           )}
         </For>
       </Show>
-
-      {local.children && typeof local.children !== "function"
-        ? local.children
-        : null}
     </Flex>
   );
 }

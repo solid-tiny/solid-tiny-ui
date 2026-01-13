@@ -6,6 +6,7 @@ export default function CheckboxPage() {
   const [params, setParams] = createStore({
     disabled: false,
     indeterminate: false,
+    checked: false,
   });
 
   return (

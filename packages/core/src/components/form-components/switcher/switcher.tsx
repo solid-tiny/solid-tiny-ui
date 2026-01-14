@@ -1,7 +1,7 @@
 import css from "sass:./switcher.scss";
 import { children, type JSX } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
-import { CheckboxCore } from "../../primitives";
+import { CheckboxCore } from "../../../primitives";
 
 export function Switcher(props: {
   checked?: boolean;

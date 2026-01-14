@@ -1,7 +1,7 @@
 import css from "sass:./time-picker.scss";
 import { mountStyle, noop } from "solid-tiny-utils";
 import { getHours, getMinutes, getSeconds } from "time-core";
-import { Popover } from "../popover";
+import { Popover } from "../../popover";
 import { TimePanel } from "./panel";
 import { TimeTrigger } from "./trigger";
 

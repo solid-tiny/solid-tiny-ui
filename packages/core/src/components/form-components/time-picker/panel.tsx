@@ -1,8 +1,8 @@
 import { createMemo, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { createWatch, list } from "solid-tiny-utils";
-import { CheckLine, CloseLine } from "../../icons";
-import { FakeScrollListCore } from "../../primitives";
+import { CheckLine, CloseLine } from "../../../icons";
+import { FakeScrollListCore } from "../../../primitives";
 
 function CommonTimeList(props: {
   items: number[];

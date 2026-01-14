@@ -1,6 +1,6 @@
 import { createMemo, Show } from "solid-js";
 import { dataIf } from "solid-tiny-utils";
-import { VisuallyHidden } from "../visually-hidden";
+import { VisuallyHidden } from "../../visually-hidden";
 
 export function TimeTrigger(props: {
   type: "hour" | "minute" | "second";

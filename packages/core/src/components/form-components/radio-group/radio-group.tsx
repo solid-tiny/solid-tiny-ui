@@ -2,9 +2,9 @@ import css from "sass:./radio-group.scss";
 import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
 import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
-import { Flex } from "../../layout";
-import { RadioGroupCore } from "../../primitives";
-import type { OmitComponentProps } from "../../utils/types";
+import { Flex } from "../../../layout";
+import { RadioGroupCore } from "../../../primitives";
+import type { OmitComponentProps } from "../../../utils/types";
 
 export interface RadioOption<T> {
   label: JSX.Element;

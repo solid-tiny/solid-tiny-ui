@@ -1,6 +1,6 @@
 import css from "sass:./input.scss";
 import { dataIf, mountStyle } from "solid-tiny-utils";
-import { extraAriasAndDatasets } from "../../utils";
+import { extraAriasAndDatasets } from "../../../utils";
 
 export interface InputProps {
   value?: string;

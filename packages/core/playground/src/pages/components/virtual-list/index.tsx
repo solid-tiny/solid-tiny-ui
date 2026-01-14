@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createMemo, createSignal } from "solid-js";
 import { VirtualList } from "~";
 import { PlayIt } from "~play/components/play-it";
 
@@ -7,6 +7,14 @@ export default function VirtualListPage() {
   const [estimateSize, setEstimateSize] = createSignal(50);
   const [horizontal, setHorizontal] = createSignal(false);
   const [overscan, setOverscan] = createSignal(3);
+
+  // Pre-generate random heights to avoid re-calculating on every render
+  const itemHeights = createMemo(() =>
+    Array.from({ length: count() }, () => Math.random() * 50 + 30)
+  );
+  const itemWidths = createMemo(() =>
+    Array.from({ length: 1000 }, () => Math.random() * 100 + 100)
+  );
 
   return (
     <div class="space-y-4">
@@ -44,23 +52,31 @@ export default function VirtualListPage() {
                 width: "100%",
               }}
             >
-              {(index) => (
-                <VirtualList.Item
-                  index={index}
-                  style={{
-                    padding: "12px 16px",
-                    "border-bottom": horizontal() ? "none" : "1px solid #e5e7eb",
-                    "border-right": horizontal() ? "1px solid #e5e7eb" : "none",
-                    background: index % 2 === 0 ? "#f9fafb" : "#ffffff",
-                    display: "flex",
-                    "align-items": "center",
-                    height: horizontal() ? "100%" : `${Math.random() * 50 + 30}px`,
-                    width: horizontal() ? `${Math.random() * 100 + 100}px` : "100%",
-                  }}
-                >
-                  <div class="fw-medium">Item {index}</div>
-                </VirtualList.Item>
-              )}
+              {(index) => {
+                const height = itemHeights()[index % itemHeights().length];
+                const width = itemWidths()[index % itemWidths().length];
+                return (
+                  <VirtualList.Item
+                    index={index}
+                    style={{
+                      padding: "12px 16px",
+                      "border-bottom": horizontal()
+                        ? "none"
+                        : "1px solid #e5e7eb",
+                      "border-right": horizontal()
+                        ? "1px solid #e5e7eb"
+                        : "none",
+                      background: index % 2 === 0 ? "#f9fafb" : "#ffffff",
+                      display: "flex",
+                      "align-items": "center",
+                      height: horizontal() ? "100%" : `${height}px`,
+                      width: horizontal() ? `${width}px` : "100%",
+                    }}
+                  >
+                    <div class="fw-medium">Item {index}</div>
+                  </VirtualList.Item>
+                );
+              }}
             </VirtualList>
           </div>
         </div>

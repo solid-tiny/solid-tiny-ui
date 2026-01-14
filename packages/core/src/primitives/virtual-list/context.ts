@@ -25,22 +25,20 @@ export const context = createComponentState({
         return { start: 0, end: 0 };
       }
 
-      const start = Math.max(
-        0,
-        itemRects.findIndex((rect) => rect.offsetEnd > scrollOffset) - overscan
+      const startIndex = itemRects.findIndex(
+        (rect) => rect.offsetEnd > scrollOffset
       );
+      const start = Math.max(0, (startIndex >= 0 ? startIndex : 0) - overscan);
 
+      const endIndex = itemRects.findIndex(
+        (rect) => rect.offsetStart > scrollOffset + viewportSize
+      );
       const end = Math.min(
         itemRects.length,
-        itemRects.findIndex(
-          (rect) => rect.offsetStart > scrollOffset + viewportSize
-        ) + overscan + 1
+        (endIndex >= 0 ? endIndex : itemRects.length) + overscan + 1
       );
 
-      return {
-        start: start < 0 ? 0 : start,
-        end: end < 0 ? itemRects.length : end,
-      };
+      return { start, end };
     },
   },
 });

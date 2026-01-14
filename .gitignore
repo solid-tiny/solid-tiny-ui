@@ -3,4 +3,5 @@ dist
 tsconfig.tsbuildinfo
 .netlify
 .nitro
-.solid-start.npmrc
+.solid-start
+.npmrc

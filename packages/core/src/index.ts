@@ -6,7 +6,9 @@ export * from "./components/popover";
 export * from "./components/progress";
 export * from "./components/spin";
 export * from "./components/tabs";
+export * from "./components/toaster";
 export * from "./components/tooltip";
+
 export * from "./layout";
 export * from "./root-provider";
 export { getGlobalToken } from "./utils";

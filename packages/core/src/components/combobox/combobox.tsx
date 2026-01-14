@@ -35,6 +35,8 @@ export interface ComboboxProps<
   placeholder?: string;
   size?: "small" | "medium" | "large";
   disabled?: boolean;
+  id?: string;
+  name?: string;
 }
 
 export function Combobox<
@@ -85,6 +87,8 @@ export function Combobox<
               <input
                 aria-expanded={state.open}
                 autocomplete="off"
+                id={props.id}
+                name={props.name}
                 placeholder={props.placeholder}
                 readonly
                 role="combobox"

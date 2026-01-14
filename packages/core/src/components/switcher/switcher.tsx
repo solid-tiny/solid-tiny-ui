@@ -8,6 +8,9 @@ export function Switcher(props: {
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
   children?: JSX.Element;
+  id?: string;
+  name?: string;
+  value?: string;
 }) {
   mountStyle(css, "tiny-switcher");
 
@@ -17,7 +20,9 @@ export function Switcher(props: {
     <CheckboxCore
       checked={props.checked}
       disabled={props.disabled}
+      name={props.name}
       onChange={props.onChange}
+      value={props.value}
     >
       {(state) => (
         <CheckboxCore.Label
@@ -25,7 +30,7 @@ export function Switcher(props: {
           data-checked={dataIf(state.checked)}
           data-disabled={dataIf(state.disabled)}
         >
-          <CheckboxCore.Input />
+          <CheckboxCore.Input id={props.id} />
           <div class="tiny-switcher-track">
             <div class="tiny-switcher-thumb" />
           </div>

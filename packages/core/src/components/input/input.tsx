@@ -10,6 +10,7 @@ export interface InputProps {
   onPressEnter?: () => void;
   size?: "small" | "medium" | "large";
   id?: string;
+  name?: string;
 }
 
 export function Input(props: InputProps) {
@@ -21,6 +22,7 @@ export function Input(props: InputProps) {
       data-size={props.size || "medium"}
       disabled={props.disabled}
       id={props.id}
+      name={props.name}
       onInput={(e) => {
         props.onChange?.(e.currentTarget.value);
       }}

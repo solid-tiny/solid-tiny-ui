@@ -11,16 +11,10 @@ export default function FieldPage() {
   });
 
   return (
-    <PlayIt
-      onChange={setParams}
-      properties={params}
-      typeDeclaration={{
-        size: ["small", "medium", "large"],
-      }}
-    >
+    <PlayIt onChange={setParams} properties={params}>
       <Show when={params.vertical}>
         <Field>
-          <Field.Label required={params.required}>Select Item</Field.Label>
+          <Field.Title required={params.required}>Select Item</Field.Title>
           <Combobox
             options={list(20).map((v) => ({
               label: `Option ${v + 1}`,
@@ -42,13 +36,22 @@ export default function FieldPage() {
 
       <Show when={!params.vertical}>
         <Field orientation="horizontal">
-          <div>
-            <Field.Label required={params.required}>Enabled</Field.Label>
-            <Field.Description>
-              Please click the switcher to enable the feature.
-            </Field.Description>
-          </div>
-          <Switcher />
+          {(state) => (
+            <>
+              <Field.Title
+                for={state.uniqueId}
+                required={params.required}
+                vertical
+              >
+                Enabled
+                <Field.Description>
+                  Please click the switcher to enable the feature.
+                </Field.Description>
+              </Field.Title>
+
+              <Switcher id={state.uniqueId} />
+            </>
+          )}
         </Field>
       </Show>
     </PlayIt>

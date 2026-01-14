@@ -1,6 +1,6 @@
-import { Description, Label, Root } from "./parts";
+import { Description, Root, Title } from "./parts";
 
 export const Field = Object.assign(Root, {
-  Label,
+  Title,
   Description,
 });

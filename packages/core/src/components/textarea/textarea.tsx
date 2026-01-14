@@ -20,6 +20,8 @@ export function Textarea(props: {
   styles?: Styles<"root", { disabled: boolean }>;
   onChange?: (value: string) => void;
   value?: string;
+  id?: string;
+  name?: string;
 }) {
   mountStyle(css, "tiny-textarea");
 
@@ -42,7 +44,9 @@ export function Textarea(props: {
     <textarea
       class={combineClass("tiny-textarea tiny-textarea-vars", classes().root)}
       disabled={real.disabled}
+      id={props.id}
       maxLength={real.maxLength}
+      name={props.name}
       onInput={(e) => {
         props.onChange?.((e.target as HTMLTextAreaElement).value);
       }}

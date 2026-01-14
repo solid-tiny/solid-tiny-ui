@@ -5,3 +5,4 @@ export * from "./floating";
 export * from "./listbox";
 export * from "./modal";
 export * from "./radio-group";
+export * from "./virtual-list";

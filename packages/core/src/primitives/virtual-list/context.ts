@@ -28,7 +28,10 @@ export const context = createComponentState({
       const startIndex = itemRects.findIndex(
         (rect) => rect.offsetEnd > scrollOffset
       );
-      const start = Math.max(0, (startIndex >= 0 ? startIndex : 0) - overscan);
+      const start = Math.max(
+        0,
+        startIndex >= 0 ? startIndex - overscan : 0
+      );
 
       const endIndex = itemRects.findIndex(
         (rect) => rect.offsetStart > scrollOffset + viewportSize

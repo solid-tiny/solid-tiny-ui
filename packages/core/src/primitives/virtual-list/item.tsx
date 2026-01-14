@@ -4,6 +4,9 @@ import { onCleanup, onMount, splitProps } from "solid-js";
 import { combineStyle } from "solid-tiny-utils";
 import { context } from "./context";
 
+// Threshold for size change detection (in pixels)
+const SIZE_CHANGE_THRESHOLD = 1;
+
 export interface VirtualItemProps extends ComponentProps<"div"> {
   index: number;
   children: JSX.Element;
@@ -24,7 +27,7 @@ export function Item(props: VirtualItemProps) {
       const itemRects = [...state.itemRects];
       const currentRect = itemRects[local.index];
       
-      if (currentRect && Math.abs(currentRect.size - size) > 1) {
+      if (currentRect && Math.abs(currentRect.size - size) > SIZE_CHANGE_THRESHOLD) {
         const diff = size - currentRect.size;
         currentRect.size = size;
         currentRect.offsetEnd = currentRect.offsetStart + size;

@@ -1,9 +1,9 @@
 import css from "sass:./checkbox.scss";
 import { children, type JSX, Show } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
-import { Square } from "../../icons";
-import { CheckBold } from "../../icons/check-bold";
-import { CheckboxCore } from "../../primitives";
+import { Square } from "../../../icons";
+import { CheckBold } from "../../../icons/check-bold";
+import { CheckboxCore } from "../../../primitives";
 
 export function Checkbox(props: {
   checked?: boolean;

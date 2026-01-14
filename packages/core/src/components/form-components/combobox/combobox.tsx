@@ -8,11 +8,11 @@ import {
   dataIf,
   mountStyle,
 } from "solid-tiny-utils";
-import { ArrowDownSLine } from "../../icons";
-import { Listbox } from "../../primitives/listbox";
-import { createClassStyles } from "../../utils";
-import type { ClassNames, Styles } from "../../utils/types";
-import { Popover } from "../popover";
+import { ArrowDownSLine } from "../../../icons";
+import { Listbox } from "../../../primitives/listbox";
+import { createClassStyles } from "../../../utils";
+import type { ClassNames, Styles } from "../../../utils/types";
+import { Popover } from "../../popover";
 
 export interface ComboboxProps<
   T extends {

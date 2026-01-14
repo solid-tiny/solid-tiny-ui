@@ -1,8 +1,8 @@
 import css from "sass:./textarea.scss";
 import { type JSX, mergeProps } from "solid-js";
 import { combineClass, combineStyle, mountStyle } from "solid-tiny-utils";
-import { createClassStyles } from "../../utils";
-import type { ClassNames, Styles } from "../../utils/types";
+import { createClassStyles } from "../../../utils";
+import type { ClassNames, Styles } from "../../../utils/types";
 
 export function Textarea(props: {
   autosize?: boolean;

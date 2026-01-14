@@ -1,8 +1,8 @@
 import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { Flex } from "../../layout";
-import { CheckboxGroupCore } from "../../primitives/checkbox-group";
-import type { OmitComponentProps } from "../../utils/types";
+import { Flex } from "../../../layout";
+import { CheckboxGroupCore } from "../../../primitives/checkbox-group";
+import type { OmitComponentProps } from "../../../utils/types";
 import { Checkbox } from "../checkbox";
 
 export interface CheckboxOption<T> {

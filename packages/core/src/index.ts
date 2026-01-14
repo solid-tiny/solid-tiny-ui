@@ -2,6 +2,7 @@ export * from "./components/buttons";
 export * from "./components/checkbox";
 export * from "./components/checkbox-group";
 export * from "./components/combobox";
+export * from "./components/field";
 export * from "./components/input";
 export * from "./components/modal";
 export * from "./components/popover";

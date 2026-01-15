@@ -47,35 +47,51 @@ function HiddenAutoRemoval(props: {
   );
 }
 
+function getItemRealHeight(el: HTMLDivElement) {
+  const prevHeight = el.style.height;
+  el.style.height = "auto";
+  const height = el.clientHeight;
+  el.style.height = prevHeight;
+  return height;
+}
+
 export function OneToaster(props: Toast) {
-  const [ref, setRef] = createSignal<HTMLDivElement | null>(null);
   const [state, actions] = context.useContext();
   const [show, setShow] = createSignal(true);
 
-  const [mount, presenceState] = createPresence({
-    element: () => ref() || undefined,
-    show,
+  const [height, setHeight] = createSignal(0);
+
+  const presence = createPresence(show, {
+    enterDuration: 150,
+    exitDuration: 150,
   });
 
-  createWatch(mount, (shouldMount) => {
+  createWatch(presence.isMounted, (shouldMount) => {
     if (!shouldMount) {
       actions.removeToast(props.id);
     }
   });
 
+  let ref!: HTMLDivElement;
+
   return (
-    <Show when={mount()}>
+    <Show when={presence.isMounted()}>
       <div
         class="tiny-toast"
-        data-status={presenceState()}
+        data-presence-phase={presence.phase()}
         onMouseEnter={() => {
           actions.setState("pauseRemoval", true);
         }}
         onMouseLeave={() => {
           actions.setState("pauseRemoval", false);
         }}
-        ref={setRef}
+        ref={ref}
         role="presentation"
+        style={{
+          height: 0,
+          transition: "height 150ms ease-in-out",
+          overflow: "hidden",
+        }}
       >
         {props.message}
         <HiddenAutoRemoval

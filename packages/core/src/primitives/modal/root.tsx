@@ -31,7 +31,7 @@ export function Root(props: {
     exitDuration: () => getAnimationDurationMs(state.refContent),
   });
 
-  staticData.isMount = presence.isMounted;
+  staticData.isMounted = presence.isMounted;
   staticData.presencePhase = presence.phase;
 
   createWatch(

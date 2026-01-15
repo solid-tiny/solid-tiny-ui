@@ -13,7 +13,7 @@ export const context = createComponentState({
 
   methods: {},
   nowrapData: () => ({
-    isMount: () => false as boolean,
+    isMounted: () => false as boolean,
     presencePhase: () => "idle" as PresencePhase,
   }),
 });

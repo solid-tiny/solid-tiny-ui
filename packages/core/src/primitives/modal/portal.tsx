@@ -10,7 +10,7 @@ export function Portal(props: {
 }) {
   const [, , staticData] = context.useContext();
   return (
-    <Show when={staticData.isMount()}>
+    <Show when={staticData.isMounted()}>
       <P mount={props.mount} ref={props.ref}>
         {props.children}
       </P>

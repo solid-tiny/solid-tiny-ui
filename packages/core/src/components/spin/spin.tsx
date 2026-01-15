@@ -15,6 +15,7 @@ import {
   mountStyle,
 } from "solid-tiny-utils";
 import { makeClassNames, makeStyles } from "../../utils";
+import { getAnimationDurationMs } from "../../utils/duration";
 import type { ClassNames, Styles } from "../../utils/types";
 import { SpinRing } from "./spin-ring";
 
@@ -92,6 +93,7 @@ export function Spin(props: {
             ["entering", "pre-enter"].includes(presence.phase())
           )}
           data-exiting={dataIf(["exiting"].includes(presence.phase()))}
+          ref={setRefLoader}
           style={styles().loader}
         >
           <Show fallback={<SpinRing />} when={resolvedIndicator()}>

@@ -13,6 +13,7 @@ export function Flex<T extends ValidComponent>(
   props: {
     children: JSX.Element;
     vertical?: boolean;
+    reverse?: boolean;
     wrap?: boolean;
     justify?: JSX.CSSProperties["justify-content"];
     align?: JSX.CSSProperties["align-items"];
@@ -42,6 +43,7 @@ export function Flex<T extends ValidComponent>(
     "as",
     "style",
     "inline",
+    "reverse",
   ]);
   return (
     <Dynamic
@@ -50,7 +52,9 @@ export function Flex<T extends ValidComponent>(
       style={combineStyle(
         {
           display: local.inline ? "inline-flex" : "flex",
-          "flex-direction": local.vertical ? "column" : "row",
+          "flex-direction": local.vertical
+            ? `column${local.reverse ? "-reverse" : ""}`
+            : `row${local.reverse ? "-reverse" : ""}`,
           "flex-wrap": local.wrap ? "wrap" : "nowrap",
           "justify-content": local.justify,
           "align-items": local.align,

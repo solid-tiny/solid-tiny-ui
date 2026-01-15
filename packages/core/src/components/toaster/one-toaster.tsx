@@ -1,5 +1,5 @@
 import { createSignal, onMount, Show, untrack } from "solid-js";
-import { createPresence, createWatch } from "solid-tiny-utils";
+import { createPresence, createWatch, dataIf } from "solid-tiny-utils";
 import { context } from "./context";
 import type { Toast } from "./type";
 
@@ -47,11 +47,11 @@ function HiddenAutoRemoval(props: {
   );
 }
 
-function getItemRealHeight(el: HTMLDivElement) {
-  const prevHeight = el.style.height;
-  el.style.height = "auto";
-  const height = el.clientHeight;
-  el.style.height = prevHeight;
+function getElRealHeight(el: HTMLDivElement) {
+  const prevAnimationName = el.style.animationName;
+  el.style.animationName = "none";
+  const height = el.offsetHeight;
+  el.style.animationName = prevAnimationName;
   return height;
 }
 
@@ -62,8 +62,9 @@ export function OneToaster(props: Toast) {
   const [height, setHeight] = createSignal(0);
 
   const presence = createPresence(show, {
-    enterDuration: 150,
-    exitDuration: 150,
+    enterDuration: 250,
+    exitDuration: 250,
+    initialEnter: true,
   });
 
   createWatch(presence.isMounted, (shouldMount) => {
@@ -74,10 +75,23 @@ export function OneToaster(props: Toast) {
 
   let ref!: HTMLDivElement;
 
+  onMount(() => {
+    createWatch(presence.phase, (phase) => {
+      if (["pre-enter", "exiting"].includes(phase)) {
+        const elHeight = getElRealHeight(ref);
+        setHeight(elHeight);
+      }
+    });
+  });
+
   return (
     <Show when={presence.isMounted()}>
       <div
-        class="tiny-toast"
+        class="tiny-toast-wrapper"
+        data-entering={dataIf(
+          ["entering", "pre-enter"].includes(presence.phase())
+        )}
+        data-exiting={dataIf(["exiting"].includes(presence.phase()))}
         data-presence-phase={presence.phase()}
         onMouseEnter={() => {
           actions.setState("pauseRemoval", true);
@@ -88,12 +102,12 @@ export function OneToaster(props: Toast) {
         ref={ref}
         role="presentation"
         style={{
-          height: 0,
-          transition: "height 150ms ease-in-out",
-          overflow: "hidden",
+          "--height": `${height()}px`,
         }}
       >
-        {props.message}
+        <div class="tiny-toast" data-type={props.type}>
+          {props.message}
+        </div>
         <HiddenAutoRemoval
           duration={props.duration}
           onEnd={() => {

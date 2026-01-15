@@ -14,4 +14,4 @@ export type ToastPosition =
   | "bottom-center"
   | "bottom-right";
 
-export type ToastType = "success" | "error" | "blank" | "custom";
+export type ToastType = "success" | "error" | "warning" | "info" | "blank";

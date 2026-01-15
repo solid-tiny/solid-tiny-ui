@@ -67,11 +67,11 @@ export function Spin(props: {
 
   const resolvedIndicator = children(() => props.indicator);
 
+  const [refLoader, setRefLoader] = createSignal<HTMLElement>();
   const presence = createPresence(spinning, {
-    enterDuration: 150,
-    exitDuration: 150,
+    enterDuration: () => getAnimationDurationMs(refLoader()),
+    exitDuration: () => getAnimationDurationMs(refLoader()),
   });
-
   return (
     <div
       aria-busy={spinning()}

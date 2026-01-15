@@ -1,4 +1,5 @@
 import { createComponentState } from "solid-tiny-context";
+import type { PresencePhase } from "solid-tiny-utils";
 
 export const context = createComponentState({
   state: () => ({
@@ -12,7 +13,7 @@ export const context = createComponentState({
 
   methods: {},
   nowrapData: () => ({
-    shouldMount: () => false as boolean,
-    presenceState: () => "closed" as string,
+    isMount: () => false as boolean,
+    presencePhase: () => "idle" as PresencePhase,
   }),
 });

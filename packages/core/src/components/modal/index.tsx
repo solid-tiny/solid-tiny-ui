@@ -21,7 +21,7 @@ function Content(props: {
   styles?: Styles<"mask" | "wrapper" | "content">;
 }) {
   mountStyle(css, "tiny-modal");
-  const [, , { presenceState }] = ModalCore.useContext();
+  const [, , { presencePhase }] = ModalCore.useContext();
   const [classes, styles] = createClassStyles(
     () => props.classNames,
     () => props.styles
@@ -30,8 +30,10 @@ function Content(props: {
     <ModalCore.Portal>
       <ModalCore.Mask
         class={combineClass("tiny-modal__mask", classes().mask)}
-        data-closing={dataIf(presenceState() === "closing")}
-        data-opening={dataIf(presenceState() === "opening")}
+        data-entering={dataIf(
+          ["pre-enter", "entering"].includes(presencePhase())
+        )}
+        data-exiting={dataIf(["exiting"].includes(presencePhase()))}
         style={styles().mask}
       />
       <ModalCore.ContentWrapper
@@ -43,8 +45,10 @@ function Content(props: {
       >
         <ModalCore.Content
           class={combineClass("tiny-modal__content", classes().content)}
-          data-closing={dataIf(presenceState() === "closing")}
-          data-opening={dataIf(presenceState() === "opening")}
+          data-entering={dataIf(
+            ["pre-enter", "entering"].includes(presencePhase())
+          )}
+          data-exiting={dataIf(["exiting"].includes(presencePhase()))}
           style={combineStyle(
             {
               width: props.width || "500px",

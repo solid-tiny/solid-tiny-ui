@@ -1,5 +1,5 @@
 import { createSignal, type JSX, Show } from "solid-js";
-import { createPresence, dataIf } from "solid-tiny-utils";
+import { createPresence, dataIf, type PresencePhase } from "solid-tiny-utils";
 import { extraAriasAndDatasets } from "../../utils";
 import { context } from "./context";
 
@@ -7,7 +7,7 @@ function Content(props: {
   children: JSX.Element;
   key: string;
   ref: (el: HTMLElement) => void;
-  status: string;
+  presencePhase: PresencePhase;
   class?: string;
   style?: string | JSX.CSSProperties;
 }) {
@@ -15,9 +15,11 @@ function Content(props: {
     <div
       {...extraAriasAndDatasets(props)}
       class={props.class}
-      data-closing={dataIf(props.status === "closing")}
+      data-entering={dataIf(
+        ["pre-enter", "entering"].includes(props.presencePhase)
+      )}
+      data-exiting={dataIf(props.presencePhase === "exiting")}
       data-key={props.key}
-      data-opening={dataIf(props.status === "opening")}
       ref={props.ref}
       style={props.style}
     >
@@ -35,14 +37,25 @@ export function Panel(props: {
   const [state] = context.useContext();
   const [ref, setRef] = createSignal<HTMLElement | undefined>();
 
-  const [show, presenceState] = createPresence({
-    show: () => state.active === props.key,
-    element: ref,
+  const presence = createPresence(() => state.active === props.key, {
+    enterDuration: () => {
+      const el = ref();
+      if (!el) {
+        return 0;
+      }
+      const styles = getComputedStyle(el);
+      const duration = Number.parseFloat(styles.animationDuration || "0");
+
+      return styles.animationDuration.endsWith("ms")
+        ? duration
+        : duration * 1000;
+    },
+    exitDuration: 150,
   });
 
   return (
-    <Show when={show()}>
-      <Content {...props} ref={setRef} status={presenceState()} />
+    <Show when={presence.isMounted()}>
+      <Content {...props} presencePhase={presence.phase()} ref={setRef} />
     </Show>
   );
 }

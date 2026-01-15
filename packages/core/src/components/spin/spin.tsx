@@ -67,11 +67,9 @@ export function Spin(props: {
 
   const resolvedIndicator = children(() => props.indicator);
 
-  const [refLoader, setRefLoader] = createSignal<HTMLElement>();
-
-  const [show, state] = createPresence({
-    show: spinning,
-    element: refLoader,
+  const presence = createPresence(spinning, {
+    enterDuration: 150,
+    exitDuration: 150,
   });
 
   return (
@@ -87,12 +85,13 @@ export function Spin(props: {
       >
         {props.children}
       </div>
-      <Show when={show()}>
+      <Show when={presence.isMounted()}>
         <div
           class={combineClass("tiny-spin__loader", classes().loader)}
-          data-closing={dataIf(state() === "closing")}
-          data-opening={dataIf(state() === "opening")}
-          ref={setRefLoader}
+          data-entering={dataIf(
+            ["entering", "pre-enter"].includes(presence.phase())
+          )}
+          data-exiting={dataIf(["exiting"].includes(presence.phase()))}
           style={styles().loader}
         >
           <Show fallback={<SpinRing />} when={resolvedIndicator()}>

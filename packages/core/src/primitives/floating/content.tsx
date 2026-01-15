@@ -11,6 +11,7 @@ import {
   dataIf,
   noop,
 } from "solid-tiny-utils";
+import { getAnimationDurationMs } from "../../utils/duration";
 import { context } from "./context";
 import { runSolidEventHandler } from "./utils";
 
@@ -96,10 +97,12 @@ function FloatingContentCore(
     >
       <div
         {...otherProps}
-        data-closing={dataIf(staticData.presenceState() === "closing")}
-        data-opening={dataIf(staticData.presenceState() === "opening")}
+        data-entering={dataIf(
+          ["pre-enter", "entering"].includes(staticData.presencePhase())
+        )}
+        data-exiting={dataIf(["exiting"].includes(staticData.presencePhase()))}
         data-placement={state.placement}
-        data-status={staticData.presenceState()}
+        data-presence-phase={staticData.presencePhase()}
         onMouseEnter={(e) => {
           if (state.canHoverContent && state.trigger === "hover") {
             actions.setOpen(true);
@@ -130,15 +133,15 @@ export function Content(
 ) {
   const [state, , staticData] = context.useContext();
 
-  const [show, presenceState] = createPresence({
-    show: () => state.open,
-    element: () => state.refContentInner || undefined,
+  const presence = createPresence(() => state.open, {
+    enterDuration: () => getAnimationDurationMs(state.refContentInner),
+    exitDuration: () => getAnimationDurationMs(state.refContentInner),
   });
 
-  staticData.presenceState = presenceState;
+  staticData.presencePhase = presence.phase;
 
   return (
-    <Show when={show()}>
+    <Show when={presence.isMounted()}>
       <Portal mount={document.body}>
         <FloatingContentCore {...props} />
       </Portal>

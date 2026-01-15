@@ -74,11 +74,11 @@
         --translate-x: -25px;
     }
 
-    &[data-opening] {
+    &[data-entering] {
         animation: tab-open 200ms ease forwards;
     }
 
-    &[data-closing] {
+    &[data-exiting] {
         animation: tab-close 200ms ease forwards;
         position: absolute;
         top: 0;

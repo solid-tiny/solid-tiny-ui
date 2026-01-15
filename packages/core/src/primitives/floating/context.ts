@@ -9,6 +9,7 @@ import type {
 import { computePosition, flip, offset, shift, size } from "@floating-ui/dom";
 import { batch } from "solid-js";
 import { createComponentState } from "solid-tiny-context";
+import type { PresencePhase } from "solid-tiny-utils";
 
 export const context = createComponentState({
   state: () => ({
@@ -129,6 +130,6 @@ export const context = createComponentState({
     },
   },
   nowrapData: () => ({
-    presenceState: () => "" as string,
+    presencePhase: () => "idle" as PresencePhase,
   }),
 });

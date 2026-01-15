@@ -70,7 +70,7 @@
 }
 
 .tiny-popover__content.tiny-time-picker-popover {
-    &[data-opening] {
+    &[data-entering] {
         animation: time-picker-clip-open 125ms ease both;
         transform-origin: center center;
     }

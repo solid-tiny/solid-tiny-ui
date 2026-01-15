@@ -3,7 +3,7 @@ export function getAnimationDurationMs(element?: HTMLElement | null): number {
     return 0;
   }
   const styles = getComputedStyle(element);
-  const duration = Number.parseFloat(styles.animationDuration || "0");
-
-  return styles.animationDuration.endsWith("ms") ? duration : duration * 1000;
+  const durationString = styles.animationDuration || "0s";
+  const duration = Number.parseFloat(durationString);
+  return durationString.endsWith("ms") ? duration : duration * 1000;
 }

@@ -6,6 +6,7 @@ import {
   type MaybeCallableChild,
   mountStyle,
 } from "solid-tiny-utils";
+import { getAnimationDurationMs } from "../../utils/duration";
 import { context } from "./context";
 
 export function Root(props: {
@@ -25,16 +26,16 @@ export function Root(props: {
   });
   const [state, _, staticData] = Context.value;
 
-  const [shouldMount, presenceState] = createPresence({
-    show: () => state.open,
-    element: () => state.refContent || undefined,
+  const presence = createPresence(() => state.open, {
+    enterDuration: () => getAnimationDurationMs(state.refContent),
+    exitDuration: () => getAnimationDurationMs(state.refContent),
   });
 
-  staticData.shouldMount = shouldMount;
-  staticData.presenceState = presenceState;
+  staticData.isMounted = presence.isMounted;
+  staticData.presencePhase = presence.phase;
 
   createWatch(
-    () => [shouldMount()],
+    () => [presence.isMounted()],
     (mounted) => {
       if (mounted) {
         mountStyle("html body{overflow:hidden}", state.id);

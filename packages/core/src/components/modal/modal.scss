@@ -32,11 +32,11 @@
 
     transform-origin: top center;
 
-    &[data-opening] {
+    &[data-entering] {
         animation-name: tiny-modal-in;
     }
 
-    &[data-closing] {
+    &[data-exiting] {
         animation-name: tiny-modal-in;
         animation-direction: reverse;
     }
@@ -53,11 +53,11 @@
     animation-fill-mode: both;
     backdrop-filter: blur(4px);
 
-    &[data-opening] {
+    &[data-entering] {
         animation-name: tiny-mask-in;
     }
 
-    &[data-closing] {
+    &[data-exiting] {
         animation-name: tiny-mask-in;
         animation-direction: reverse;
     }

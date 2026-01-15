@@ -1,5 +1,5 @@
 import css from "sass:./modal.scss";
-import type { JSX } from "solid-js";
+import { createMemo, type JSX } from "solid-js";
 import {
   combineClass,
   combineStyle,
@@ -21,17 +21,22 @@ function Content(props: {
   styles?: Styles<"mask" | "wrapper" | "content">;
 }) {
   mountStyle(css, "tiny-modal");
-  const [, , { presenceState }] = ModalCore.useContext();
+  const [, , { presencePhase }] = ModalCore.useContext();
   const [classes, styles] = createClassStyles(
     () => props.classNames,
     () => props.styles
   );
+
+  const isEntering = createMemo(() =>
+    ["pre-enter", "entering"].includes(presencePhase())
+  );
+  const isExiting = createMemo(() => ["exiting"].includes(presencePhase()));
   return (
     <ModalCore.Portal>
       <ModalCore.Mask
         class={combineClass("tiny-modal__mask", classes().mask)}
-        data-closing={dataIf(presenceState() === "closing")}
-        data-opening={dataIf(presenceState() === "opening")}
+        data-entering={dataIf(isEntering())}
+        data-exiting={dataIf(isExiting())}
         style={styles().mask}
       />
       <ModalCore.ContentWrapper
@@ -43,8 +48,8 @@ function Content(props: {
       >
         <ModalCore.Content
           class={combineClass("tiny-modal__content", classes().content)}
-          data-closing={dataIf(presenceState() === "closing")}
-          data-opening={dataIf(presenceState() === "opening")}
+          data-entering={dataIf(isEntering())}
+          data-exiting={dataIf(isExiting())}
           style={combineStyle(
             {
               width: props.width || "500px",

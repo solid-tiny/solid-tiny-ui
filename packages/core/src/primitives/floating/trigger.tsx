@@ -26,7 +26,7 @@ export function Trigger(props: {
 
       makeEventListener(refTrigger, "click", () => {
         state.trigger === "click" &&
-          actions.setOpen(staticData.presenceState() === "closed");
+          actions.setOpen(staticData.presencePhase() === "idle");
       });
     }
   );

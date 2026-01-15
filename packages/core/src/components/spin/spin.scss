@@ -11,17 +11,17 @@
 }
 
 .tiny-spin__loader {
-    &[data-opening],
-    &[data-closing] {
+    &[data-entering],
+    &[data-exiting] {
         animation-duration: 0.3s;
         animation-fill-mode: forwards;
     }
 
-    &[data-opening] {
+    &[data-entering] {
         animation-name: tiny-spin-in;
     }
 
-    &[data-closing] {
+    &[data-exiting] {
         animation-name: tiny-spin-out;
     }
 }

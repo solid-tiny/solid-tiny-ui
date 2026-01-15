@@ -15,6 +15,7 @@ import {
   mountStyle,
 } from "solid-tiny-utils";
 import { makeClassNames, makeStyles } from "../../utils";
+import { getAnimationDurationMs } from "../../utils/duration";
 import type { ClassNames, Styles } from "../../utils/types";
 import { SpinRing } from "./spin-ring";
 
@@ -68,12 +69,10 @@ export function Spin(props: {
   const resolvedIndicator = children(() => props.indicator);
 
   const [refLoader, setRefLoader] = createSignal<HTMLElement>();
-
-  const [show, state] = createPresence({
-    show: spinning,
-    element: refLoader,
+  const presence = createPresence(spinning, {
+    enterDuration: () => getAnimationDurationMs(refLoader()),
+    exitDuration: () => getAnimationDurationMs(refLoader()),
   });
-
   return (
     <div
       aria-busy={spinning()}
@@ -87,11 +86,13 @@ export function Spin(props: {
       >
         {props.children}
       </div>
-      <Show when={show()}>
+      <Show when={presence.isMounted()}>
         <div
           class={combineClass("tiny-spin__loader", classes().loader)}
-          data-closing={dataIf(state() === "closing")}
-          data-opening={dataIf(state() === "opening")}
+          data-entering={dataIf(
+            ["entering", "pre-enter"].includes(presence.phase())
+          )}
+          data-exiting={dataIf(["exiting"].includes(presence.phase()))}
           ref={setRefLoader}
           style={styles().loader}
         >

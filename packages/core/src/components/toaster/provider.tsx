@@ -1,7 +1,7 @@
 import css from "sass:./toaster.scss";
 import type { JSX } from "solid-js/jsx-runtime";
 import { For, Portal } from "solid-js/web";
-import { isDefined, mountStyle, noop } from "solid-tiny-utils";
+import { mountStyle, noop } from "solid-tiny-utils";
 import { context } from "./context";
 import { ToasterLocator } from "./locator";
 import { OneToaster } from "./one-toaster";
@@ -42,14 +42,13 @@ export function TinyToasterProvider(props: {
     defaultDuration: () => props.defaultDuration,
     defaultPosition: () => props.defaultPosition,
     defaultPromiseMessages: () => {
-      const defaultMessages = props.defaultPromiseMessages;
-      if (isDefined(defaultMessages)) {
-        return defaultMessages;
-      }
       return {
-        loading: noop,
-        success: noop,
-        error: noop,
+        ...{
+          loading: noop as () => JSX.Element,
+          success: noop as () => JSX.Element,
+          error: noop as () => JSX.Element,
+        },
+        ...props.defaultPromiseMessages,
       };
     },
   });

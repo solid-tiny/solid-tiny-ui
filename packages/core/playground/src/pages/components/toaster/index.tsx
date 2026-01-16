@@ -1,7 +1,27 @@
 import { createMemo } from "solid-js";
+import { draw } from "solid-tiny-utils";
 import { Button, Flex, useToaster } from "~";
 import { PlayIt } from "~play/components/play-it";
 import type { Toast } from "../../../../../src/components/toaster/type";
+
+const msgs = [
+  "This is a toast message!",
+  "Halo!",
+  "你好呀",
+  "Solid Tiny UI is awesome!",
+  "Tiny-toaster is a simple component of solid-tiny-ui. " +
+    "It is easy to use and customize. You can show different types of toasts " +
+    "with different positions. Enjoy using solid-tiny-ui!",
+  "Here's a random fact: Honey never spoils. Archaeologists have found pots of honey " +
+    "in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.",
+  "你知道吗？章鱼有三个心脏，其中两个负责将血液泵送到鳃，" +
+    "而第三个则将血液泵送到身体的其他部分。当章鱼游泳时，" +
+    "负责身体的心脏会停止跳动，这就是为什么章鱼更喜欢爬行而不是游泳的原因。",
+];
+
+const randomMsg = () => {
+  return draw(msgs) as string;
+};
 
 function ToastButton(props: {
   position?: Toast["position"];
@@ -19,7 +39,7 @@ function ToastButton(props: {
   return (
     <Button
       onClick={() => {
-        toast[props.type || "blank"]("This is a toast message!", {
+        toast[props.type || "blank"](randomMsg(), {
           position: props.position,
         });
       }}
@@ -30,6 +50,7 @@ function ToastButton(props: {
 }
 
 export default function ToasterPage() {
+  const toast = useToaster();
   return (
     <PlayIt properties={{}}>
       <Flex gap={"sm"} wrap>
@@ -47,6 +68,56 @@ export default function ToasterPage() {
         <ToastButton position="bottom-right" type="success" />
         <ToastButton position="bottom-left" type="error" />
         <ToastButton position="top-left" type="warning" />
+        <Button
+          onClick={() => {
+            toast(randomMsg(), {
+              icon: "🚀",
+            });
+          }}
+          variant="outline"
+        >
+          Custom Icon
+        </Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            toast(
+              (t) => (
+                <Flex gap="xs" vertical>
+                  <strong>🚀 Fully Custom Toast 🚀</strong>
+                  <span>This is toast ID: {t.id}</span>
+                  <Button
+                    color="primary"
+                    onClick={() => toast.dismiss(t.id)}
+                    size="small"
+                    variant="link"
+                  >
+                    Dismiss
+                  </Button>
+                </Flex>
+              ),
+              { duration: 0 }
+            );
+          }}
+        >
+          Fully Custom Toast
+        </Button>
+        <Button
+          color="link"
+          onClick={() => {
+            const id = toast.loading(randomMsg());
+            setTimeout(() => {
+              toast.update(id, {
+                type: "success",
+                message: "Loaded successfully!",
+                duration: 2000,
+              });
+            }, 2000);
+          }}
+          variant="outline"
+        >
+          loading
+        </Button>
       </Flex>
     </PlayIt>
   );

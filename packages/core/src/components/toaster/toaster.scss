@@ -3,22 +3,26 @@
     width: fit-content;
     display: flex;
     pointer-events: auto;
-    animation-duration: 250ms;
+    animation-duration: 200ms;
     animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-timing-function: linear;
     padding-bottom: var(--tiny-space-md);
 
     &[data-entering] {
         animation-name: toast-wrapper-in-out;
+        pointer-events: none;
 
         .tiny-toast {
             animation-name: toast-in-out;
+            animation-delay: 150ms;
         }
     }
 
     &[data-exiting] {
         animation-name: toast-wrapper-in-out;
         animation-direction: reverse;
+        animation-delay: 150ms;
+        pointer-events: none;
 
         .tiny-toast {
             animation-name: toast-in-out;
@@ -30,15 +34,15 @@
 .tiny-toast {
     padding: var(--tiny-space-md);
     max-width: 350px;
-    min-width: 150px;
     width: fit-content;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     border-radius: var(--tiny-radius-sm);
     box-shadow: var(--tiny-shadow-1);
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     animation-duration: 250ms;
+    animation-fill-mode: both;
 
     --c-bg: var(--tiny-c-neutral-0);
     --c-text: var(--tiny-c-white);
@@ -49,6 +53,12 @@
     color: var(--c-text);
 
     &[data-type="blank"] {
+        --c-bg: var(--tiny-c-neutral-0);
+        --c-bd: var(--tiny-c-border);
+        --c-text: var(--tiny-c-text);
+    }
+
+    &[data-type="loading"] {
         --c-bg: var(--tiny-c-neutral-0);
         --c-bd: var(--tiny-c-border);
         --c-text: var(--tiny-c-text);
@@ -96,10 +106,19 @@
 @keyframes toast-in-out {
     0% {
         opacity: 0;
-        transform: translateY(-20%);
+        transform: translateY(var(--from-y));
     }
     100% {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.tiny-toast__icon {
+    display: flex;
+    margin-right: var(--tiny-space-sm);
+    min-width: 20px;
+    min-height: 20px;
+    align-items: center;
+    justify-content: center;
 }

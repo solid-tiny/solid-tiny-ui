@@ -1,26 +1,35 @@
-import { createSignal, onMount, Show, untrack } from "solid-js";
-import { createPresence, createWatch, dataIf } from "solid-tiny-utils";
+import { children, createSignal, onMount, Show } from "solid-js";
+import {
+  callMaybeCallableChild,
+  createPresence,
+  createWatch,
+  dataIf,
+} from "solid-tiny-utils";
 import { context } from "./context";
+import { ToasterIcon } from "./icon";
 import type { Toast } from "./type";
 
-function HiddenAutoRemoval(props: {
+function HiddenAutoDismiss(props: {
   duration: number;
   pause: boolean;
   onEnd: () => void;
 }) {
-  const initialDuration = untrack(() => props.duration);
-
   let ref!: HTMLDivElement;
 
   onMount(() => {
-    requestAnimationFrame(() => {
-      ref.style.width = "0";
-    });
+    ref.offsetHeight;
+
     createWatch(
       () => [props.duration, props.pause] as const,
-      ([duration, pause]) => {
+      ([duration, pause], prevInput) => {
+        if (prevInput) {
+          const [prevDuration] = prevInput;
+          if (duration !== prevDuration) {
+            ref.style.width = "100%";
+          }
+        }
         // biome-ignore lint/style/noNonNullAssertion: safe
-        const percent = ref.clientWidth / ref.parentElement!.clientWidth;
+        const percent = ref.offsetWidth / ref.parentElement!.offsetWidth;
 
         if (pause) {
           ref.style.width = `${percent * 100}%`;
@@ -29,8 +38,7 @@ function HiddenAutoRemoval(props: {
           ref.style.width = "0";
           ref.style.transition = `width ${duration * percent}ms linear`;
         }
-      },
-      { defer: true }
+      }
     );
   });
 
@@ -41,7 +49,6 @@ function HiddenAutoRemoval(props: {
       style={{
         width: "100%",
         position: "absolute",
-        transition: `width ${initialDuration}ms linear`,
       }}
     />
   );
@@ -62,8 +69,8 @@ export function OneToaster(props: Toast) {
   const [height, setHeight] = createSignal(0);
 
   const presence = createPresence(show, {
-    enterDuration: 250,
-    exitDuration: 250,
+    enterDuration: 400,
+    exitDuration: 350,
     initialEnter: true,
   });
 
@@ -72,6 +79,15 @@ export function OneToaster(props: Toast) {
       actions.removeToast(props.id);
     }
   });
+
+  createWatch(
+    () => state.dismissSignal[props.id],
+    (signal) => {
+      if (signal) {
+        setShow(false);
+      }
+    }
+  );
 
   let ref!: HTMLDivElement;
 
@@ -83,6 +99,15 @@ export function OneToaster(props: Toast) {
       }
     });
   });
+
+  const icon = children(() =>
+    callMaybeCallableChild(props.icon, {
+      id: props.id,
+      type: props.type,
+      duration: props.duration,
+      position: props.position,
+    })
+  );
 
   return (
     <Show when={presence.isMounted()}>
@@ -105,10 +130,35 @@ export function OneToaster(props: Toast) {
           "--height": `${height()}px`,
         }}
       >
-        <div class="tiny-toast" data-type={props.type}>
-          {props.message}
+        <div
+          class="tiny-toast"
+          data-type={props.type}
+          style={{
+            "--from-y": props.position.startsWith("top") ? "-20%" : "20%",
+          }}
+        >
+          <Show
+            when={
+              icon() ||
+              ["info", "success", "warning", "error", "loading"].includes(
+                props.type
+              )
+            }
+          >
+            <div class="tiny-toast__icon">
+              {icon() || <ToasterIcon type={props.type} />}
+            </div>
+          </Show>
+          <div class="tiny-toast__content">
+            {callMaybeCallableChild(props.message, {
+              id: props.id,
+              type: props.type,
+              duration: props.duration,
+              position: props.position,
+            })}
+          </div>
         </div>
-        <HiddenAutoRemoval
+        <HiddenAutoDismiss
           duration={props.duration}
           onEnd={() => {
             setShow(false);

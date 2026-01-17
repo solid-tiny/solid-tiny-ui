@@ -10,7 +10,7 @@ import {
 } from "solid-tiny-utils";
 import { CloseLine } from "../../icons/close-line";
 import { Flex } from "../../layout";
-import { ModalCore } from "../../primitives";
+import { ModalCore } from "../../primitives/modal";
 
 function Root(props: Parameters<typeof Flex>[0]) {
   mountStyle(css, "tiny-drawer-helper");

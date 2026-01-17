@@ -1,31 +1,27 @@
-.tiny-drawer-helper-vars {
-  --tiny-drawer-header-margin: var(--tiny-space-lg);
-  --tiny-drawer-header-padding: var(--tiny-space-lg);
-  --tiny-drawer-header-c-text: var(--tiny-c-text-heading);
-  --tiny-drawer-header-fs: var(--tiny-fs-lg);
-  --tiny-drawer-body-margin: var(--tiny-space-lg);
-  --tiny-drawer-body-padding: var(--tiny-space-lg);
-  --tiny-drawer-footer-margin: var(--tiny-space-md);
-  --tiny-drawer-footer-padding: var(--tiny-space-lg);
-  --tiny-drawer-footer-c-bg: var(--tiny-c-neutral-2);
-  --tiny-drawer-footer-c-bg-dark: var(--tiny-c-neutral-0);
+.tiny-drawer-helper {
+    --space-x: var(--tiny-space-xl);
+    --space-y: var(--tiny-space-md);
 }
 
 .tiny-drawer__header {
     display: flex;
-    color: var(--tiny-drawer-header-c-text);
-    font-size: var(--tiny-drawer-header-fs);
-    padding-left: var(--tiny-drawer-header-padding);
-    padding-right: var(--tiny-drawer-header-padding);
-    padding-top: var(--tiny-drawer-header-padding);
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 0;
+    color: var(--tiny-c-text-heading);
+    font-size: var(--tiny-fs-lg);
+    padding-top: var(--space-x);
+    padding-bottom: var(--space-y);
+    padding-left: var(--space-x);
+    padding-right: var(--space-x);
     align-items: center;
     position: relative;
 }
 
 .tiny-drawer__header-close {
     position: absolute;
-    right: var(--tiny-drawer-header-padding);
-    top: var(--tiny-drawer-header-padding);
+    right: var(--space-x);
+    top: var(--space-x);
     opacity: 0.5;
 
     &:hover {
@@ -35,21 +31,25 @@
 
 .tiny-drawer__body {
     min-height: 100px;
-    margin-top: var(--tiny-drawer-body-margin);
-    padding-left: var(--tiny-drawer-body-padding);
-    padding-right: var(--tiny-drawer-body-padding);
-    padding-bottom: var(--tiny-drawer-body-padding);
-    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding: var(--space-y) var(--space-x);
     flex: 1;
     overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--tiny-c-neutral-6) transparent;
 }
 
 .tiny-drawer__footer {
-    margin-top: var(--tiny-drawer-footer-margin);
-    padding: var(--tiny-drawer-footer-padding);
-    background: var(--tiny-drawer-footer-c-bg);
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding: var(--space-y) var(--space-x);
+    background: var(--tiny-c-neutral-2);
 }
 
 .dark .tiny-drawer__footer {
-    background: var(--tiny-drawer-footer-c-bg-dark);
+    background: var(--tiny-c-neutral-0);
 }

@@ -15,7 +15,13 @@ export default function DrawerPage() {
 
   return (
     <div>
-      <PlayIt onChange={setParams} properties={params}>
+      <PlayIt
+        onChange={setParams}
+        properties={params}
+        typeDeclaration={{
+          placement: ["left", "right", "top", "bottom"],
+        }}
+      >
         <Drawer
           closeOnClickMask={params.closeOnClickMask}
           closeOnEsc={params.closeOnEsc}
@@ -45,7 +51,7 @@ export default function DrawerPage() {
                 <DrawerHelper.Close>
                   <Button>Cancel</Button>
                 </DrawerHelper.Close>
-                <Button variant="primary">Submit</Button>
+                <Button>Submit</Button>
               </DrawerHelper.Footer>
             </DrawerHelper>
           </Drawer.Content>

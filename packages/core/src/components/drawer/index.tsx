@@ -17,8 +17,10 @@ function Root(props: Parameters<typeof ModalCore>[0]) {
 function Content(props: {
   children: JSX.Element;
   placement?: "left" | "right" | "top" | "bottom";
-  width?: string;
-  height?: string;
+  /**
+   * width or height can be set according to the placement
+   */
+  size?: string;
   classNames?: ClassNames<"mask" | "wrapper" | "content">;
   styles?: Styles<"mask" | "wrapper" | "content">;
 }) {
@@ -40,15 +42,30 @@ function Content(props: {
     const isHorizontal = placement() === "left" || placement() === "right";
     if (isHorizontal) {
       return {
-        width: props.width || "378px",
+        width: props.size || "378px",
         height: "100%",
       };
     }
     return {
       width: "100%",
-      height: props.height || "378px",
+      height: props.size || "378px",
     };
   };
+
+  const translateFrom = createMemo(() => {
+    switch (placement()) {
+      case "left":
+        return "-100%, 0";
+      case "right":
+        return "100%, 0";
+      case "top":
+        return "0, -100%";
+      case "bottom":
+        return "0, 100%";
+      default:
+        return "";
+    }
+  });
 
   return (
     <ModalCore.Portal>
@@ -70,7 +87,13 @@ function Content(props: {
           data-entering={dataIf(isEntering())}
           data-exiting={dataIf(isExiting())}
           data-placement={placement()}
-          style={combineStyle(getSize(), styles().content)}
+          style={combineStyle(
+            {
+              ...getSize(),
+              "--translate-from": translateFrom(),
+            },
+            styles().content
+          )}
         >
           {props.children}
         </ModalCore.Content>

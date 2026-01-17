@@ -6,9 +6,7 @@
 }
 
 .tiny-drawer__wrapper {
-    scrollbar-color: var(--tiny-c-neutral-6) transparent;
-    scrollbar-width: thin;
-    scrollbar-gutter: stable;
+    overflow: hidden;
 }
 
 .tiny-drawer__content {
@@ -20,24 +18,25 @@
     position: absolute;
     overflow: auto;
 
-    animation-duration: 250ms;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     animation-fill-mode: both;
+
+    &[data-entering] {
+        animation-name: tiny-drawer-in-out;
+        animation-duration: 250ms;
+    }
+
+    &[data-exiting] {
+        animation-name: tiny-drawer-in-out;
+        animation-direction: reverse;
+        animation-duration: 200ms;
+    }
 
     &[data-placement="right"] {
         right: 0;
         top: 0;
         border-left-width: 1px;
         border-right-width: 0;
-
-        &[data-entering] {
-            animation-name: tiny-drawer-slide-in-right;
-        }
-
-        &[data-exiting] {
-            animation-name: tiny-drawer-slide-in-right;
-            animation-direction: reverse;
-        }
     }
 
     &[data-placement="left"] {
@@ -45,15 +44,6 @@
         top: 0;
         border-right-width: 1px;
         border-left-width: 0;
-
-        &[data-entering] {
-            animation-name: tiny-drawer-slide-in-left;
-        }
-
-        &[data-exiting] {
-            animation-name: tiny-drawer-slide-in-left;
-            animation-direction: reverse;
-        }
     }
 
     &[data-placement="top"] {
@@ -61,15 +51,6 @@
         left: 0;
         border-bottom-width: 1px;
         border-top-width: 0;
-
-        &[data-entering] {
-            animation-name: tiny-drawer-slide-in-top;
-        }
-
-        &[data-exiting] {
-            animation-name: tiny-drawer-slide-in-top;
-            animation-direction: reverse;
-        }
     }
 
     &[data-placement="bottom"] {
@@ -77,15 +58,6 @@
         left: 0;
         border-top-width: 1px;
         border-bottom-width: 0;
-
-        &[data-entering] {
-            animation-name: tiny-drawer-slide-in-bottom;
-        }
-
-        &[data-exiting] {
-            animation-name: tiny-drawer-slide-in-bottom;
-            animation-direction: reverse;
-        }
     }
 }
 
@@ -95,7 +67,7 @@
 
 .tiny-drawer__mask {
     background: rgb(0 0 0 / 10%);
-    animation-duration: 250ms;
+    animation-duration: 200ms;
     animation-timing-function: ease-in-out;
     animation-fill-mode: both;
     backdrop-filter: blur(4px);
@@ -114,43 +86,13 @@
     background: rgb(0 0 0 / 30%);
 }
 
-@keyframes tiny-drawer-slide-in-right {
+@keyframes tiny-drawer-in-out {
     0% {
-        transform: translateX(100%);
+        transform: translate(var(--translate-from));
     }
 
     100% {
-        transform: translateX(0);
-    }
-}
-
-@keyframes tiny-drawer-slide-in-left {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-@keyframes tiny-drawer-slide-in-top {
-    0% {
-        transform: translateY(-100%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes tiny-drawer-slide-in-bottom {
-    0% {
-        transform: translateY(100%);
-    }
-
-    100% {
-        transform: translateY(0);
+        transform: translate(0);
     }
 }
 

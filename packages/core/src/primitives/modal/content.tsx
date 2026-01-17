@@ -47,7 +47,6 @@ export function ContentWrapper(props: ComponentProps<"div">) {
         {
           position: "fixed",
           inset: 0,
-          overflow: "auto",
         },
         local.style
       )}

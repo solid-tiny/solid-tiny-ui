@@ -14,12 +14,18 @@ import { ModalCore } from "../../primitives";
 
 function Root(props: Parameters<typeof Flex>[0]) {
   mountStyle(css, "tiny-drawer-helper");
-  const [local, others] = splitProps(props, ["class"]);
+  const [local, others] = splitProps(props, ["class", "style"]);
   return (
     <Flex
       vertical
       {...others}
-      class={combineClass("tiny-drawer-helper-vars", local.class)}
+      class={combineClass("tiny-drawer-helper", local.class)}
+      style={combineStyle(
+        {
+          height: "100%",
+        },
+        local.style
+      )}
     />
   );
 }

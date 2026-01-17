@@ -1,0 +1,109 @@
+.tiny-drawer-vars {
+    --tiny-drawer-content-c-bg: var(--tiny-c-neutral-0);
+    --tiny-drawer-content-c-bg-dark: var(--tiny-c-neutral-2);
+    --tiny-drawer-content-c-border: var(--tiny-c-border);
+    --tiny-drawer-content-box-shadow: var(--tiny-shadow-3);
+}
+
+.tiny-drawer__wrapper {
+    overflow: hidden;
+}
+
+.tiny-drawer__content {
+    background: var(--tiny-drawer-content-c-bg);
+    border-color: var(--tiny-drawer-content-c-border);
+    border-width: 1px;
+    border-style: solid;
+    box-shadow: var(--tiny-drawer-content-box-shadow);
+    position: absolute;
+    overflow: auto;
+
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-fill-mode: both;
+
+    &[data-entering] {
+        animation-name: tiny-drawer-in-out;
+        animation-duration: 250ms;
+    }
+
+    &[data-exiting] {
+        animation-name: tiny-drawer-in-out;
+        animation-direction: reverse;
+        animation-duration: 200ms;
+    }
+
+    &[data-placement="right"] {
+        right: 0;
+        top: 0;
+        border-left-width: 1px;
+        border-right-width: 0;
+    }
+
+    &[data-placement="left"] {
+        left: 0;
+        top: 0;
+        border-right-width: 1px;
+        border-left-width: 0;
+    }
+
+    &[data-placement="top"] {
+        top: 0;
+        left: 0;
+        border-bottom-width: 1px;
+        border-top-width: 0;
+    }
+
+    &[data-placement="bottom"] {
+        bottom: 0;
+        left: 0;
+        border-top-width: 1px;
+        border-bottom-width: 0;
+    }
+}
+
+.dark .tiny-drawer__content {
+    background: var(--tiny-drawer-content-c-bg-dark);
+}
+
+.tiny-drawer__mask {
+    background: rgb(0 0 0 / 10%);
+    animation-duration: 200ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    backdrop-filter: blur(4px);
+
+    &[data-entering] {
+        animation-name: tiny-mask-in;
+    }
+
+    &[data-exiting] {
+        animation-name: tiny-mask-in;
+        animation-direction: reverse;
+    }
+}
+
+.dark .tiny-drawer__mask {
+    background: rgb(0 0 0 / 30%);
+}
+
+@keyframes tiny-drawer-in-out {
+    0% {
+        transform: translate(var(--translate-from));
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+@keyframes tiny-mask-in {
+    0% {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+}

@@ -10,6 +10,7 @@
     scrollbar-color: var(--tiny-c-neutral-6) transparent;
     scrollbar-width: thin;
     scrollbar-gutter: stable;
+    overflow: auto;
 }
 
 .tiny-modal__content {

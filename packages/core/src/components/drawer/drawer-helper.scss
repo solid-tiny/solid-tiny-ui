@@ -1,0 +1,54 @@
+.tiny-drawer-helper {
+    --space-x: var(--tiny-space-xl);
+    --space-y: var(--tiny-space-md);
+}
+
+.tiny-drawer__header {
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 0;
+    color: var(--tiny-c-text-heading);
+    font-size: var(--tiny-fs-lg);
+    padding-top: var(--space-x);
+    padding-bottom: var(--space-y);
+    padding-left: var(--space-x);
+    padding-right: var(--space-x);
+    align-items: center;
+    position: relative;
+}
+
+.tiny-drawer__header-close {
+    position: absolute;
+    right: var(--space-x);
+    top: var(--space-x);
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+.tiny-drawer__body {
+    min-height: 100px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding: var(--space-y) var(--space-x);
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--tiny-c-neutral-6) transparent;
+}
+
+.tiny-drawer__footer {
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 0;
+    padding: var(--space-y) var(--space-x);
+    background: var(--tiny-c-neutral-2);
+}
+
+.dark .tiny-drawer__footer {
+    background: var(--tiny-c-neutral-0);
+}

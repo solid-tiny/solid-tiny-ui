@@ -1,4 +1,4 @@
-import { createUniqueId, type JSX } from "solid-js";
+import { createUniqueId } from "solid-js";
 import {
   callMaybeCallableChild,
   type MaybeCallableChild,
@@ -60,11 +60,7 @@ export function useToaster() {
     error: createPreset({ type: "error" }, toast),
     info: createPreset({ type: "info" }, toast),
     warning: createPreset({ type: "warning" }, toast),
-    promise: createPromiseToast(
-      toast,
-      actions.updateToast,
-      state.defaultPromiseMessages
-    ),
+    promise: createPromiseToast(toast, actions.updateToast),
     dismiss: actions.dismissToast,
     update: actions.updateToast,
   });
@@ -72,25 +68,18 @@ export function useToaster() {
 
 function createPromiseToast(
   toast: ToasterFunction,
-  update: (id: string, toast: Partial<Toast>) => void,
-  defaultPromiseMessages: {
-    loading: (params: { id: string }) => JSX.Element;
-    success: (params: { id: string; data: unknown }) => JSX.Element;
-    error: (params: { id: string; error: unknown }) => JSX.Element;
-  }
+  update: (id: string, toast: Partial<Toast>) => void
 ) {
   return <T>(
     promise: Promise<T>,
     phase: {
-      loading?: MaybeCallableChild<[{ id: string }]>;
-      success?: MaybeCallableChild<[{ id: string; data: T }]>;
-      error?: MaybeCallableChild<[{ id: string; error: unknown }]>;
+      loading: MaybeCallableChild<[{ id: string }]>;
+      success: MaybeCallableChild<[{ id: string; data: T }]>;
+      error: MaybeCallableChild<[{ id: string; error: unknown }]>;
     }
   ) => {
     const id = toast(
-      phase.loading
-        ? (params) => callMaybeCallableChild(phase.loading, { ...params })
-        : defaultPromiseMessages.loading,
+      (params) => callMaybeCallableChild(phase.loading, { ...params }),
       { type: "loading", duration: 0 }
     );
     promise
@@ -98,18 +87,16 @@ function createPromiseToast(
         update(id, {
           type: "success",
           duration: 5000,
-          message: phase.success
-            ? ({ id }) => callMaybeCallableChild(phase.success, { id, data })
-            : ({ id }) => defaultPromiseMessages.success({ id, data }),
+          message: ({ id }) =>
+            callMaybeCallableChild(phase.success, { id, data }),
         });
       })
       .catch((error) => {
         update(id, {
           type: "error",
           duration: 5000,
-          message: phase.error
-            ? ({ id }) => callMaybeCallableChild(phase.error, { id, error })
-            : ({ id }) => defaultPromiseMessages.error({ id, error }),
+          message: ({ id }) =>
+            callMaybeCallableChild(phase.error, { id, error }),
         });
       });
   };

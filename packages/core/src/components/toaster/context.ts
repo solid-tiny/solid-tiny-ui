@@ -1,6 +1,4 @@
-import type { JSX } from "solid-js";
 import { createComponentState } from "solid-tiny-context";
-import { noop } from "solid-tiny-utils";
 import type { Toast } from "./type";
 
 export const context = createComponentState({
@@ -10,11 +8,6 @@ export const context = createComponentState({
     pauseRemoval: false,
     defaultDuration: 3000,
     defaultPosition: "top-center" as Toast["position"],
-    defaultPromiseMessages: {
-      loading: noop as (params: { id: string }) => JSX.Element,
-      success: noop as (params: { id: string; data: unknown }) => JSX.Element,
-      error: noop as (params: { id: string; error: unknown }) => JSX.Element,
-    },
   }),
   methods: {
     removeToast(id: string) {
@@ -33,7 +26,7 @@ export const context = createComponentState({
     },
     updateToast(id: string, updatedProps: Partial<Toast>) {
       const index = this.state.toasts.findIndex((toast) => toast.id === id);
-      if (index !== -1) {
+      if (index !== -1 && !this.state.dismissSignal[id]) {
         this.actions.setState("toasts", index, updatedProps);
       }
     },

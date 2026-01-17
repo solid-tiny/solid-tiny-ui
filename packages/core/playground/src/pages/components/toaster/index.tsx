@@ -1,5 +1,5 @@
 import { createMemo } from "solid-js";
-import { draw } from "solid-tiny-utils";
+import { draw, sleep } from "solid-tiny-utils";
 import { Button, Flex, useToaster } from "~";
 import { PlayIt } from "~play/components/play-it";
 import type { Toast } from "../../../../../src/components/toaster/type";
@@ -117,6 +117,26 @@ export default function ToasterPage() {
           variant="outline"
         >
           loading
+        </Button>
+        <Button
+          onClick={() => {
+            toast.promise(
+              (async () => {
+                await sleep(2000);
+                if (Math.random() > 0.5) {
+                  return `time is ${new Date().toLocaleTimeString()}`;
+                }
+                throw new Error("Failed to load");
+              })(),
+              {
+                loading: () => "Loading...",
+                success: ({ data }) => `Loaded successfully: ${data}`,
+                error: ({ error }) => `Error: ${(error as Error).message}`,
+              }
+            );
+          }}
+        >
+          promise
         </Button>
       </Flex>
     </PlayIt>

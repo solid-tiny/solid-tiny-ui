@@ -1,7 +1,7 @@
 import css from "sass:./toaster.scss";
 import type { JSX } from "solid-js/jsx-runtime";
 import { For, Portal } from "solid-js/web";
-import { mountStyle, noop } from "solid-tiny-utils";
+import { mountStyle } from "solid-tiny-utils";
 import { context } from "./context";
 import { ToasterLocator } from "./locator";
 import { OneToaster } from "./one-toaster";
@@ -30,27 +30,12 @@ export function TinyToasterProvider(props: {
   children: JSX.Element;
   defaultDuration?: number;
   defaultPosition?: ToastPosition;
-  defaultPromiseMessages?: {
-    loading?: (params: { id: string }) => JSX.Element;
-    success?: (params: { id: string; data: unknown }) => JSX.Element;
-    error?: (params: { id: string; error: unknown }) => JSX.Element;
-  };
 }) {
   mountStyle(css, "tiny-toaster");
 
   const Context = context.initial({
     defaultDuration: () => props.defaultDuration,
     defaultPosition: () => props.defaultPosition,
-    defaultPromiseMessages: () => {
-      return {
-        ...{
-          loading: noop as () => JSX.Element,
-          success: noop as () => JSX.Element,
-          error: noop as () => JSX.Element,
-        },
-        ...props.defaultPromiseMessages,
-      };
-    },
   });
 
   const [, actions] = Context.value;

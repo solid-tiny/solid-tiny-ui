@@ -1,58 +1,45 @@
-import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import { Alert } from "~";
 import { PlayIt } from "../../../components/play-it";
 
 export default function AlertPage() {
-  const [status, setStatus] = createSignal<"success" | "error" | "warning" | "info">("info");
-  const [variant, setVariant] = createSignal<"subtle" | "solid" | "left-accent" | "top-accent">("subtle");
-  const [showIcon, setShowIcon] = createSignal(true);
-  const [closable, setClosable] = createSignal(false);
+  const [params, setParams] = createStore({
+    status: "info" as "info" | "success" | "warning" | "error",
+    variant: "subtle" as "subtle" | "solid" | "left-accent" | "top-accent",
+    showIcon: true,
+    closable: false,
+  });
 
   return (
     <div>
       <div class="c-text-heading fs-sm mb-sm ml-lg">Basic Alert</div>
       <PlayIt
-        properties={{
-          status: {
-            type: "select",
-            options: ["info", "success", "warning", "error"],
-            value: status(),
-            onChange: (v) => setStatus(v as any),
-          },
-          variant: {
-            type: "select",
-            options: ["subtle", "solid", "left-accent", "top-accent"],
-            value: variant(),
-            onChange: (v) => setVariant(v as any),
-          },
-          showIcon: {
-            type: "boolean",
-            value: showIcon(),
-            onChange: setShowIcon,
-          },
-          closable: {
-            type: "boolean",
-            value: closable(),
-            onChange: setClosable,
-          },
+        onChange={setParams}
+        properties={params}
+        typeDeclaration={{
+          status: ["info", "success", "warning", "error"],
+          variant: ["subtle", "solid", "left-accent", "top-accent"],
         }}
       >
         <div class="p-md">
           <Alert
-            closable={closable()}
+            closable={params.closable}
             onClose={() => console.log("Alert closed")}
-            showIcon={showIcon()}
-            status={status()}
-            variant={variant()}
+            showIcon={params.showIcon}
+            status={params.status}
+            variant={params.variant}
           >
-            This is an alert component. You can customize it with different statuses and variants.
+            This is an alert component. You can customize it with different
+            statuses and variants.
           </Alert>
         </div>
       </PlayIt>
 
-      <div class="c-text-heading fs-sm mb-sm ml-lg mt-lg">Alert with Title and Description</div>
+      <div class="c-text-heading fs-sm mt-lg mb-sm ml-lg">
+        Alert with Title and Description
+      </div>
       <PlayIt properties={{}}>
-        <div class="p-md space-y-md">
+        <div class="space-y-md p-md">
           <Alert
             description="Check out the new features we've added to our platform."
             status="info"
@@ -76,9 +63,9 @@ export default function AlertPage() {
         </div>
       </PlayIt>
 
-      <div class="c-text-heading fs-sm mb-sm ml-lg mt-lg">All Variants</div>
+      <div class="c-text-heading fs-sm mt-lg mb-sm ml-lg">All Variants</div>
       <PlayIt properties={{}}>
-        <div class="p-md space-y-md">
+        <div class="space-y-md p-md">
           <Alert status="info" variant="subtle">
             Subtle variant with info status
           </Alert>
@@ -94,9 +81,9 @@ export default function AlertPage() {
         </div>
       </PlayIt>
 
-      <div class="c-text-heading fs-sm mb-sm ml-lg mt-lg">Closable Alerts</div>
+      <div class="c-text-heading fs-sm mt-lg mb-sm ml-lg">Closable Alerts</div>
       <PlayIt properties={{}}>
-        <div class="p-md space-y-md">
+        <div class="space-y-md p-md">
           <Alert
             closable
             onClose={() => console.log("Info alert closed")}
@@ -116,9 +103,9 @@ export default function AlertPage() {
         </div>
       </PlayIt>
 
-      <div class="c-text-heading fs-sm mb-sm ml-lg mt-lg">Without Icon</div>
+      <div class="c-text-heading fs-sm mt-lg mb-sm ml-lg">Without Icon</div>
       <PlayIt properties={{}}>
-        <div class="p-md space-y-md">
+        <div class="space-y-md p-md">
           <Alert showIcon={false} status="info">
             Alert without icon
           </Alert>
@@ -131,7 +118,7 @@ export default function AlertPage() {
         </div>
       </PlayIt>
 
-      <div class="c-text-heading fs-sm mb-sm ml-lg mt-lg">Custom Icon</div>
+      <div class="c-text-heading fs-sm mt-lg mb-sm ml-lg">Custom Icon</div>
       <PlayIt properties={{}}>
         <div class="p-md">
           <Alert

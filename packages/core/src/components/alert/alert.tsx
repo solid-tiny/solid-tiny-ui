@@ -1,12 +1,9 @@
 import css from "sass:./alert.scss";
 import { children, createMemo, type JSX, Match, Show, Switch } from "solid-js";
+import { combineClass, mountStyle } from "solid-tiny-utils";
 import {
-  combineClass,
-  mountStyle,
-} from "solid-tiny-utils";
-import {
-  IconCheckboxCircleLine,
   CloseLine,
+  IconCheckboxCircleLine,
   IconErrorWarningLine,
   InformationLine,
 } from "../../icons";
@@ -79,9 +76,7 @@ export function Alert(props: {
   const resolvedChildren = children(() => props.children);
 
   const hasContent = createMemo(() => {
-    return (
-      resolvedTitle() || resolvedDescription() || resolvedChildren()
-    );
+    return resolvedTitle() || resolvedDescription() || resolvedChildren();
   });
 
   return (
@@ -116,15 +111,16 @@ export function Alert(props: {
           </Show>
           <Show when={resolvedDescription()}>
             <div
-              class={combineClass("tiny-alert__description", classes().description)}
+              class={combineClass(
+                "tiny-alert__description",
+                classes().description
+              )}
               style={styles().description}
             >
               {resolvedDescription()}
             </div>
           </Show>
-          <Show when={resolvedChildren()}>
-            {resolvedChildren()}
-          </Show>
+          <Show when={resolvedChildren()}>{resolvedChildren()}</Show>
         </div>
       </Show>
 

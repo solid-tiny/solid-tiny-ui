@@ -1,9 +1,7 @@
 import css from "sass:./alert.scss";
-import { children, createMemo, type JSX, Show } from "solid-js";
+import { children, createMemo, type JSX, Match, Show, Switch } from "solid-js";
 import {
   combineClass,
-  combineStyle,
-  dataIf,
   mountStyle,
 } from "solid-tiny-utils";
 import {
@@ -26,15 +24,17 @@ export interface AlertState {
 function AlertIcon(props: { status: AlertStatus }) {
   return (
     <div class="tiny-alert__icon">
-      <Show when={props.status === "info"}>
-        <InformationLine size="20px" />
-      </Show>
-      <Show when={props.status === "success"}>
-        <IconCheckboxCircleLine size="20px" />
-      </Show>
-      <Show when={props.status === "error" || props.status === "warning"}>
-        <IconErrorWarningLine size="20px" />
-      </Show>
+      <Switch>
+        <Match when={props.status === "info"}>
+          <InformationLine size="20px" />
+        </Match>
+        <Match when={props.status === "success"}>
+          <IconCheckboxCircleLine size="20px" />
+        </Match>
+        <Match when={props.status === "error" || props.status === "warning"}>
+          <IconErrorWarningLine size="20px" />
+        </Match>
+      </Switch>
     </div>
   );
 }

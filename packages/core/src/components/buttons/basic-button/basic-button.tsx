@@ -9,7 +9,7 @@ import {
 } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 
-export type ButtonVariants = "solid" | "link" | "text" | "outline";
+export type ButtonVariants = "solid" | "link" | "text" | "outline" | "subtle";
 export type ButtonColors =
   | "primary"
   | "secondary"

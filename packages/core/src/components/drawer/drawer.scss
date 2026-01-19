@@ -1,20 +1,17 @@
-.tiny-drawer-vars {
-    --tiny-drawer-content-c-bg: var(--tiny-c-neutral-0);
-    --tiny-drawer-content-c-bg-dark: var(--tiny-c-neutral-2);
-    --tiny-drawer-content-c-border: var(--tiny-c-border);
-    --tiny-drawer-content-box-shadow: var(--tiny-shadow-3);
-}
-
 .tiny-drawer__wrapper {
+    --c-bg: var(--tiny-c-neutral-0);
+    --c-bg-dark: var(--tiny-c-neutral-2);
+    --c-border: var(--tiny-c-border);
+    --box-shadow: var(--tiny-shadow-3);
     overflow: hidden;
 }
 
 .tiny-drawer__content {
-    background: var(--tiny-drawer-content-c-bg);
-    border-color: var(--tiny-drawer-content-c-border);
+    background: var(--c-bg);
+    border-color: var(--c-border);
     border-width: 1px;
     border-style: solid;
-    box-shadow: var(--tiny-drawer-content-box-shadow);
+    box-shadow: var(--box-shadow);
     position: absolute;
     overflow: auto;
 
@@ -62,7 +59,7 @@
 }
 
 .dark .tiny-drawer__content {
-    background: var(--tiny-drawer-content-c-bg-dark);
+    background: var(--c-bg-dark);
 }
 
 .tiny-drawer__mask {

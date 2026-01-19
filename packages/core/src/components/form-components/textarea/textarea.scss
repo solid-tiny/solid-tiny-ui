@@ -1,20 +1,14 @@
-.tiny-textarea-vars {
-  --tiny-textarea-border-hover: var(--tiny-c-brand-5);
-  --tiny-textarea-scrollbar: var(--tiny-c-neutral-4);
-  --tiny-textarea-border: var(--tiny-c-border);
-}
-
 .tiny-textarea {
-    padding: var(--tiny-space-sm);
-    border-radius: var(--tiny-radius-sm);
-    transition: border-color 0.2s;
-    border: 1px solid var(--tiny-textarea-border);
+  padding: var(--tiny-space-sm);
+  border-radius: var(--tiny-radius-sm);
+  transition: border-color 0.2s;
+  border: 1px solid var(--tiny-c-border);
 
-    &:focus-within {
-        border-color: var(--tiny-textarea-border-hover);
-    }
+  &:focus-within {
+    border-color: var(--tiny-c-brand-5);
+  }
 
-    scrollbar-width: thin;
-    scrollbar-gutter: stable;
-    scrollbar-color: var(--tiny-textarea-scrollbar) transparent;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--tiny-c-neutral-4) transparent;
 }

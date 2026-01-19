@@ -42,7 +42,7 @@ export function Textarea(props: {
 
   return (
     <textarea
-      class={combineClass("tiny-textarea tiny-textarea-vars", classes().root)}
+      class={combineClass("tiny-textarea", classes().root)}
       disabled={real.disabled}
       id={props.id}
       maxLength={real.maxLength}

@@ -1,28 +1,19 @@
-.tiny-input-vars {
-  --tiny-input-c-border: var(--tiny-c-border);
-  --tiny-input-c-border-hover: var(--tiny-c-brand-5);
-  --tiny-input-c-border-active: var(--tiny-c-brand-5);
-  --tiny-input-border-radius: var(--tiny-radius-sm);
-  --tiny-input-padding: var(--tiny-space-sm);
-  --tiny-input-c-bg-disabled: var(--tiny-c-neutral-2);
-}
-
 .tiny-input {
     border-width: 1px;
     border-style: solid;
-    border-color: var(--tiny-input-c-border);
-    border-radius: var(--tiny-input-border-radius);
-    padding-left: var(--tiny-input-padding);
-    padding-right: var(--tiny-input-padding);
+    border-color: var(--tiny-c-border);
+    border-radius: var(--tiny-radius-sm);
+    padding-left: var(--tiny-space-sm);
+    padding-right: var(--tiny-space-sm);
     transition: border-color 150ms;
     width: 100%;
 
     &:focus-within {
-        border-color: var(--tiny-input-c-border-active);
+        border-color: var(--tiny-c-brand-5);
     }
 
     &:hover {
-        border-color: var(--tiny-input-c-border-hover);
+        border-color: var(--tiny-c-brand-5);
     }
 
     &[data-size="small"] {
@@ -40,7 +31,7 @@
     &[data-disabled] {
         pointer-events: none;
         user-select: none;
-        background-color: var(--tiny-input-c-bg-disabled);
+        background-color: var(--tiny-c-neutral-2);
         opacity: 0.6;
     }
 }

@@ -1,3 +1,4 @@
+export * from "./components/alert";
 export * from "./components/buttons";
 export * from "./components/drawer";
 export * from "./components/field";

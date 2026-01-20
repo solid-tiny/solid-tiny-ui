@@ -7,22 +7,30 @@ function vars(key: string): string {
   return `var(--tiny-${key})`;
 }
 
+function varRGB(key: string): string {
+  return `rgb(var(--tiny-rgb-${key}) / %alpha)`;
+}
+
+function varColor(key: string): string {
+  return `var(--tiny-c-${key})`;
+}
+
 const colors = [
+  ...list(0, 9).map((i) => `neutral-${i}`),
+  ...list(0, 9).map((i) => `brand-${i}`),
+  ...["info", "success", "warning", "danger"].flatMap((status) =>
+    ["base", "surface", "border"].map((level) => `${status}-${level}`)
+  ),
+];
+
+const staticColors = [
   "text",
   "text-heading",
   "text-label",
   "text-description",
   "text-disabled",
-  "border",
-  "danger",
-  "success",
-  "warning",
-  "info",
-  "link",
   "white",
   "black",
-  ...list(0, 9).map((i) => `neutral-${i}`),
-  ...list(0, 9).map((i) => `brand-${i}`),
 ];
 
 export function presetTinyUi(): Preset {
@@ -30,7 +38,9 @@ export function presetTinyUi(): Preset {
     name: "unocss-preset-solid-tiny-ui",
     theme: {
       colors: Object.fromEntries(
-        colors.map((color) => [color, vars(`c-${color}`)])
+        colors
+          .map((color) => [color, varRGB(color)])
+          .concat(staticColors.map((color) => [color, varColor(color)]))
       ),
       lineHeight: {
         tight: vars("lh-tight"),

@@ -1,31 +1,28 @@
 .tiny-modal-helper-vars {
-  --tiny-modal-header-margin: var(--tiny-space-lg);
-  --tiny-modal-header-padding: var(--tiny-space-lg);
-  --tiny-modal-header-c-text: var(--tiny-c-text-heading);
-  --tiny-modal-header-fs: var(--tiny-fs-lg);
-  --tiny-modal-body-margin: var(--tiny-space-lg);
-  --tiny-modal-body-padding: var(--tiny-space-lg);
-  --tiny-modal-footer-margin: var(--tiny-space-md);
-  --tiny-modal-footer-padding: var(--tiny-space-lg);
-  --tiny-modal-footer-c-bg: var(--tiny-c-neutral-2);
-  --tiny-modal-footer-c-bg-dark: var(--tiny-c-neutral-0);
+    --header-padding: var(--tiny-space-lg);
+    --body-margin: var(--tiny-space-lg);
+    --body-padding: var(--tiny-space-lg);
+    --footer-margin: var(--tiny-space-md);
+    --footer-padding: var(--tiny-space-lg);
+    --footer-c-bg: rgb(var(--tiny-rgb-neutral-1));
+    --footer-c-bg-dark: rgb(var(--tiny-rgb-neutral-0));
 }
 
 .tiny-modal__header {
     display: flex;
-    color: var(--tiny-modal-header-c-text);
-    font-size: var(--tiny-modal-header-fs);
-    padding-left: var(--tiny-modal-header-padding);
-    padding-right: var(--tiny-modal-header-padding);
-    padding-top: var(--tiny-modal-header-padding);
+    color: var(--tiny-c-text-heading);
+    font-size: var(--tiny-fs-lg);
+    padding-left: var(--header-padding);
+    padding-right: var(--header-padding);
+    padding-top: var(--header-padding);
     align-items: center;
     position: relative;
 }
 
 .tiny-modal__header-close {
     position: absolute;
-    right: var(--tiny-modal-header-padding);
-    top: var(--tiny-modal-header-padding);
+    right: var(--header-padding);
+    top: var(--header-padding);
     opacity: 0.5;
 
     &:hover {
@@ -35,19 +32,19 @@
 
 .tiny-modal__body {
     min-height: 100px;
-    margin-top: var(--tiny-modal-body-margin);
-    padding-left: var(--tiny-modal-body-padding);
-    padding-right: var(--tiny-modal-body-padding);
-    padding-bottom: var(--tiny-modal-body-padding);
+    margin-top: var(--body-margin);
+    padding-left: var(--body-padding);
+    padding-right: var(--body-padding);
+    padding-bottom: var(--body-padding);
     display: flex;
 }
 
 .tiny-modal__footer {
-    margin-top: var(--tiny-modal-footer-margin);
-    padding: var(--tiny-modal-footer-padding);
-    background: var(--tiny-modal-footer-c-bg);
+    margin-top: var(--footer-margin);
+    padding: var(--footer-padding);
+    background: var(--footer-c-bg);
 }
 
 .dark .tiny-modal__footer {
-    background: var(--tiny-modal-footer-c-bg-dark);
+    background: var(--footer-c-bg-dark);
 }

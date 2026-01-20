@@ -9,9 +9,9 @@
     vertical-align: middle;
     color: var(--c-label);
 
-    --c-track: var(--tiny-c-neutral-4);
-    --c-track-checked: var(--tiny-c-neutral-9);
-    --c-thumb: var(--tiny-c-neutral-0);
+    --c-track: rgb(var(--tiny-rgb-neutral-4));
+    --c-track-checked: rgb(var(--tiny-rgb-neutral-9));
+    --c-thumb: rgb(var(--tiny-rgb-neutral-0));
     --c-label: var(--tiny-c-text-label);
 
     --track-width: 34px;
@@ -21,9 +21,9 @@
 
     &[data-disabled] {
         pointer-events: none;
-        --c-track-checked: var(--tiny-c-neutral-5);
-        --c-track: var(--tiny-c-neutral-3);
-        --c-thumb: var(--tiny-c-neutral-1);
+        --c-track-checked: rgb(var(--tiny-rgb-neutral-5));
+        --c-track: rgb(var(--tiny-rgb-neutral-3));
+        --c-thumb: rgb(var(--tiny-rgb-neutral-1));
         --c-label: var(--tiny-c-text-description);
     }
 

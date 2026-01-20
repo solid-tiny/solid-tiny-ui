@@ -14,8 +14,8 @@
     pointer-events: none;
 
     --c-dot: var(--tiny-c-text-disabled);
-    --c-dot-bg: var(--tiny-c-neutral-2);
-    --c-border: var(--tiny-c-neutral-3);
+    --c-dot-bg: rgb(var(--tiny-rgb-neutral-2));
+    --c-border: rgb(var(--tiny-rgb-neutral-3));
     --c-label: var(--tiny-c-text-description);
 }
 

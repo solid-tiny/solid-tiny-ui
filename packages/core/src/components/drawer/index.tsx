@@ -76,10 +76,7 @@ function Content(props: {
         style={styles().mask}
       />
       <ModalCore.ContentWrapper
-        class={combineClass(
-          "tiny-drawer__wrapper tiny-drawer-vars",
-          classes().wrapper
-        )}
+        class={combineClass("tiny-drawer__wrapper", classes().wrapper)}
         style={combineStyle({}, styles().wrapper)}
       >
         <ModalCore.Content

@@ -13,13 +13,10 @@ export function Root(props: {
   children: MaybeCallableChild<ReturnType<typeof context.useContext>>;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  preventScroll?: boolean;
   closeOnClickMask?: boolean;
   closeOnEsc?: boolean;
 }) {
   const Context = context.initial({
-    id: () => `tiny-modal_${createUniqueId()}`,
-    preventScroll: () => props.preventScroll,
     closeOnClickMask: () => props.closeOnClickMask,
     closeOnEsc: () => props.closeOnEsc,
     open: () => props.open,
@@ -34,13 +31,15 @@ export function Root(props: {
   staticData.isMounted = presence.isMounted;
   staticData.presencePhase = presence.phase;
 
+  const id = `ps__${createUniqueId()}`;
+
   createWatch(
     () => [presence.isMounted()],
-    (mounted) => {
+    ([mounted]) => {
       if (mounted) {
-        mountStyle("html body{overflow:hidden}", state.id);
+        mountStyle("html body{overflow:hidden}", id);
       } else {
-        const el = document.querySelector(`#${state.id}`);
+        const el = document.querySelector(`#${id}`);
         el?.remove();
       }
     }

@@ -30,7 +30,7 @@ export function SpinRing(props: {
   const real = mergeProps(
     {
       size: 32,
-      color: getGlobalToken("c-brand-5"),
+      color: `rgb(${getGlobalToken("rgb-brand-5")})`,
       strokeWidth: 12,
     },
     props

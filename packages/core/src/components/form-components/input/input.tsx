@@ -17,7 +17,7 @@ export function Input(props: InputProps) {
   mountStyle(css, "tiny-input");
   return (
     <input
-      class="tiny-input tiny-input-vars"
+      class="tiny-input"
       data-disabled={dataIf(props.disabled ?? false)}
       data-size={props.size || "medium"}
       disabled={props.disabled}

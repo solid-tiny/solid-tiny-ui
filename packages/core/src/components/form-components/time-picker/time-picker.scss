@@ -5,7 +5,7 @@
     --tiny-time-picker-trigger-height: 32px;
     --tiny-time-picker-trigger-font-size: var(--tiny-fs-sm);
     --tiny-time-picker-c-text-placeholder: var(--tiny-c-text-description);
-    --tiny-time-picker-trigger-c-bg-disabled: var(--tiny-c-neutral-2);
+    --tiny-time-picker-trigger-c-bg-disabled: rgb(var(--tiny-rgb-neutral-2));
 }
 
 .tiny-time-picker-trigger {
@@ -66,7 +66,7 @@
 /* panel */
 
 .tiny-time-picker-popover-vars {
-    --tiny-time-picker-thumb-c-bg: var(--tiny-c-brand-2);
+    --tiny-time-picker-thumb-c-bg: rgb(var(--tiny-rgb-brand-2));
 }
 
 .tiny-popover__content.tiny-time-picker-popover {
@@ -132,7 +132,7 @@
 
         &:hover {
             opacity: 0.6;
-            background-color: var(--tiny-c-neutral-2);
+            background-color: rgb(var(--tiny-rgb-neutral-2));
         }
     }
 }

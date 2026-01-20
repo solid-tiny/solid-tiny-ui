@@ -75,10 +75,7 @@ export function Combobox<
         <>
           <Popover.Trigger>
             <div
-              class={combineClass(
-                "tiny-combobox__trigger tiny-combobox-vars",
-                classes().trigger
-              )}
+              class={combineClass("tiny-combobox__trigger", classes().trigger)}
               data-disabled={dataIf(props.disabled ?? false)}
               data-open={dataIf(state.open)}
               data-size={props.size ?? "medium"}

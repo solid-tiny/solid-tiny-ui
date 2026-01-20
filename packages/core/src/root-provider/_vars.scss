@@ -10,56 +10,6 @@ $shadows: (
   0 12px 48px 16px rgba(0, 0, 0, 0.03)}
 );
 
-$colors-light: (
-  text: rgba(0, 0, 0, 0.85),
-  text-heading: rgba(0, 0, 0, 0.9),
-  text-label: rgba(0, 0, 0, 0.65),
-  text-description: rgba(0, 0, 0, 0.45),
-  text-disabled: rgba(0, 0, 0, 0.25),
-  "white": #ffffff,
-  "black": #09090b,
-  link: #115ea3,
-  info: #0078d4,
-  danger: #fa3131,
-  success: #2bcd33,
-  warning: #f57c00,
-  border: #d1d5db,
-  neutral-0: #ffffff,
-  neutral-1: #f7f7f7,
-  neutral-2: #eeeeee,
-  neutral-3: #e4e4e4,
-  neutral-4: #d1d1d1,
-  neutral-5: #b8b8b8,
-  neutral-6: #9a9a9a,
-  neutral-7: #6f6f6f,
-  neutral-8: #4a4a4a,
-  neutral-9: #2b2b2b
-);
-
-$colors-dark: (
-  text: rgba(255, 255, 255, 0.85),
-  text-heading: rgba(255, 255, 255, 0.9),
-  text-label: rgba(255, 255, 255, 0.65),
-  text-description: rgba(255, 255, 255, 0.45),
-  text-disabled: rgba(255, 255, 255, 0.25),
-  link: #479ef5,
-  info: #2fa5e0,
-  danger: #df3c31,
-  success: #2ea832,
-  warning: #e08f17,
-  border: #3a3f47,
-  neutral-0: #121212,
-  neutral-1: #1a1a1a,
-  neutral-2: #222222,
-  neutral-3: #2c2c2c,
-  neutral-4: #3a3a3a,
-  neutral-5: #555555,
-  neutral-6: #7a7a7a,
-  neutral-7: #a0a0a0,
-  neutral-8: #c8c8c8,
-  neutral-9: #e6e6e6
-);
-
 $fs-ramp: (
   "xs": 12px,
   "sm": 14px,

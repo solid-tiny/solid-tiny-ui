@@ -34,7 +34,7 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background-color: var(--tiny-c-neutral-1);
+        background-color: rgb(var(--tiny-rgb-neutral-1));
         opacity: 0;
         transition: opacity 0.2s ease-in-out;
     }

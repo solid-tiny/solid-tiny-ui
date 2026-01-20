@@ -35,11 +35,13 @@ const WARNING_HUE = 48;
 const DANGER_HUE = 25;
 
 const lightStatusRamp: [Light, Color][] = [
-  [60, 0.22], // base
+  [47, 0.17], // fg
+  [59, 0.21], // base
   [80, 0.09], // surface
 ];
 
 const darkStatusRamp: [Light, Color][] = [
+  [68, 0.16], // fg
   [54, 0.19], // base
   [36, 0.07], // surface
 ];
@@ -63,7 +65,7 @@ export function genStatusColors(): {
     { name: "danger", hue: DANGER_HUE },
   ];
 
-  const levels = ["base", "surface"];
+  const levels = ["fg", "base", "surface"];
 
   for (const status of statuses) {
     for (let i = 0; i < lightStatusRamp.length; i++) {

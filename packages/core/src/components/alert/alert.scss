@@ -14,7 +14,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .tiny-alert__content {
@@ -58,33 +57,33 @@
 // Status colors
 .tiny-alert {
   &[data-status="info"] {
-    --rgb-base: var(--tiny-rgb-brand-6);
-    --rgb-surface: var(--tiny-rgb-brand-1);
-    --rgb-text: var(--tiny-rgb-brand-9);
+    --rgb-base: var(--tiny-rgb-info-base);
+    --rgb-surface: var(--tiny-rgb-info-surface);
+    --rgb-text: var(--tiny-rgb-info-fg);
   }
 
   &[data-status="success"] {
     --rgb-base: var(--tiny-rgb-success-base);
     --rgb-surface: var(--tiny-rgb-success-surface);
-    --rgb-text: var(--tiny-rgb-success-base);
+    --rgb-text: var(--tiny-rgb-success-fg);
   }
 
   &[data-status="warning"] {
     --rgb-base: var(--tiny-rgb-warning-base);
     --rgb-surface: var(--tiny-rgb-warning-surface);
-    --rgb-text: var(--tiny-rgb-warning-base);
+    --rgb-text: var(--tiny-rgb-warning-fg);
   }
 
   &[data-status="error"] {
     --rgb-base: var(--tiny-rgb-danger-base);
     --rgb-surface: var(--tiny-rgb-danger-surface);
-    --rgb-text: var(--tiny-rgb-danger-base);
+    --rgb-text: var(--tiny-rgb-danger-fg);
   }
 }
 
 // Subtle variant (default)
 .tiny-alert[data-variant="subtle"] {
-  background-color: rgb(var(--rgb-surface));
+  background-color: rgb(var(--rgb-surface) / 0.5);
   color: rgb(var(--rgb-text));
 
   .tiny-alert__icon {
@@ -100,36 +99,15 @@
   .tiny-alert__icon {
     color: white;
   }
-
-  &[data-status="warning"] {
-    color: rgb(78, 56, 0);
-
-    .tiny-alert__icon {
-      color: rgb(78, 56, 0);
-    }
-  }
 }
 
-// Left accent variant
-.tiny-alert[data-variant="left-accent"] {
-  border-left: 4px solid;
-  background-color: rgb(var(--rgb-surface));
+// Outline variant
+.tiny-alert[data-variant="outline"] {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px rgb(var(--rgb-base) / 0.8);
   color: rgb(var(--rgb-text));
-  border-left-color: rgb(var(--rgb-base));
 
   .tiny-alert__icon {
-    color: rgb(var(--rgb-base));
-  }
-}
-
-// Top accent variant
-.tiny-alert[data-variant="top-accent"] {
-  border-top: 4px solid;
-  background-color: rgb(var(--rgb-surface));
-  color: rgb(var(--rgb-text));
-  border-top-color: rgb(var(--rgb-base));
-
-  .tiny-alert__icon {
-    color: rgb(var(--rgb-base));
+    color: rgb(var(--rgb-text));
   }
 }

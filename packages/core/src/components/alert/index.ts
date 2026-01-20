@@ -1,2 +1,2 @@
+export type { AlertState, AlertStatus, AlertVariant } from "./alert";
 export { Alert } from "./alert";
-export type { AlertStatus, AlertVariant, AlertState } from "./alert";

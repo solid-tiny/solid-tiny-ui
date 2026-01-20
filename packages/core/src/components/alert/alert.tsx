@@ -11,7 +11,7 @@ import { createClassStyles } from "../../utils";
 import type { ClassNames, Styles } from "../../utils/types";
 
 export type AlertStatus = "success" | "error" | "warning" | "info";
-export type AlertVariant = "subtle" | "solid" | "left-accent" | "top-accent";
+export type AlertVariant = "subtle" | "solid" | "outline";
 
 export interface AlertState {
   status: AlertStatus;
@@ -44,7 +44,7 @@ export function Alert(props: {
   children?: JSX.Element;
   icon?: JSX.Element;
   showIcon?: boolean;
-  closable?: boolean;
+  showClose?: boolean;
   onClose?: () => void;
   classNames?: ClassNames<
     "root" | "icon" | "content" | "title" | "description" | "close",
@@ -124,7 +124,7 @@ export function Alert(props: {
         </div>
       </Show>
 
-      <Show when={props.closable}>
+      <Show when={props.showClose}>
         <button
           aria-label="Close alert"
           class={combineClass("tiny-alert__close", classes().close)}

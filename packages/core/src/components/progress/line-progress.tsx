@@ -36,7 +36,7 @@ export function LineProgress(props: {
   });
 
   const background = createMemo(() => {
-    const color = props.fillColor || getGlobalToken("c-brand-5");
+    const color = props.fillColor || `rgb(${getGlobalToken("rgb-brand-5")})`;
     if (props.indeterminate) {
       return `linear-gradient(90deg, transparent, ${color} 30%, ${color} 65%, transparent)`;
     }
@@ -78,7 +78,8 @@ export function LineProgress(props: {
           {
             height: "1px",
             width: props.width || "100%",
-            background: props.railColor || getGlobalToken("c-neutral-3"),
+            background:
+              props.railColor || `rgb(${getGlobalToken("rgb-neutral-3")})`,
             overflow: "visible",
           },
           styles().rail

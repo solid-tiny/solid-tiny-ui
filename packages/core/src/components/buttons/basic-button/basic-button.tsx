@@ -12,8 +12,7 @@ import type { ClassNames, Styles } from "../../../utils/types";
 export type ButtonVariants = "solid" | "link" | "text" | "outline" | "subtle";
 export type ButtonColors =
   | "primary"
-  | "secondary"
-  | "link"
+  | "neutral"
   | "success"
   | "danger"
   | "warning"
@@ -53,7 +52,7 @@ export const Button = (props: ButtonProps) => {
   const real = mergeProps(
     {
       variant: "solid" as const,
-      color: "secondary" as const,
+      color: "neutral" as const,
       size: "medium" as const,
       iconPlacement: "start" as const,
       type: "button" as const,
@@ -90,7 +89,7 @@ export const Button = (props: ButtonProps) => {
     <button
       {...extraAriasAndDatasets(real)}
       class={mergeClassNames(["tiny-btn", classNames().root])}
-      data-color={real.color}
+      data-color={real.disabled ? undefined : real.color}
       data-disabled={dataIf(real.disabled ?? false)}
       data-icon-only={dataIf(iconOnly())}
       data-icon-placement={real.iconPlacement}
@@ -102,10 +101,6 @@ export const Button = (props: ButtonProps) => {
       style={styles().root}
       type={real.type}
     >
-      <div
-        class={mergeClassNames(["tiny-btn__bg", classNames().bg])}
-        style={styles().bg}
-      />
       <Show when={resolvedIcon()}>
         <div
           class={mergeClassNames(["tiny-btn__icon", classNames().icon])}

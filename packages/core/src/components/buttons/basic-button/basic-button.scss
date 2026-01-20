@@ -9,10 +9,11 @@
     border-style: solid;
     border-width: 1px;
     gap: 4px;
+    width: fit-content;
+    height: var(--height);
 
     --height: 32px;
-    height: var(--height);
-    width: fit-content;
+    --rgb-on-base: 255 255 255;
 
     &[data-icon-placement="end"] {
         flex-direction: row-reverse;
@@ -36,171 +37,101 @@
     }
 
     &[data-color="primary"] {
-        --c-main: var(--tiny-c-brand-5);
+        --rgb-base: var(--tiny-rgb-brand-5);
+        --rgb-surface: var(--tiny-rgb-brand-2);
     }
 
-    &[data-color="secondary"] {
-        --c-main: var(--tiny-c-neutral-9);
-
-        &[data-variant="solid"] {
-            color: var(--tiny-c-neutral-0);
-        }
+    &[data-color="neutral"] {
+        --rgb-base: var(--tiny-rgb-neutral-9);
+        --rgb-surface: var(--tiny-rgb-neutral-2);
+        --rgb-on-base: var(--tiny-rgb-neutral-0);
     }
 
-    &[data-color="link"] {
-        --c-main: var(--tiny-c-link);
-    }
     &[data-color="danger"] {
-        --c-main: var(--tiny-c-danger);
+        --rgb-base: var(--tiny-rgb-danger-base);
+        --rgb-surface: var(--tiny-rgb-danger-surface);
     }
     &[data-color="warning"] {
-        --c-main: var(--tiny-c-warning);
+        --rgb-base: var(--tiny-rgb-warning-base);
+        --rgb-surface: var(--tiny-rgb-warning-surface);
     }
     &[data-color="success"] {
-        --c-main: var(--tiny-c-success);
+        --rgb-base: var(--tiny-rgb-success-base);
+        --rgb-surface: var(--tiny-rgb-success-surface);
     }
     &[data-color="info"] {
-        --c-main: var(--tiny-c-info);
+        --rgb-base: var(--tiny-rgb-info-base);
+        --rgb-surface: var(--tiny-rgb-info-surface);
     }
 
     &[data-variant="solid"] {
-        color: var(--tiny-c-white);
-        .tiny-btn__bg {
-            background-color: var(--c-main);
-        }
-        &:hover {
-            opacity: 0.85;
-        }
+        color: rgb(var(--rgb-on-base));
+        background: rgb(var(--rgb-base) / 0.9);
+
         &:active {
-            opacity: 1;
+            background: rgb(var(--rgb-base));
         }
     }
 
     &[data-variant="outline"] {
-        color: var(--c-main);
-        border-color: var(--c-main);
-        .tiny-btn__bg {
-            background-color: var(--c-main);
-            opacity: 0;
-        }
+        color: rgb(var(--rgb-base));
+        border-color: rgb(var(--rgb-base) / 0.5);
+        --bg-opacity: 0;
+
+        background: rgb(var(--rgb-surface) / var(--bg-opacity));
 
         &:hover {
-            .tiny-btn__bg {
-                opacity: 0.1;
-            }
+            --bg-opacity: 0.1;
         }
 
         &:active {
-            .tiny-btn__bg {
-                opacity: 0.2;
-            }
-        }
-
-        &[data-disabled] {
-            .tiny-btn__bg {
-                display: none;
-            }
-
-            border-color: var(--tiny-c-neutral-5);
+            --bg-opacity: 0.2;
         }
     }
 
     &[data-variant="subtle"] {
-        color: var(--c-main);
-
-        .tiny-btn__bg {
-            background-color: var(--c-main);
-            opacity: 0.2;
-        }
+        color: rgb(var(--rgb-base));
+        --bg-opacity: 0.5;
+        background: rgb(var(--rgb-surface) / var(--bg-opacity));
 
         &:hover {
-            .tiny-btn__bg {
-                opacity: 0.3;
-            }
+            --bg-opacity: 0.6;
         }
 
         &:active {
-            .tiny-btn__bg {
-                opacity: 0.2;
-            }
+            --bg-opacity: 0.7;
         }
     }
 
     &[data-variant="text"] {
-        color: var(--c-main);
-
-        .tiny-btn__bg {
-            background-color: var(--c-main);
-            opacity: 0;
-        }
-
-        &:hover {
-            .tiny-btn__bg {
-                opacity: 0.2;
-            }
-        }
-
-        &:active {
-            .tiny-btn__bg {
-                opacity: 0.3;
-            }
-        }
-
-        &[data-disabled] {
-            .tiny-btn__bg {
-                display: none;
-            }
-
-            border-color: transparent;
-        }
+        color: rgb(var(--rgb-base));
     }
 
     &[data-variant="link"] {
-        color: var(--c-main);
+        color: rgb(var(--rgb-base));
         padding: 0;
-
-        .tiny-btn__bg {
-            opacity: 0;
-        }
 
         &:hover {
             text-decoration: underline;
         }
 
         &:active {
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         &[data-disabled] {
-            .tiny-btn__bg {
-                display: none;
-            }
-
             border-color: transparent;
         }
     }
 
     &[data-disabled] {
         pointer-events: none;
-        opacity: 0.6;
-        --c-main: var(--tiny-c-text-disabled);
-        border-color: var(--tiny-c-neutral-5);
-        color: var(--tiny-c-text-description);
-
-        .tiny-btn__bg {
-            opacity: 0.5;
-        }
+        opacity: 0.7;
+        --rgb-base: var(--tiny-rgb-neutral-3);
+        --rgb-surface: var(--tiny-rgb-neutral-1);
     }
 }
 
 .tiny-btn__content {
     position: relative;
-}
-
-.tiny-btn__bg {
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
-    transition: opacity 0.2s;
 }

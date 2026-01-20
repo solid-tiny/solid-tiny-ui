@@ -22,21 +22,16 @@
   @each $name, $shadow in vars.$shadows {
     #{funcs.$var-prefix}-shadow-#{$name}: $shadow;
   }
-}
 
-:root,
-.light {
-  /* colors */
-  @each $name, $color in vars.$colors-light {
-    #{funcs.$var-prefix}-c-#{$name}: $color;
-  }
-}
+  --tiny-c-border: rgb(var(--tiny-rgb-neutral-5) / 0.5);
+  --tiny-c-text: rgb(var(--tiny-rgb-neutral-9) / 0.9);
+  --tiny-c-text-heading: rgb(var(--tiny-rgb-neutral-9));
+  --tiny-c-text-label: rgb(var(--tiny-rgb-neutral-9) / 0.7);
+  --tiny-c-text-description: rgb(var(--tiny-rgb-neutral-9) / 0.5);
+  --tiny-c-text-disabled: rgb(var(--tiny-rgb-neutral-9) / 0.3);
 
-.dark {
-  /* colors */
-  @each $name, $color in vars.$colors-dark {
-    #{funcs.$var-prefix}-c-#{$name}: $color;
-  }
+  --tiny-c-white: #fff;
+  --tiny-c-black: #000;
 }
 
 input::-ms-reveal {

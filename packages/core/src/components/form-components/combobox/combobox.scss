@@ -23,7 +23,7 @@
 
     &:hover,
     &[data-open] {
-        border-color: var(--tiny-c-brand-5);
+        border-color: rgb(var(--tiny-rgb-brand-5));
     }
 
     input[readonly] {
@@ -32,7 +32,7 @@
 
     &[data-disabled] {
         color: var(--tiny-c-text-disabled);
-        background-color: var(--tiny-c-neutral-3);
+        background-color: rgb(var(--tiny-rgb-neutral-3));
         pointer-events: none;
         user-select: none;
 
@@ -52,7 +52,7 @@
     overflow-y: auto;
     padding: var(--tiny-space-sm);
     scrollbar-width: thin;
-    scrollbar-color: var(--tiny-c-neutral-2) transparent;
+    scrollbar-color: rgb(var(--tiny-rgb-neutral-2)) transparent;
     scrollbar-gutter: auto;
     width: var(--tiny-combobox-trigger-width);
 }
@@ -64,11 +64,11 @@
 
     &[data-focused],
     &:hover {
-        background-color: var(--tiny-c-neutral-2);
+        background-color: rgb(var(--tiny-rgb-neutral-1));
     }
 
     &[data-selected] {
-        background-color: var(--tiny-c-brand-5);
+        background-color: rgb(var(--tiny-rgb-brand-5));
         color: var(--tiny-c-white);
     }
 

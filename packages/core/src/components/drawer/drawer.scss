@@ -1,6 +1,6 @@
 .tiny-drawer__wrapper {
-    --c-bg: var(--tiny-c-neutral-0);
-    --c-bg-dark: var(--tiny-c-neutral-2);
+    --c-bg: rgb(var(--tiny-rgb-neutral-0));
+    --c-bg-dark: rgb(var(--tiny-rgb-neutral-2));
     --c-border: var(--tiny-c-border);
     --box-shadow: var(--tiny-shadow-3);
     overflow: hidden;

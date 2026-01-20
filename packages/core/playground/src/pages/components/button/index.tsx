@@ -22,15 +22,7 @@ function PlayBasicButton() {
         size: ["small", "medium", "large"],
         variant: ["solid", "text", "link", "outline", "subtle"],
         iconPlacement: ["start", "end"],
-        color: [
-          "primary",
-          "secondary",
-          "info",
-          "warning",
-          "success",
-          "danger",
-          "link",
-        ],
+        color: ["primary", "neutral", "info", "warning", "success", "danger"],
       }}
     >
       <Button

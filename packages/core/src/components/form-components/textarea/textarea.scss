@@ -5,10 +5,10 @@
   border: 1px solid var(--tiny-c-border);
 
   &:focus-within {
-    border-color: var(--tiny-c-brand-5);
+    border-color: rgb(var(--tiny-rgb-brand-5));
   }
 
   scrollbar-width: thin;
   scrollbar-gutter: stable;
-  scrollbar-color: var(--tiny-c-neutral-4) transparent;
+  scrollbar-color: rgb(var(--tiny-rgb-neutral-4)) transparent;
 }

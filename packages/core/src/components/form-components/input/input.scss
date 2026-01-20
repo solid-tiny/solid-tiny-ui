@@ -9,11 +9,11 @@
     width: 100%;
 
     &:focus-within {
-        border-color: var(--tiny-c-brand-5);
+        border-color: rgb(var(--tiny-rgb-brand-5));
     }
 
     &:hover {
-        border-color: var(--tiny-c-brand-5);
+        border-color: rgb(var(--tiny-rgb-brand-5));
     }
 
     &[data-size="small"] {
@@ -31,7 +31,7 @@
     &[data-disabled] {
         pointer-events: none;
         user-select: none;
-        background-color: var(--tiny-c-neutral-2);
+        background-color: rgb(var(--tiny-rgb-neutral-2));
         opacity: 0.6;
     }
 }

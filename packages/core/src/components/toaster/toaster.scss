@@ -44,7 +44,7 @@
     animation-duration: 250ms;
     animation-fill-mode: both;
 
-    --c-bg: var(--tiny-c-neutral-0);
+    --c-bg: rgb(var(--tiny-rgb-neutral-0));
     --c-text: var(--tiny-c-white);
     --c-bd: transparent;
 
@@ -53,37 +53,37 @@
     color: var(--c-text);
 
     &[data-type="blank"] {
-        --c-bg: var(--tiny-c-neutral-0);
+        --c-bg: rgb(var(--tiny-rgb-neutral-0));
         --c-bd: var(--tiny-c-border);
         --c-text: var(--tiny-c-text);
     }
 
     &[data-type="loading"] {
-        --c-bg: var(--tiny-c-neutral-0);
+        --c-bg: rgb(var(--tiny-rgb-neutral-0));
         --c-bd: var(--tiny-c-border);
         --c-text: var(--tiny-c-text);
     }
 
     &[data-type="success"] {
-        --c-bg: var(--tiny-c-success);
+        --c-bg: rgb(var(--tiny-rgb-success-base));
     }
 
     &[data-type="error"] {
-        --c-bg: var(--tiny-c-danger);
+        --c-bg: rgb(var(--tiny-rgb-danger-base));
     }
 
     &[data-type="warning"] {
-        --c-bg: var(--tiny-c-warning);
+        --c-bg: rgb(var(--tiny-rgb-warning-base));
     }
 
     &[data-type="info"] {
-        --c-bg: var(--tiny-c-info);
+        --c-bg: rgb(var(--tiny-rgb-info-base));
     }
 }
 
 .dark .tiny-toast {
     &[data-type="blank"] {
-        --c-bg: var(--tiny-c-neutral-2);
+        --c-bg: rgb(var(--tiny-rgb-neutral-2));
     }
 }
 

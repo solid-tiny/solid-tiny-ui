@@ -34,7 +34,7 @@
     &[data-active],
     &[data-prev] {
         &::after {
-            background-color: var(--tiny-c-brand-5);
+            background-color: rgb(var(--tiny-rgb-brand-5));
         }
     }
 

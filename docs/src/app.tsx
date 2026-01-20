@@ -9,7 +9,7 @@ import { LoadingBar, TinyUiProvider } from "solid-tiny-ui";
 function AppLoadingBar() {
   const isRouting = useIsRouting();
   return (
-    <div class="height-8px fixed top-0 right-0 left-0">
+    <div class="fixed top-0 right-0 left-0 h-8px">
       <LoadingBar open={isRouting()} />
     </div>
   );

@@ -3,10 +3,8 @@ import type { PresencePhase } from "solid-tiny-utils";
 
 export const context = createComponentState({
   state: () => ({
-    id: "",
     open: false,
     refContent: null as HTMLElement | null,
-    preventScroll: true,
     closeOnClickMask: false,
     closeOnEsc: false,
   }),

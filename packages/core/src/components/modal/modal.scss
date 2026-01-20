@@ -1,13 +1,13 @@
 .tiny-modal-vars {
-    --tiny-modal-content-c-bg: var(--tiny-c-neutral-0);
-    --tiny-modal-content-c-bg-dark: var(--tiny-c-neutral-2);
+    --tiny-modal-content-c-bg: rgb(var(--tiny-rgb-neutral-0));
+    --tiny-modal-content-c-bg-dark: rgb(var(--tiny-rgb-neutral-2));
     --tiny-modal-content-c-border: var(--tiny-c-border);
     --tiny-modal-content-border-radius: var(--tiny-radius-md);
     --tiny-modal-content-box-shadow: var(--tiny-shadow-3);
 }
 
 .tiny-modal__wrapper {
-    scrollbar-color: var(--tiny-c-neutral-6) transparent;
+    scrollbar-color: rgb(var(--tiny-rgb-neutral-6)) transparent;
     scrollbar-width: thin;
     scrollbar-gutter: stable;
     overflow: auto;

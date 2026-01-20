@@ -38,7 +38,7 @@
     overflow: auto;
 
     scrollbar-width: thin;
-    scrollbar-color: var(--tiny-c-neutral-6) transparent;
+    scrollbar-color: rgb(var(--tiny-rgb-neutral-6)) transparent;
 }
 
 .tiny-drawer__footer {
@@ -46,9 +46,9 @@
     flex-shrink: 1;
     flex-basis: 0;
     padding: var(--space-y) var(--space-x);
-    background: var(--tiny-c-neutral-2);
+    background: rgb(var(--tiny-rgb-neutral-2));
 }
 
 .dark .tiny-drawer__footer {
-    background: var(--tiny-c-neutral-0);
+    background: rgb(var(--tiny-rgb-neutral-0));
 }

@@ -129,8 +129,8 @@ export function CircleProgress(props: {
       gapDegree: 0,
       offsetDegree: 0,
       size: "100px",
-      railColor: `rgba(${getGlobalToken("rgb-neutral-3")})`,
-      fillColor: `rgba(${getGlobalToken("rgb-brand-5")})`,
+      railColor: `rgb(${getGlobalToken("rgb-neutral-3")})`,
+      fillColor: `rgb(${getGlobalToken("rgb-brand-5")})`,
     },
     props
   );

@@ -22,8 +22,6 @@ export type Styles<
       [Key in Fields]?: JSX.CSSProperties | string;
     });
 
-
-
 type TokenNames = [
   "c-text",
   "c-text-heading",

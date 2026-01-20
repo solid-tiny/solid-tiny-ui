@@ -2,9 +2,14 @@ import globalStyles from "sass:./global.scss";
 import type { JSX } from "solid-js";
 import { createWatch, mountStyle } from "solid-tiny-utils";
 import { context } from "./context";
-import { genColorStyles, genStatusColors, getBrandColors, getNeutralColors } from "./gen-colors";
+import {
+  genColorStyles,
+  genStatusColors,
+  getBrandColors,
+  getNeutralColors,
+} from "./gen-colors";
 
-export function RootProvider(props: { children?: JSX.Element; hue?: number; }) {
+export function RootProvider(props: { children?: JSX.Element; hue?: number }) {
   const Context = context.initial({
     hue: () => props.hue,
   });
@@ -17,7 +22,12 @@ export function RootProvider(props: { children?: JSX.Element; hue?: number; }) {
   createWatch(
     () => [state.hue] as const,
     ([hue]) => {
-      mountStyle(genColorStyles(getBrandColors(hue)) + genColorStyles(getNeutralColors(hue)), "tiny-c-theme", true);
+      mountStyle(
+        genColorStyles(getBrandColors(hue)) +
+          genColorStyles(getNeutralColors(hue)),
+        "tiny-c-theme",
+        true
+      );
     }
   );
 

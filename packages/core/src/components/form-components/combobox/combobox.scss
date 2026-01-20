@@ -32,9 +32,10 @@
 
     &[data-disabled] {
         color: var(--tiny-c-text-disabled);
-        background-color: rgb(var(--tiny-rgb-neutral-3));
+        background-color: rgb(var(--tiny-rgb-neutral-1));
         pointer-events: none;
         user-select: none;
+        opacity: 0.7;
 
         .tiny-combobox__suffix {
             color: var(--tiny-c-text-disabled);

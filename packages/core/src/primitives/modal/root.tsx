@@ -37,7 +37,7 @@ export function Root(props: {
     () => [presence.isMounted()],
     ([mounted]) => {
       if (mounted) {
-        mountStyle("html body{overflow:hidden !important}", id, true);
+        mountStyle("html body{overflow:hidden}", id);
       } else {
         const el = document.querySelector(`#${id}`);
         el?.remove();

@@ -20,19 +20,17 @@ export interface AlertState {
 
 function AlertIcon(props: { status: AlertStatus }) {
   return (
-    <div class="tiny-alert__icon">
-      <Switch>
-        <Match when={props.status === "info"}>
-          <InformationLine size="20px" />
-        </Match>
-        <Match when={props.status === "success"}>
-          <IconCheckboxCircleLine size="20px" />
-        </Match>
-        <Match when={props.status === "error" || props.status === "warning"}>
-          <IconErrorWarningLine size="20px" />
-        </Match>
-      </Switch>
-    </div>
+    <Switch>
+      <Match when={props.status === "info"}>
+        <InformationLine size="20px" />
+      </Match>
+      <Match when={props.status === "success"}>
+        <IconCheckboxCircleLine size="20px" />
+      </Match>
+      <Match when={props.status === "error" || props.status === "warning"}>
+        <IconErrorWarningLine size="20px" />
+      </Match>
+    </Switch>
   );
 }
 

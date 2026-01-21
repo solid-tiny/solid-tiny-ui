@@ -50,12 +50,18 @@ export function PrevButton(props: ComponentProps<"button">) {
   const [rootState, rootActs] = rootContext.useContext();
   const disabled = () => rootState.disabled || rootState.current <= 1;
 
+  const handleClick = () => {
+    if (!disabled()) {
+      rootActs.setState("current", (c) => c - 1);
+    }
+  };
+
   return (
     <button
       type="button"
       data-disabled={dataIf(disabled())}
       disabled={disabled()}
-      onClick={() => !disabled() && rootActs.setState("current", (c) => c - 1)}
+      onClick={handleClick}
       {...props}
     />
   );
@@ -63,15 +69,22 @@ export function PrevButton(props: ComponentProps<"button">) {
 
 export function NextButton(props: ComponentProps<"button">) {
   const [rootState, rootActs] = rootContext.useContext();
+  const totalPages = () => Math.ceil(rootState.total / rootState.pageSize);
   const disabled = () =>
-    rootState.disabled || rootState.current >= rootState.totalPages;
+    rootState.disabled || rootState.current >= totalPages();
+
+  const handleClick = () => {
+    if (!disabled()) {
+      rootActs.setState("current", (c) => c + 1);
+    }
+  };
 
   return (
     <button
       type="button"
       data-disabled={dataIf(disabled())}
       disabled={disabled()}
-      onClick={() => !disabled() && rootActs.setState("current", (c) => c + 1)}
+      onClick={handleClick}
       {...props}
     />
   );

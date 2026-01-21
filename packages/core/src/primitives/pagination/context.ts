@@ -7,7 +7,6 @@ export const rootContext = createComponentState({
     pageSize: 10,
     disabled: false,
     showSiblingCount: 1,
-    totalPages: 1,
   }),
 });
 

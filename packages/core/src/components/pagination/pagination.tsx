@@ -46,23 +46,24 @@ export function Pagination(
     >
       {([state, actions]) => {
         // Use totalPages from state passed by root context
-        const totalPages = state.totalPages();
+        const totalPages = createMemo(() => state.totalPages());
 
         // Generate page numbers to display using totalPages from state
         const pageNumbersForState = createMemo(() => {
           const current = state.current;
           const siblingCount = state.showSiblingCount;
+          const total = totalPages();
 
           // If total pages is small enough, show all pages
-          if (totalPages <= MIN_PAGES_BEFORE_ELLIPSIS + siblingCount * 2) {
-            return Array.from({ length: totalPages }, (_, i) => i + 1);
+          if (total <= MIN_PAGES_BEFORE_ELLIPSIS + siblingCount * 2) {
+            return Array.from({ length: total }, (_, i) => i + 1);
           }
 
           const leftSiblingIndex = Math.max(current - siblingCount, 1);
-          const rightSiblingIndex = Math.min(current + siblingCount, totalPages);
+          const rightSiblingIndex = Math.min(current + siblingCount, total);
 
           const shouldShowLeftDots = leftSiblingIndex > 2;
-          const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
+          const shouldShowRightDots = rightSiblingIndex < total - 1;
 
           const pages: (number | "ellipsis-left" | "ellipsis-right")[] = [];
 
@@ -78,7 +79,7 @@ export function Pagination(
           // Show pages around current
           for (
             let i = Math.max(leftSiblingIndex, 2);
-            i <= Math.min(rightSiblingIndex, totalPages - 1);
+            i <= Math.min(rightSiblingIndex, total - 1);
             i++
           ) {
             pages.push(i);
@@ -86,13 +87,13 @@ export function Pagination(
 
           if (shouldShowRightDots) {
             pages.push("ellipsis-right");
-          } else if (rightSiblingIndex === totalPages - 1) {
-            pages.push(totalPages - 1);
+          } else if (rightSiblingIndex === total - 1) {
+            pages.push(total - 1);
           }
 
           // Always show last page if there are more than 1 page
-          if (totalPages > 1) {
-            pages.push(totalPages);
+          if (total > 1) {
+            pages.push(total);
           }
 
           return pages;

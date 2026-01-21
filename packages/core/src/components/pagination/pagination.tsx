@@ -6,6 +6,9 @@ import type { OmitComponentProps } from "../../utils/types";
 
 export type PaginationSize = "small" | "middle" | "large";
 
+// Minimum number of pages to show before using ellipsis
+const MIN_PAGES_BEFORE_ELLIPSIS = 5;
+
 export function Pagination(
   props: {
     current?: number;
@@ -35,11 +38,11 @@ export function Pagination(
   // Generate page numbers to display
   const pageNumbers = createMemo(() => {
     const current = local.current ?? 1;
-    const totalPages = Math.ceil((local.total ?? 1) / (local.pageSize ?? 10));
+    const totalPages = Math.ceil((local.total ?? 1) / Math.max(local.pageSize ?? 10, 1));
     const siblingCount = local.showSiblingCount ?? 1;
 
     // If total pages is small enough, show all pages
-    if (totalPages <= 5 + siblingCount * 2) {
+    if (totalPages <= MIN_PAGES_BEFORE_ELLIPSIS + siblingCount * 2) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 

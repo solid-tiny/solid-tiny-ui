@@ -19,7 +19,7 @@ export function Root(props: {
   const Context = rootContext.initial({
     current: () => props.current ?? 1,
     total: () => props.total ?? 1,
-    pageSize: () => props.pageSize ?? 10,
+    pageSize: () => Math.max(props.pageSize ?? 10, 1), // Ensure pageSize is at least 1
     disabled: () => props.disabled ?? false,
     showSiblingCount: () => props.showSiblingCount ?? 1,
   });
@@ -56,8 +56,8 @@ export function Root(props: {
   return (
     <Context.Provider>
       {callMaybeCallableChild(props.children, [
-        state,
-        { ...acts, goToPage, next, prev, totalPages },
+        { ...state, totalPages },
+        { ...acts, goToPage, next, prev },
       ])}
     </Context.Provider>
   );

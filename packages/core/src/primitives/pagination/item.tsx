@@ -63,9 +63,8 @@ export function PrevButton(props: ComponentProps<"button">) {
 
 export function NextButton(props: ComponentProps<"button">) {
   const [rootState, rootActs] = rootContext.useContext();
-  const totalPages = () => Math.ceil(rootState.total / rootState.pageSize);
   const disabled = () =>
-    rootState.disabled || rootState.current >= totalPages();
+    rootState.disabled || rootState.current >= rootState.totalPages;
 
   return (
     <button

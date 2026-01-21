@@ -1,5 +1,5 @@
-import { createSignal } from "solid-js";
 import css from "sass:./password-input.scss";
+import { createSignal } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
 import { EyeLine, EyeOffLine } from "../../../icons";
 import { extraAriasAndDatasets } from "../../../utils";
@@ -42,12 +42,12 @@ export function PasswordInput(props: PasswordInputProps) {
         {...extraAriasAndDatasets(props)}
       />
       <button
-        type="button"
+        aria-label={visible() ? "Hide password" : "Show password"}
         class="tiny-password-input-toggle"
         data-disabled={dataIf(props.disabled ?? false)}
         disabled={props.disabled}
         onClick={() => setVisible(!visible())}
-        aria-label={visible() ? "Hide password" : "Show password"}
+        type="button"
       >
         {visible() ? <EyeOffLine /> : <EyeLine />}
       </button>

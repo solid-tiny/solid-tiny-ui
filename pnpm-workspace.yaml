@@ -1,5 +1,6 @@
 packages:
   - packages/**
+  - docs
 
 catalog:
   "@solid-primitives/refs": ^1.1.2

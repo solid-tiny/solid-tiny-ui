@@ -27,7 +27,7 @@ export function NumberInput(props: NumberInputProps) {
       props.onChange?.(undefined);
     } else {
       const numValue = Number(value);
-      if (!isNaN(numValue)) {
+      if (!Number.isNaN(numValue)) {
         props.onChange?.(numValue);
       }
     }

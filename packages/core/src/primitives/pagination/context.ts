@@ -13,7 +13,7 @@ export const context = createComponentState({
     total: 1,
     pageSize: 10,
     disabled: false,
-    siblingCount: 1,
+    maxVisiblePages: 7,
   }),
   getters: {
     totalPages() {
@@ -22,8 +22,7 @@ export const context = createComponentState({
     renderedPages(): PaginationPager[] {
       const total = this.state.totalPages;
       const current = this.state.current;
-      const siblingCount = max(0, this.state.siblingCount);
-
+      const maxVisiblePages = this.state.maxVisiblePages;
       const pages = [] as PaginationPager[];
 
       // trivial cases
@@ -31,49 +30,45 @@ export const context = createComponentState({
         return [{ type: "page", page: 1 }];
       }
 
-      // number of middle pages we aim to show (excluding first/last and ellipses)
-      const middleCount = 2 * siblingCount + 1;
-
       // if total small, return all pages
-      if (total <= middleCount + 2) {
+      if (total <= maxVisiblePages) {
         for (let i = 1; i <= total; i++) {
           pages.push({ type: "page", page: i });
         }
         return pages;
       }
 
-      // initial centered window
-      let left = current - siblingCount;
-      let right = current + siblingCount;
-
-      // clamp to valid inner range [2, total-1] and shift window when at edges
-      if (left < 2) {
-        right += 2 - left;
-        left = 2;
-      }
-      if (right > total - 1) {
-        left -= right - (total - 1);
-        right = total - 1;
-      }
-      left = Math.max(2, left);
-      right = Math.min(total - 1, right);
-
-      // build pages
+      // first page
       pages.push({ type: "page", page: 1 });
 
-      if (left > 2) {
-        // left ellipsis summarizes gap; use page number just before left for potential navigation
-        pages.push({ type: "ellipsis-left", page: left - 1 });
+      const centerCount = maxVisiblePages - 2; // subtract first and last page
+      let start = max(2, current - Math.floor(centerCount / 2));
+      let end = start + centerCount - 1;
+
+      if (end >= total) {
+        end = total - 1;
+        start = end - centerCount + 1;
       }
 
-      for (let p = left; p <= right; p++) {
-        pages.push({ type: "page", page: p });
+      if (start > 2) {
+        // left ellipsis
+        pages.push({ type: "ellipsis-left", page: start - 1 });
+      } else {
+        pages.push({ type: "page", page: 2 });
       }
 
-      if (right < total - 1) {
-        pages.push({ type: "ellipsis-right", page: right + 1 });
+      for (let i = start + 1; i <= end - 1; i++) {
+        pages.push({ type: "page", page: i });
       }
 
+      if (end < total - 1) {
+        // right ellipsis
+        pages.push({ type: "ellipsis-right", page: end + 1 });
+      } else {
+        pages.push({ type: "page", page: total - 1 });
+      }
+
+      // last page
       pages.push({ type: "page", page: total });
 
       return pages;

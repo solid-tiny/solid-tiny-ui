@@ -21,9 +21,6 @@
 
 .tiny-pagination[data-disabled] {
   pointer-events: none;
-
-  --c-text: var(--c-disabled-text);
-  --c-active-bg: rgb(var(--tiny-rgb-neutral-1));
 }
 
 // Size variants
@@ -67,7 +64,10 @@
   background: var(--c-bg);
   border: 1px solid transparent;
   border-radius: var(--item-border-radius);
-  transition: all 120ms ease;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
   box-sizing: border-box;
   font-weight: 500;
 }
@@ -76,6 +76,17 @@
 .tiny-pagination-prev:hover:not([disabled]),
 .tiny-pagination-next:hover:not([disabled]) {
   background: var(--c-hover-bg);
+}
+
+.tiny-pagination-item[disabled],
+.tiny-pagination-prev[disabled],
+.tiny-pagination-next[disabled] {
+  --c-text: var(--c-disabled-text);
+  --c-active-bg: rgb(var(--tiny-rgb-neutral-1));
+}
+
+.tiny-pagination-ellipsis[data-disabled] {
+  --c-text: var(--c-disabled-text);
 }
 
 .tiny-pagination-item[data-active] {
@@ -87,4 +98,30 @@
 .tiny-pagination-prev,
 .tiny-pagination-next {
   width: var(--item-size);
+}
+
+.tiny-pagination-separator {
+  color: var(--c-text);
+  font-size: var(--item-font-size);
+
+  &[data-disabled] {
+    --c-text: var(--c-disabled-text);
+  }
+}
+
+.tiny-pagination-input {
+  width: 60px;
+  height: var(--item-size);
+  padding: 0 var(--tiny-space-xs);
+  font-size: var(--item-font-size);
+  color: var(--c-text);
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--item-border-radius);
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
 }

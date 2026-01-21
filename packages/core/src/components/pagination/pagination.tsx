@@ -1,52 +1,146 @@
 import css from "sass:./pagination.scss";
-import { Show, splitProps } from "solid-js";
-import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
+import { Ref } from "@solid-primitives/refs";
+import { createSignal, type JSX, onMount, Show } from "solid-js";
+import {
+  combineClass,
+  createWatch,
+  dataIf,
+  makeEventListener,
+  mountStyle,
+} from "solid-tiny-utils";
 import { IconArrowLeft, IconArrowRight, IconEllipsis } from "../../icons";
 import { PaginationCore } from "../../primitives";
 
 export type PaginationSize = "small" | "middle" | "large";
 
+function GoTorInput(props: { onBlur: (e: FocusEvent) => void; value: number }) {
+  let ref!: HTMLInputElement;
+
+  onMount(() => {
+    ref.focus();
+  });
+
+  return (
+    <input
+      class="tiny-pagination-input"
+      min="1"
+      onBlur={props.onBlur}
+      ref={ref}
+      type="number"
+      value={props.value}
+    />
+  );
+}
+
+function GoTor(props: {
+  current: number;
+  children: JSX.Element;
+  gotoPage: (page: number) => void;
+  disabled: boolean;
+}) {
+  const [editable, setEditable] = createSignal(false);
+  const [ref, setRef] = createSignal<Element | null>(null);
+
+  createWatch(ref, (el) => {
+    if (!el) {
+      return;
+    }
+
+    makeEventListener(el, "click", () => {
+      setEditable(true);
+    });
+  });
+  return (
+    <Show fallback={<Ref ref={setRef}>{props.children}</Ref>} when={editable()}>
+      <GoTorInput
+        onBlur={(e) => {
+          const tryTo = (e.currentTarget as HTMLInputElement).valueAsNumber;
+          if (tryTo > 0 && tryTo !== props.current) {
+            props.gotoPage(tryTo);
+          }
+          setEditable(false);
+        }}
+        value={props.current}
+      />
+    </Show>
+  );
+}
+
+function DensePages(props: {
+  current: number;
+  totalPages: number;
+  onPageClick: (page: number) => void;
+  disabled: boolean;
+}) {
+  return (
+    <>
+      <GoTor
+        current={props.current}
+        disabled={props.disabled}
+        gotoPage={props.onPageClick}
+      >
+        <button
+          class="tiny-pagination-item"
+          disabled={props.disabled}
+          type="button"
+        >
+          {props.current}
+        </button>
+      </GoTor>
+
+      <span
+        class="tiny-pagination-separator"
+        data-disabled={dataIf(props.disabled)}
+      >
+        /
+      </span>
+      <button
+        class="tiny-pagination-item"
+        disabled={props.disabled}
+        onClick={() => props.onPageClick(props.totalPages)}
+        type="button"
+      >
+        {props.totalPages}
+      </button>
+    </>
+  );
+}
+
+/**
+ * A pagination component for navigating through pages of content.
+ *
+ * maxVisiblePages: Maximum number of page buttons to display (default: 7, minimum: 5).
+ */
 export function Pagination(props: {
   current?: number;
   total?: number;
   pageSize?: number;
   onChange?: (page: number) => void;
   disabled?: boolean;
-  showSiblingCount?: number;
+  maxVisiblePages?: number;
   size?: PaginationSize;
   class?: string;
+  dense?: boolean;
 }) {
   mountStyle(css, "tiny-pagination");
 
-  const [local, others] = splitProps(props, [
-    "current",
-    "total",
-    "pageSize",
-    "onChange",
-    "disabled",
-    "showSiblingCount",
-    "size",
-    "class",
-  ]);
-
-  const size = () => local.size ?? "middle";
+  const size = () => props.size ?? "middle";
 
   return (
     <PaginationCore
-      current={local.current}
-      disabled={local.disabled}
-      onChange={local.onChange}
-      pageSize={local.pageSize}
-      siblingCount={local.showSiblingCount}
-      total={local.total}
+      current={props.current}
+      disabled={props.disabled}
+      maxVisiblePages={props.maxVisiblePages}
+      onChange={props.onChange}
+      pageSize={props.pageSize}
+      total={props.total}
     >
       {(state, actions) => {
         return (
           <div
-            class={combineClass("tiny-pagination", local.class)}
+            class={combineClass("tiny-pagination", props.class)}
             data-disabled={dataIf(state.disabled)}
             data-size={size()}
-            {...others}
           >
             <button
               class="tiny-pagination-prev"
@@ -56,32 +150,47 @@ export function Pagination(props: {
             >
               <IconArrowLeft />
             </button>
-
             <div class="tiny-pagination-items">
-              <PaginationCore.Items
-                render={(page) => {
-                  return (
-                    <Show
-                      fallback={
-                        <span class="tiny-pagination-ellipsis">
-                          <IconEllipsis />
-                        </span>
-                      }
-                      when={page.type === "page"}
-                    >
-                      <button
-                        class="tiny-pagination-item"
-                        data-active={dataIf(page.page === state.current)}
-                        disabled={local.disabled}
-                        onClick={() => actions.gotoPage(page.page)}
-                        type="button"
+              <Show
+                fallback={
+                  <DensePages
+                    current={state.current}
+                    disabled={state.disabled}
+                    onPageClick={actions.gotoPage}
+                    totalPages={state.totalPages}
+                  />
+                }
+                when={!props.dense}
+              >
+                <PaginationCore.Items
+                  render={(page) => {
+                    return (
+                      <Show
+                        fallback={
+                          <span
+                            aria-disabled={state.disabled}
+                            class="tiny-pagination-ellipsis"
+                            data-disabled={dataIf(state.disabled)}
+                          >
+                            <IconEllipsis />
+                          </span>
+                        }
+                        when={page.type === "page"}
                       >
-                        {page.page}
-                      </button>
-                    </Show>
-                  );
-                }}
-              />
+                        <button
+                          class="tiny-pagination-item"
+                          data-active={dataIf(page.page === state.current)}
+                          disabled={state.disabled}
+                          onClick={() => actions.gotoPage(page.page)}
+                          type="button"
+                        >
+                          {page.page}
+                        </button>
+                      </Show>
+                    );
+                  }}
+                />
+              </Show>
             </div>
 
             <button

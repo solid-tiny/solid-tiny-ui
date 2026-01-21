@@ -8,7 +8,8 @@ export default function PaginationPage() {
     total: 100,
     pageSize: 10,
     disabled: false,
-    showSiblingCount: 1,
+    dense: false,
+    maxVisiblePages: 7,
     size: "middle" as "small" | "middle" | "large",
   });
 
@@ -22,10 +23,11 @@ export default function PaginationPage() {
     >
       <Pagination
         current={params.current}
+        dense={params.dense}
         disabled={params.disabled}
+        maxVisiblePages={params.maxVisiblePages}
         onChange={(page) => setParams("current", page)}
         pageSize={params.pageSize}
-        showSiblingCount={params.showSiblingCount}
         size={params.size}
         total={params.total}
       />

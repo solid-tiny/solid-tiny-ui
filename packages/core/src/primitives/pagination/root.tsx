@@ -13,7 +13,7 @@ export function Root(props: {
   pageSize?: number;
   onChange?: (page: number) => void;
   disabled?: boolean;
-  siblingCount?: number;
+  maxVisiblePages?: number;
   children?: MaybeCallableChild<ReturnType<typeof context.useContext>>;
 }) {
   const Context = context.initial({
@@ -21,7 +21,7 @@ export function Root(props: {
     total: () => props.total,
     pageSize: () => max(props.pageSize ?? 10, 1), // Ensure pageSize is at least 1
     disabled: () => props.disabled,
-    siblingCount: () => props.siblingCount,
+    maxVisiblePages: () => max(props.maxVisiblePages ?? 7, 5), // Ensure at least 5 visible pages
   });
 
   const [state] = Context.value;

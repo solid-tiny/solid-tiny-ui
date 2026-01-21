@@ -1,25 +1,21 @@
 import css from "sass:./pagination.scss";
-import { For, Show, createMemo, splitProps } from "solid-js";
+import { Show, splitProps } from "solid-js";
 import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
+import { IconArrowLeft, IconArrowRight, IconEllipsis } from "../../icons";
 import { PaginationCore } from "../../primitives";
-import type { OmitComponentProps } from "../../utils/types";
 
 export type PaginationSize = "small" | "middle" | "large";
 
-// Minimum number of pages to show before using ellipsis
-const MIN_PAGES_BEFORE_ELLIPSIS = 5;
-
-export function Pagination(
-  props: {
-    current?: number;
-    total?: number;
-    pageSize?: number;
-    onChange?: (page: number) => void;
-    disabled?: boolean;
-    showSiblingCount?: number;
-    size?: PaginationSize;
-  } & OmitComponentProps<"div", "children">
-) {
+export function Pagination(props: {
+  current?: number;
+  total?: number;
+  pageSize?: number;
+  onChange?: (page: number) => void;
+  disabled?: boolean;
+  showSiblingCount?: number;
+  size?: PaginationSize;
+  class?: string;
+}) {
   mountStyle(css, "tiny-pagination");
 
   const [local, others] = splitProps(props, [
@@ -41,64 +37,10 @@ export function Pagination(
       disabled={local.disabled}
       onChange={local.onChange}
       pageSize={local.pageSize}
-      showSiblingCount={local.showSiblingCount}
+      siblingCount={local.showSiblingCount}
       total={local.total}
     >
-      {([state, actions]) => {
-        // Use totalPages from state passed by root context
-        const totalPages = createMemo(() => state.totalPages());
-
-        // Generate page numbers to display using totalPages from state
-        const pageNumbersForState = createMemo(() => {
-          const current = state.current;
-          const siblingCount = state.showSiblingCount;
-          const total = totalPages();
-
-          // If total pages is small enough, show all pages
-          if (total <= MIN_PAGES_BEFORE_ELLIPSIS + siblingCount * 2) {
-            return Array.from({ length: total }, (_, i) => i + 1);
-          }
-
-          const leftSiblingIndex = Math.max(current - siblingCount, 1);
-          const rightSiblingIndex = Math.min(current + siblingCount, total);
-
-          const shouldShowLeftDots = leftSiblingIndex > 2;
-          const shouldShowRightDots = rightSiblingIndex < total - 1;
-
-          const pages: (number | "ellipsis-left" | "ellipsis-right")[] = [];
-
-          // Always show first page
-          pages.push(1);
-
-          if (shouldShowLeftDots) {
-            pages.push("ellipsis-left");
-          } else if (leftSiblingIndex === 2) {
-            pages.push(2);
-          }
-
-          // Show pages around current
-          for (
-            let i = Math.max(leftSiblingIndex, 2);
-            i <= Math.min(rightSiblingIndex, total - 1);
-            i++
-          ) {
-            pages.push(i);
-          }
-
-          if (shouldShowRightDots) {
-            pages.push("ellipsis-right");
-          } else if (rightSiblingIndex === total - 1) {
-            pages.push(total - 1);
-          }
-
-          // Always show last page if there are more than 1 page
-          if (total > 1) {
-            pages.push(total);
-          }
-
-          return pages;
-        });
-
+      {(state, actions) => {
         return (
           <div
             class={combineClass("tiny-pagination", local.class)}
@@ -106,33 +48,50 @@ export function Pagination(
             data-size={size()}
             {...others}
           >
-            <PaginationCore.PrevButton class="tiny-pagination-prev">
-              ‹
-            </PaginationCore.PrevButton>
+            <button
+              class="tiny-pagination-prev"
+              disabled={state.disabled || state.current <= 1}
+              onClick={actions.prev}
+              type="button"
+            >
+              <IconArrowLeft />
+            </button>
 
             <div class="tiny-pagination-items">
-              <For each={pageNumbersForState()}>
-                {(item) => (
-                  <Show
-                    when={typeof item === "number"}
-                    fallback={
-                      <PaginationCore.Ellipsis class="tiny-pagination-ellipsis" />
-                    }
-                  >
-                    <PaginationCore.Item
-                      class="tiny-pagination-item"
-                      page={item as number}
+              <PaginationCore.Items
+                render={(page) => {
+                  return (
+                    <Show
+                      fallback={
+                        <span class="tiny-pagination-ellipsis">
+                          <IconEllipsis />
+                        </span>
+                      }
+                      when={page.type === "page"}
                     >
-                      {item}
-                    </PaginationCore.Item>
-                  </Show>
-                )}
-              </For>
+                      <button
+                        class="tiny-pagination-item"
+                        data-active={dataIf(page.page === state.current)}
+                        disabled={local.disabled}
+                        onClick={() => actions.gotoPage(page.page)}
+                        type="button"
+                      >
+                        {page.page}
+                      </button>
+                    </Show>
+                  );
+                }}
+              />
             </div>
 
-            <PaginationCore.NextButton class="tiny-pagination-next">
-              ›
-            </PaginationCore.NextButton>
+            <button
+              class="tiny-pagination-next"
+              disabled={state.disabled || state.current >= state.totalPages}
+              onClick={actions.next}
+              type="button"
+            >
+              <IconArrowRight />
+            </button>
           </div>
         );
       }}

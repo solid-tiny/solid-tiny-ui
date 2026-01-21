@@ -1,13 +1,10 @@
-import { itemContext, rootContext } from "./context";
-import { Ellipsis } from "./ellipsis";
-import { Item, NextButton, PrevButton } from "./item";
+import { context } from "./context";
+import { Items } from "./items";
 import { Root } from "./root";
 
 export const PaginationCore = Object.assign(Root, {
-  Item,
-  PrevButton,
-  NextButton,
-  Ellipsis,
-  useRootContext: rootContext.useContext,
-  useItemContext: itemContext.useContext,
+  Items,
+  useContext: context.useContext,
 });
+
+export type { PaginationPager, PaginationPageType } from "./context";

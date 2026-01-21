@@ -29,30 +29,6 @@ export default function PaginationPage() {
         size={params.size}
         total={params.total}
       />
-
-      <div style={{ "margin-top": "20px" }}>
-        <Pagination
-          current={params.current}
-          disabled={params.disabled}
-          onChange={(page) => setParams("current", page)}
-          pageSize={params.pageSize}
-          showSiblingCount={params.showSiblingCount}
-          size="small"
-          total={params.total}
-        />
-      </div>
-
-      <div style={{ "margin-top": "20px" }}>
-        <Pagination
-          current={params.current}
-          disabled={params.disabled}
-          onChange={(page) => setParams("current", page)}
-          pageSize={params.pageSize}
-          showSiblingCount={params.showSiblingCount}
-          size="large"
-          total={params.total}
-        />
-      </div>
     </PlayIt>
   );
 }

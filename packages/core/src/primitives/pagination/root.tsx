@@ -1,11 +1,11 @@
-import { createMemo } from "solid-js";
 import {
   callMaybeCallableChild,
   createWatch,
   isDefined,
   type MaybeCallableChild,
+  max,
 } from "solid-tiny-utils";
-import { rootContext } from "./context";
+import { context } from "./context";
 
 export function Root(props: {
   current?: number;
@@ -13,21 +13,18 @@ export function Root(props: {
   pageSize?: number;
   onChange?: (page: number) => void;
   disabled?: boolean;
-  showSiblingCount?: number;
-  children?: MaybeCallableChild<ReturnType<typeof rootContext.useContext>>;
+  siblingCount?: number;
+  children?: MaybeCallableChild<ReturnType<typeof context.useContext>>;
 }) {
-  const Context = rootContext.initial({
-    current: () => props.current ?? 1,
-    total: () => props.total ?? 1,
-    pageSize: () => Math.max(props.pageSize ?? 10, 1), // Ensure pageSize is at least 1
-    disabled: () => props.disabled ?? false,
-    showSiblingCount: () => props.showSiblingCount ?? 1,
+  const Context = context.initial({
+    current: () => props.current,
+    total: () => props.total,
+    pageSize: () => max(props.pageSize ?? 10, 1), // Ensure pageSize is at least 1
+    disabled: () => props.disabled,
+    siblingCount: () => props.siblingCount,
   });
 
-  const [state, acts] = Context.value;
-
-  // Calculate total pages
-  const totalPages = createMemo(() => Math.ceil(state.total / state.pageSize));
+  const [state] = Context.value;
 
   createWatch(
     () => state.current,
@@ -38,27 +35,9 @@ export function Root(props: {
     }
   );
 
-  const goToPage = (page: number) => {
-    if (state.disabled) return;
-    const total = totalPages();
-    if (page < 1 || page > total) return;
-    acts.setState("current", () => page);
-  };
-
-  const next = () => {
-    goToPage(state.current + 1);
-  };
-
-  const prev = () => {
-    goToPage(state.current - 1);
-  };
-
   return (
     <Context.Provider>
-      {callMaybeCallableChild(props.children, [
-        { ...state, totalPages },
-        { ...acts, goToPage, next, prev },
-      ])}
+      {callMaybeCallableChild(props.children, ...Context.value)}
     </Context.Provider>
   );
 }

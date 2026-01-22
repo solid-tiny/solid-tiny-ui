@@ -3,7 +3,7 @@ import { children, type JSX, Show } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
 import { extraAriasAndDatasets } from "../../../utils";
 
-export interface InputProps {
+export interface TextFieldProps {
   value?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -17,7 +17,7 @@ export interface InputProps {
   invalid?: boolean;
 }
 
-export function TextField(props: InputProps) {
+export function TextField(props: TextFieldProps) {
   mountStyle(css, "tiny-text-field");
   const prefix = children(() => props.prefix);
   const suffix = children(() => props.suffix);

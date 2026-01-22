@@ -13,13 +13,7 @@ function PlayTextarea() {
   const [val, setVal] = createSignal("");
 
   return (
-    <PlayIt
-      onChange={setParams}
-      properties={params}
-      typeDeclaration={{
-        size: ["small", "medium", "large"],
-      }}
-    >
+    <PlayIt onChange={setParams} properties={params}>
       <div>
         <div>value: {val()}</div>
         <div>

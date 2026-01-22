@@ -1,13 +1,16 @@
 import css from "sass:./number-input.scss";
 import { createMemo, createSignal, type JSX } from "solid-js";
 import {
+  combineClass,
+  combineStyle,
   createWatch,
   dataIf,
   isDefined,
   isUndefined,
   mountStyle,
 } from "solid-tiny-utils";
-import { extraAriasAndDatasets } from "../../../utils";
+import { createClassStyles, extraAriasAndDatasets } from "../../../utils";
+import type { ClassNames, Styles } from "../../../utils/types";
 
 export interface NumberInputProps<Nullable extends boolean> {
   value?: number;
@@ -24,6 +27,22 @@ export interface NumberInputProps<Nullable extends boolean> {
   nullable?: Nullable;
   invalid?: boolean;
   width?: JSX.CSSProperties["width"];
+  classNames?: ClassNames<
+    "wrapper" | "input",
+    {
+      disabled: boolean;
+      invalid: boolean;
+      size: "small" | "medium" | "large";
+    }
+  >;
+  styles?: Styles<
+    "wrapper" | "input",
+    {
+      disabled: boolean;
+      invalid: boolean;
+      size: "small" | "medium" | "large";
+    }
+  >;
 }
 
 export function NumberInput<Nullable extends boolean = false>(
@@ -34,6 +53,16 @@ export function NumberInput<Nullable extends boolean = false>(
   const [invalid, setInvalid] = createSignal(false);
 
   const [inputVal, setInputVal] = createSignal<number | null>(null);
+
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({
+      disabled: props.disabled ?? false,
+      invalid: invalid(),
+      size: (props.size || "medium") as "small" | "medium" | "large",
+    })
+  );
 
   const handleInput = (e: Event) => {
     const target = e.currentTarget as HTMLInputElement;
@@ -112,15 +141,15 @@ export function NumberInput<Nullable extends boolean = false>(
 
   return (
     <div
-      class="tiny-number-input-wrapper"
+      class={combineClass("tiny-number-input-wrapper", classes().wrapper)}
       data-disabled={dataIf(props.disabled ?? false)}
       data-invalid={dataIf(invalid())}
       data-size={props.size || "medium"}
-      style={{ width: props.width }}
+      style={combineStyle({ width: props.width }, styles().wrapper)}
     >
       <input
         {...extraAriasAndDatasets(props)}
-        class="tiny-number-input"
+        class={combineClass("tiny-number-input", classes().input)}
         disabled={props.disabled}
         id={props.id}
         max={props.max}
@@ -131,6 +160,7 @@ export function NumberInput<Nullable extends boolean = false>(
         onKeyDown={handleKeyDown}
         placeholder={props.placeholder}
         step={props.step}
+        style={combineStyle({}, styles().input)}
         type="number"
         value={props.value}
       />

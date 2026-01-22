@@ -1,7 +1,8 @@
 import { createMemo, mergeProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { max } from "solid-tiny-utils";
-import { getGlobalToken } from "../../utils";
+import { combineClass, combineStyle, max } from "solid-tiny-utils";
+import { createClassStyles, getGlobalToken } from "../../utils";
+import type { ClassNames, Styles } from "../../utils/types";
 
 function getPathString(r: number, viewBoxSize: number): string {
   const vw = viewBoxSize;
@@ -120,6 +121,18 @@ export function CircleProgress(props: {
   children?: JSX.Element;
   railColor?: string;
   fillColor?: string;
+  classNames?: ClassNames<
+    "root" | "wrapper" | "content",
+    {
+      percent: number;
+    }
+  >;
+  styles?: Styles<
+    "root" | "wrapper" | "content",
+    {
+      percent: number;
+    }
+  >;
 }) {
   const real = mergeProps(
     {
@@ -135,6 +148,14 @@ export function CircleProgress(props: {
     props
   );
 
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({
+      percent: real.percent,
+    })
+  );
+
   const viewBoxSize = 100;
   const viewBoxPadding = 5;
   const radius = createMemo(() => {
@@ -144,38 +165,54 @@ export function CircleProgress(props: {
 
   return (
     <div
-      style={{
-        width: real.size,
-        height: real.size,
-        position: "relative",
-      }}
+      class={combineClass("", classes().root)}
+      style={combineStyle(
+        {
+          width: real.size,
+          height: real.size,
+          position: "relative",
+        },
+        styles().root
+      )}
     >
-      <Wrapper gapOffsetDegree={real.offsetDegree} viewBoxSize={viewBoxSize}>
-        <Rail
-          color={real.railColor}
-          gapDegree={real.gapDegree}
-          radius={radius()}
-          railWidth={real.railWidth}
-          viewBoxSize={viewBoxSize}
-        />
-        <Fill
-          color={real.fillColor}
-          fillWidth={real.fillWidth}
-          gapDegree={real.gapDegree}
-          offsetDegree={real.offsetDegree}
-          percent={real.percent}
-          radius={radius()}
-          viewBoxSize={viewBoxSize}
-        />
-      </Wrapper>
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          "align-items": "center",
-          "justify-content": "center",
-        }}
+        class={combineClass("", classes().wrapper)}
+        style={combineStyle({}, styles().wrapper)}
+      >
+        <Wrapper
+          gapOffsetDegree={real.offsetDegree}
+          viewBoxSize={viewBoxSize}
+        >
+          <Rail
+            color={real.railColor}
+            gapDegree={real.gapDegree}
+            radius={radius()}
+            railWidth={real.railWidth}
+            viewBoxSize={viewBoxSize}
+          />
+          <Fill
+            color={real.fillColor}
+            fillWidth={real.fillWidth}
+            gapDegree={real.gapDegree}
+            offsetDegree={real.offsetDegree}
+            percent={real.percent}
+            radius={radius()}
+            viewBoxSize={viewBoxSize}
+          />
+        </Wrapper>
+      </div>
+      <div
+        class={combineClass("", classes().content)}
+        style={combineStyle(
+          {
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            "align-items": "center",
+            "justify-content": "center",
+          },
+          styles().content
+        )}
       >
         {props.children}
       </div>

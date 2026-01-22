@@ -1,6 +1,8 @@
 import css from "sass:./time-picker.scss";
 import { mountStyle, noop } from "solid-tiny-utils";
 import { getHours, getMinutes, getSeconds } from "time-core";
+import { createClassStyles } from "../../../utils";
+import type { ClassNames, Styles } from "../../../utils/types";
 import { Popover } from "../../popover";
 import { TimePanel } from "./panel";
 import { TimeTrigger } from "./trigger";
@@ -17,8 +19,32 @@ export function TimePicker(props: {
     second: number | null;
   }) => void;
   disabled?: boolean;
+  classNames?: ClassNames<
+    "trigger" | "popover",
+    {
+      disabled: boolean;
+      size: "small" | "medium" | "large";
+    }
+  >;
+  styles?: Styles<
+    "trigger" | "popover",
+    {
+      disabled: boolean;
+      size: "small" | "medium" | "large";
+    }
+  >;
 }) {
   mountStyle(css, "tiny-time-picker");
+
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({
+      disabled: props.disabled ?? false,
+      size: (props.size ?? "medium") as "small" | "medium" | "large",
+    })
+  );
+
   return (
     <Popover
       disabled={props.disabled}
@@ -38,17 +64,20 @@ export function TimePicker(props: {
         <>
           <Popover.Trigger>
             <TimeTrigger
+              class={classes().trigger}
               disabled={props.disabled ?? false}
               hour={props.hour ?? null}
               minute={props.minute ?? null}
               second={props.second ?? null}
               size={props.size ?? "medium"}
+              style={styles().trigger}
               type={props.type ?? "hour"}
             />
           </Popover.Trigger>
           <Popover.Content
-            class="tiny-time-picker-popover tiny-time-picker-popover-vars"
+            class={`tiny-time-picker-popover tiny-time-picker-popover-vars ${classes().popover || ""}`}
             data-size={props.size || "medium"}
+            style={styles().popover}
           >
             <TimePanel
               hour={props.hour || getHours(Date.now())}

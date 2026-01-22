@@ -14,6 +14,7 @@ export interface PasswordInputProps {
   id?: string;
   name?: string;
   width?: JSX.CSSProperties["width"];
+  invalid?: boolean;
 }
 
 export function PasswordInput(props: PasswordInputProps) {
@@ -24,13 +25,13 @@ export function PasswordInput(props: PasswordInputProps) {
     <div
       class="tiny-password-input-wrapper"
       data-disabled={dataIf(props.disabled ?? false)}
+      data-invalid={dataIf(props.invalid ?? false)}
       data-size={props.size || "medium"}
       style={{ width: props.width }}
     >
       <input
         {...extraAriasAndDatasets(props)}
         class="tiny-password-input"
-        data-disabled={dataIf(props.disabled ?? false)}
         disabled={props.disabled}
         id={props.id}
         name={props.name}

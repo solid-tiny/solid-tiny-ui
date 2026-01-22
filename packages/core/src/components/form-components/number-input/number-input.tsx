@@ -14,7 +14,6 @@ export interface NumberInputProps<Nullable extends boolean> {
   placeholder?: string;
   disabled?: boolean;
   onChange?: (value: Nullable extends true ? number | null : number) => void;
-  onPressEnter?: () => void;
   size?: "small" | "medium" | "large";
   id?: string;
   name?: string;
@@ -40,6 +39,7 @@ export function NumberInput<Nullable extends boolean = false>(
     const value = target.value;
 
     if (value === "") {
+      setInputVal(null);
       return;
     }
 

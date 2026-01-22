@@ -11,4 +11,4 @@ export * from "./eye-line";
 export * from "./eye-off-line";
 export * from "./information-line";
 export * from "./loading";
-export * from "./square";
+export * from "./subtract";

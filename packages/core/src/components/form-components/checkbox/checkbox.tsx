@@ -1,7 +1,7 @@
 import css from "sass:./checkbox.scss";
 import { children, type JSX, Show } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
-import { Square } from "../../../icons";
+import { IconSubtract } from "../../../icons";
 import { CheckBold } from "../../../icons/check-bold";
 import { CheckboxCore } from "../../../primitives";
 
@@ -39,10 +39,10 @@ export function Checkbox(props: {
           <div class="tiny-checkbox-box">
             <div class="tiny-checkbox-indicator">
               <Show
-                fallback={<Square size="0.85em" />}
+                fallback={<IconSubtract size="100%" />}
                 when={!props.indeterminate}
               >
-                <CheckBold />
+                <CheckBold size="100%" />
               </Show>
             </div>
           </div>

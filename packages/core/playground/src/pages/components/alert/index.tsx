@@ -1,6 +1,6 @@
 import { createSignal, Show } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Alert, Button, Field, Input, useToaster } from "~";
+import { Alert, Button, Field, TextField, useToaster } from "~";
 import { PlayIt } from "../../../components/play-it";
 
 function PlayClosable() {
@@ -10,11 +10,11 @@ function PlayClosable() {
       <div class="flex max-w-400px flex-col gap-md p-sm">
         <Field>
           <Field.Title>Username</Field.Title>
-          <Input />
+          <TextField invalid={error() !== ""} />
         </Field>
         <Field>
           <Field.Title>Password</Field.Title>
-          <Input />
+          <TextField invalid={error() !== ""} />
         </Field>
         <Button
           classNames={{ root: "w-full!" }}

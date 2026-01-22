@@ -8,7 +8,7 @@
     gap: var(--tiny-space-sm);
     vertical-align: middle;
 
-    --c-checked: rgb(var(--tiny-rgb-neutral-9));
+    --c-checked: rgb(var(--tiny-rgb-brand-5));
     --c-indicator: rgb(var(--tiny-rgb-neutral-0));
     --indicator-op: 0;
     --c-label: var(--tiny-c-text);
@@ -30,8 +30,8 @@
     }
 
     &[data-indeterminate]:not([data-disabled]) {
-        --c-indicator: var(--tiny-c-text-label);
-        --c-box-bg: transparent;
+        --c-box-bg: var(--c-checked);
+        --c-box-border: var(--c-checked);
     }
 
     &[data-checked],

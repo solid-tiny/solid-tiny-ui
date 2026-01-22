@@ -1,7 +1,7 @@
 import { For, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { list } from "solid-tiny-utils";
-import { Button, Flex, Input, InputCompact } from "~";
+import { Button, Flex, InputCompact, TextField } from "~";
 import { PlayIt } from "../../../components/play-it";
 
 function PlayCompact() {
@@ -16,7 +16,7 @@ function PlayCompact() {
         <InputCompact>
           <Button>1</Button>
           <Button>2</Button>
-          <Input />
+          <TextField />
           <Button
             disabled={params.disabled}
             styles={{

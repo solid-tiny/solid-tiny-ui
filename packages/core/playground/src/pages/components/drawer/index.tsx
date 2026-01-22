@@ -1,7 +1,7 @@
 import { For, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { list } from "solid-tiny-utils";
-import { Button, Drawer, DrawerHelper } from "~";
+import { Button, Combobox, Drawer, DrawerHelper, useToaster } from "~";
 import { PlayIt } from "../../../components/play-it";
 
 export default function DrawerPage() {
@@ -12,6 +12,8 @@ export default function DrawerPage() {
     placement: "right" as "left" | "right" | "top" | "bottom",
     longContent: false,
   });
+
+  const toast = useToaster();
 
   return (
     <div>
@@ -37,7 +39,26 @@ export default function DrawerPage() {
               />
               <DrawerHelper.Body>
                 <Show
-                  fallback={<p>This is drawer content</p>}
+                  fallback={
+                    <p>
+                      This is drawer content{" "}
+                      <Button
+                        onClick={() => toast("This is a toaster message!")}
+                        size="small"
+                        variant="outline"
+                      >
+                        fire toaster
+                      </Button>
+                      <Combobox
+                        options={list(20).map((v) => ({
+                          label: `Option ${v + 1}`,
+                          value: v + 1,
+                          disabled: (v + 1) % 4 === 0,
+                        }))}
+                        size="small"
+                      />
+                    </p>
+                  }
                   when={params.longContent}
                 >
                   <div>

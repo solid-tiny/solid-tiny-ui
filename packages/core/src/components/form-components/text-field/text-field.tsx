@@ -1,10 +1,9 @@
-import css from "sass:./password-input.scss";
-import { createSignal, type JSX } from "solid-js";
+import css from "sass:./text-field.scss";
+import { children, type JSX, Show } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
-import { EyeLine, EyeOffLine } from "../../../icons";
 import { extraAriasAndDatasets } from "../../../utils";
 
-export interface PasswordInputProps {
+export interface InputProps {
   value?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -13,13 +12,15 @@ export interface PasswordInputProps {
   size?: "small" | "medium" | "large";
   id?: string;
   name?: string;
-  width?: JSX.CSSProperties["width"];
+  prefix?: JSX.Element;
+  suffix?: JSX.Element;
   invalid?: boolean;
 }
 
-export function PasswordInput(props: PasswordInputProps) {
-  mountStyle(css, "tiny-password-input");
-  const [visible, setVisible] = createSignal(false);
+export function TextField(props: InputProps) {
+  mountStyle(css, "tiny-text-field");
+  const prefix = children(() => props.prefix);
+  const suffix = children(() => props.suffix);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -30,15 +31,17 @@ export function PasswordInput(props: PasswordInputProps) {
 
   return (
     <div
-      class="tiny-password-input-wrapper"
+      class="tiny-text-field"
       data-disabled={dataIf(props.disabled ?? false)}
       data-invalid={dataIf(props.invalid ?? false)}
       data-size={props.size || "medium"}
-      style={{ width: props.width }}
     >
+      <Show when={prefix()}>
+        <div class="tiny-text-field-prefix">{prefix()}</div>
+      </Show>
       <input
         {...extraAriasAndDatasets(props)}
-        class="tiny-password-input"
+        class="tiny-text-field-input"
         disabled={props.disabled}
         id={props.id}
         name={props.name}
@@ -47,19 +50,12 @@ export function PasswordInput(props: PasswordInputProps) {
         }}
         onKeyDown={handleKeyDown}
         placeholder={props.placeholder}
-        type={visible() ? "text" : "password"}
+        type="text"
         value={props.value}
       />
-      <button
-        aria-label={visible() ? "Hide password" : "Show password"}
-        class="tiny-password-input-toggle"
-        data-disabled={dataIf(props.disabled ?? false)}
-        disabled={props.disabled}
-        onClick={() => setVisible(!visible())}
-        type="button"
-      >
-        {visible() ? <EyeOffLine /> : <EyeLine />}
-      </button>
+      <Show when={suffix()}>
+        <div class="tiny-text-field-suffix">{suffix()}</div>
+      </Show>
     </div>
   );
 }

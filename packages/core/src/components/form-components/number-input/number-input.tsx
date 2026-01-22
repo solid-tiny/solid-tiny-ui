@@ -14,6 +14,7 @@ export interface NumberInputProps<Nullable extends boolean> {
   placeholder?: string;
   disabled?: boolean;
   onChange?: (value: Nullable extends true ? number | null : number) => void;
+  onPressEnter?: (e: KeyboardEvent) => void;
   size?: "small" | "medium" | "large";
   id?: string;
   name?: string;
@@ -102,6 +103,13 @@ export function NumberInput<Nullable extends boolean = false>(
     { defer: true }
   );
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      props.onPressEnter?.(e);
+      (e.currentTarget as HTMLInputElement).blur();
+    }
+  };
+
   return (
     <div
       class="tiny-number-input-wrapper"
@@ -120,11 +128,7 @@ export function NumberInput<Nullable extends boolean = false>(
         name={props.name}
         onBlur={handleBlur}
         onInput={handleInput}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            e.currentTarget.blur();
-          }
-        }}
+        onKeyDown={handleKeyDown}
         placeholder={props.placeholder}
         step={props.step}
         type="number"

@@ -7,12 +7,19 @@ function PlayPasswordInput() {
   const [params, setParams] = createStore({
     disabled: false,
     placeholder: "Enter password...",
+    size: "medium" as const,
   });
 
   const [val, setVal] = createSignal("");
 
   return (
-    <PlayIt onChange={setParams} properties={params}>
+    <PlayIt
+      onChange={setParams}
+      properties={params}
+      typeDeclaration={{
+        size: ["small", "medium", "large"],
+      }}
+    >
       <div>
         <div>Password: {val()}</div>
         <div>
@@ -20,6 +27,7 @@ function PlayPasswordInput() {
             disabled={params.disabled}
             onChange={setVal}
             placeholder={params.placeholder}
+            size={params.size}
             value={val()}
           />
         </div>

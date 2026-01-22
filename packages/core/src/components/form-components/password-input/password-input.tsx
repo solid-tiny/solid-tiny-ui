@@ -1,5 +1,5 @@
 import css from "sass:./password-input.scss";
-import { createSignal } from "solid-js";
+import { createSignal, type JSX } from "solid-js";
 import { dataIf, mountStyle } from "solid-tiny-utils";
 import { EyeLine, EyeOffLine } from "../../../icons";
 import { extraAriasAndDatasets } from "../../../utils";
@@ -13,6 +13,7 @@ export interface PasswordInputProps {
   size?: "small" | "medium" | "large";
   id?: string;
   name?: string;
+  width?: JSX.CSSProperties["width"];
 }
 
 export function PasswordInput(props: PasswordInputProps) {
@@ -20,11 +21,16 @@ export function PasswordInput(props: PasswordInputProps) {
   const [visible, setVisible] = createSignal(false);
 
   return (
-    <div class="tiny-password-input-wrapper" data-size={props.size || "medium"}>
+    <div
+      class="tiny-password-input-wrapper"
+      data-disabled={dataIf(props.disabled ?? false)}
+      data-size={props.size || "medium"}
+      style={{ width: props.width }}
+    >
       <input
+        {...extraAriasAndDatasets(props)}
         class="tiny-password-input"
         data-disabled={dataIf(props.disabled ?? false)}
-        data-size={props.size || "medium"}
         disabled={props.disabled}
         id={props.id}
         name={props.name}
@@ -39,7 +45,6 @@ export function PasswordInput(props: PasswordInputProps) {
         placeholder={props.placeholder}
         type={visible() ? "text" : "password"}
         value={props.value}
-        {...extraAriasAndDatasets(props)}
       />
       <button
         aria-label={visible() ? "Hide password" : "Show password"}

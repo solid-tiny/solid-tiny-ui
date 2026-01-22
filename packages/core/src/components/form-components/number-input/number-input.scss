@@ -1,19 +1,30 @@
-.tiny-number-input {
+.tiny-number-input-wrapper {
+    position: relative;
+    width: 100%;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--tiny-c-border);
     border-radius: var(--tiny-radius-sm);
     padding-left: var(--tiny-space-sm);
     padding-right: var(--tiny-space-sm);
     transition: border-color 150ms;
-    width: 100%;
+    display: flex;
+    border-color: var(--c-border);
+
+    --c-border: rgb(var(--tiny-rgb-neutral-3));
 
     &:focus-within {
-        border-color: rgb(var(--tiny-rgb-brand-5));
+        --c-border: rgb(var(--tiny-rgb-brand-3));
+        outline: 2px solid var(--c-border);
+        outline-offset: -1px;
     }
 
-    &:hover {
-        border-color: rgb(var(--tiny-rgb-brand-5));
+    &[data-disabled] {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    &[data-invalid] {
+        --c-border: rgb(var(--tiny-rgb-danger-base));
     }
 
     &[data-size="small"] {
@@ -34,4 +45,9 @@
         background-color: rgb(var(--tiny-rgb-neutral-1));
         opacity: 0.7;
     }
+}
+
+.tiny-number-input {
+    width: 100%;
+    height: 100%;
 }

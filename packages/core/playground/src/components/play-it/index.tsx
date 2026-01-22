@@ -2,7 +2,7 @@ import { Entries } from "@solid-primitives/keyed";
 import { createUniqueId, type JSX, Match, Switch } from "solid-js";
 import type { SetStoreFunction } from "solid-js/store";
 import { isArray } from "solid-tiny-utils";
-import { Combobox, Input } from "~";
+import { Combobox, Input, NumberInput } from "~";
 
 export function PlayIt<
   T extends { [key: string]: string | number | boolean | (string | number)[] },
@@ -57,12 +57,10 @@ export function PlayIt<
                     />
                   </Match>
                   <Match when={itType(key) === "number"}>
-                    <input
+                    <NumberInput
                       id={`${thisID}-${key}`}
-                      onInput={(e) =>
-                        changeIt(key, e.currentTarget.valueAsNumber)
-                      }
-                      type="number"
+                      onChange={(v) => changeIt(key, v)}
+                      size="small"
                       value={value() as number}
                     />
                   </Match>

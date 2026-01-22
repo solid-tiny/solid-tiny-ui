@@ -10,21 +10,31 @@ function PlayNumberInput() {
     min: 0,
     max: 100,
     step: 1,
+    size: "medium" as const,
+    invalid: false,
   });
 
   const [val, setVal] = createSignal<number | undefined>(0);
 
   return (
-    <PlayIt onChange={setParams} properties={params}>
+    <PlayIt
+      onChange={setParams}
+      properties={params}
+      typeDeclaration={{
+        size: ["small", "medium", "large"],
+      }}
+    >
       <div>
         <div>Value: {val()}</div>
         <div>
           <NumberInput
             disabled={params.disabled}
+            invalid={params.invalid}
             max={params.max}
             min={params.min}
             onChange={setVal}
             placeholder={params.placeholder}
+            size={params.size}
             step={params.step}
             value={val()}
           />

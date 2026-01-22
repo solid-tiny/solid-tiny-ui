@@ -4,7 +4,11 @@ import { combineClass, combineStyle } from "solid-tiny-utils";
 import { Flex } from "../../../layout";
 import { CheckboxGroupCore } from "../../../primitives/checkbox-group";
 import { createClassStyles } from "../../../utils";
-import type { ClassNames, OmitComponentProps, Styles } from "../../../utils/types";
+import type {
+  ClassNames,
+  OmitComponentProps,
+  Styles,
+} from "../../../utils/types";
 import { Checkbox } from "../checkbox";
 
 export interface CheckboxOption<T> {

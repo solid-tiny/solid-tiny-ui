@@ -10,7 +10,11 @@ import {
 import { Flex } from "../../../layout";
 import { RadioGroupCore } from "../../../primitives";
 import { createClassStyles } from "../../../utils";
-import type { ClassNames, OmitComponentProps, Styles } from "../../../utils/types";
+import type {
+  ClassNames,
+  OmitComponentProps,
+  Styles,
+} from "../../../utils/types";
 
 export interface RadioOption<T> {
   label: JSX.Element;
@@ -69,11 +73,7 @@ export function RadioGroup<T extends string | number>(
     >
       {(rootState) => (
         <Flex
-          class={combineClass(
-            "tiny-radio-group",
-            classes().root,
-            local.class
-          )}
+          class={combineClass("tiny-radio-group", classes().root, local.class)}
           data-disabled={dataIf(rootState.disabled)}
           gap="md"
           style={combineStyle({}, styles().root)}

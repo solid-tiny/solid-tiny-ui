@@ -179,10 +179,7 @@ export function CircleProgress(props: {
         class={combineClass("", classes().wrapper)}
         style={combineStyle({}, styles().wrapper)}
       >
-        <Wrapper
-          gapOffsetDegree={real.offsetDegree}
-          viewBoxSize={viewBoxSize}
-        >
+        <Wrapper gapOffsetDegree={real.offsetDegree} viewBoxSize={viewBoxSize}>
           <Rail
             color={real.railColor}
             gapDegree={real.gapDegree}

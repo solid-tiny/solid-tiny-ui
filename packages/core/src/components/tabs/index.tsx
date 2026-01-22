@@ -1,5 +1,5 @@
 import css from "sass:./tabs.scss";
-import { createMemo, createSignal, For, type JSX } from "solid-js";
+import { createSignal, For, type JSX } from "solid-js";
 import {
   combineClass,
   combineStyle,

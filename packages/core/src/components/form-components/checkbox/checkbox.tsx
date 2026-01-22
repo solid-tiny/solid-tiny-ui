@@ -42,16 +42,6 @@ export function Checkbox(props: {
 
   const label = children(() => props.children);
 
-  const [classes, styles] = createClassStyles(
-    () => props.classNames,
-    () => props.styles,
-    () => ({
-      checked: false,
-      disabled: false,
-      indeterminate: false,
-    })
-  );
-
   return (
     <CheckboxCore
       checked={props.checked}

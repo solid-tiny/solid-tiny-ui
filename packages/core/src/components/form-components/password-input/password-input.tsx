@@ -37,7 +37,7 @@ export function PasswordInput(props: PasswordInputProps) {
         onInput={(e) => {
           props.onChange?.(e.currentTarget.value);
         }}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
           if (e.key === "Enter") {
             props.onPressEnter?.();
           }

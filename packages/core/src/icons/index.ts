@@ -7,6 +7,8 @@ export * from "./checkbox-circle-line";
 export * from "./close-line";
 export * from "./ellipsis";
 export * from "./error-warning-line";
+export * from "./eye-line";
+export * from "./eye-off-line";
 export * from "./information-line";
 export * from "./loading";
 export * from "./square";

@@ -1,6 +1,6 @@
 import { createMemo, mergeProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { combineClass, combineStyle, max } from "solid-tiny-utils";
+import { combineStyle, max } from "solid-tiny-utils";
 import { createClassStyles, getGlobalToken } from "../../utils";
 import type { ClassNames, Styles } from "../../utils/types";
 
@@ -165,7 +165,7 @@ export function CircleProgress(props: {
 
   return (
     <div
-      class={combineClass("", classes().root)}
+      class={classes().root}
       style={combineStyle(
         {
           width: real.size,
@@ -175,10 +175,7 @@ export function CircleProgress(props: {
         styles().root
       )}
     >
-      <div
-        class={combineClass("", classes().wrapper)}
-        style={combineStyle({}, styles().wrapper)}
-      >
+      <div class={classes().wrapper} style={combineStyle({}, styles().wrapper)}>
         <Wrapper gapOffsetDegree={real.offsetDegree} viewBoxSize={viewBoxSize}>
           <Rail
             color={real.railColor}
@@ -199,7 +196,7 @@ export function CircleProgress(props: {
         </Wrapper>
       </div>
       <div
-        class={combineClass("", classes().content)}
+        class={classes().content}
         style={combineStyle(
           {
             position: "absolute",

@@ -1,6 +1,6 @@
 import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { combineClass, combineStyle } from "solid-tiny-utils";
+import { combineStyle } from "solid-tiny-utils";
 import { Flex } from "../../../layout";
 import { CheckboxGroupCore } from "../../../primitives/checkbox-group";
 import { createClassStyles } from "../../../utils";
@@ -65,7 +65,7 @@ export function CheckboxGroup<T extends string | number>(
     >
       {(state, actions) => (
         <Flex
-          class={combineClass("", classes().root)}
+          class={classes().root}
           data-disabled={state.disabled}
           gap="md"
           style={combineStyle({}, styles().root)}

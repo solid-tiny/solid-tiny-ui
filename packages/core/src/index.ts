@@ -4,6 +4,7 @@ export * from "./components/drawer";
 export * from "./components/field";
 export * from "./components/form-components";
 export * from "./components/modal";
+export * from "./components/pagination";
 export * from "./components/popover";
 export * from "./components/progress";
 export * from "./components/spin";

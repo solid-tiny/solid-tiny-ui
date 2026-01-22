@@ -105,6 +105,16 @@
 
     &[data-variant="text"] {
         color: rgb(var(--rgb-base));
+        --bg-opacity: 0;
+        background: rgb(var(--rgb-surface) / var(--bg-opacity));
+
+        &:hover {
+            --bg-opacity: 0.2;
+        }
+
+        &:active {
+            --bg-opacity: 0.3;
+        }
     }
 
     &[data-variant="link"] {

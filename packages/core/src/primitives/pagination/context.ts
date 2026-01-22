@@ -1,5 +1,5 @@
 import { createComponentState } from "solid-tiny-context";
-import { max } from "solid-tiny-utils";
+import { inRange, max } from "solid-tiny-utils";
 
 export type PaginationPageType = "page" | "ellipsis-left" | "ellipsis-right";
 export interface PaginationPager {
@@ -50,6 +50,7 @@ export const context = createComponentState({
         start = end - centerCount + 1;
       }
 
+      // start ellipsis only should appear if start > 2 (so the gap is more than 1)
       if (start > 2) {
         // left ellipsis
         pages.push({ type: "ellipsis-left", page: start - 1 });
@@ -57,10 +58,12 @@ export const context = createComponentState({
         pages.push({ type: "page", page: 2 });
       }
 
+      // fill normal pages in the middle
       for (let i = start + 1; i <= end - 1; i++) {
         pages.push({ type: "page", page: i });
       }
 
+      // same as above, end ellipsis only should appear if the gap is more than 1
       if (end < total - 1) {
         // right ellipsis
         pages.push({ type: "ellipsis-right", page: end + 1 });
@@ -79,11 +82,11 @@ export const context = createComponentState({
       if (this.state.disabled) {
         return;
       }
+      const safePage = Math.floor(page);
       const total = this.state.totalPages;
-      if (page < 1 || page > total) {
-        return;
+      if (inRange(safePage, 1, total)) {
+        this.actions.setState("current", safePage);
       }
-      this.actions.setState("current", () => page);
     },
     next() {
       this.actions.gotoPage(this.state.current + 1);

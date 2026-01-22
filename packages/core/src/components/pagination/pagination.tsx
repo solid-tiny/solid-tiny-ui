@@ -13,7 +13,7 @@ import { PaginationCore } from "../../primitives";
 
 export type PaginationSize = "small" | "middle" | "large";
 
-function GoTorInput(props: {
+function GoToPageInput(props: {
   onBlur: (e: FocusEvent) => void;
   value: number;
   width: number;
@@ -24,11 +24,18 @@ function GoTorInput(props: {
     ref.focus();
   });
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      ref.blur();
+    }
+  };
+
   return (
     <input
       class="tiny-pagination-input"
       min="1"
       onBlur={props.onBlur}
+      onKeyDown={handleKeyDown}
       ref={ref}
       style={{
         "--width": `${props.width}px`,
@@ -39,7 +46,7 @@ function GoTorInput(props: {
   );
 }
 
-function GoTor(props: {
+function GoToPageEditable(props: {
   current: number;
   children: JSX.Element;
   gotoPage: (page: number) => void;
@@ -61,7 +68,7 @@ function GoTor(props: {
   });
   return (
     <Show fallback={<Ref ref={setRef}>{props.children}</Ref>} when={editable()}>
-      <GoTorInput
+      <GoToPageInput
         onBlur={(e) => {
           const tryTo = (e.currentTarget as HTMLInputElement).valueAsNumber;
           if (tryTo > 0 && tryTo !== props.current) {
@@ -84,7 +91,7 @@ function DensePages(props: {
 }) {
   return (
     <>
-      <GoTor
+      <GoToPageEditable
         current={props.current}
         disabled={props.disabled}
         gotoPage={props.onPageClick}
@@ -96,7 +103,7 @@ function DensePages(props: {
         >
           {props.current}
         </button>
-      </GoTor>
+      </GoToPageEditable>
 
       <span
         class="tiny-pagination-separator"
@@ -178,7 +185,7 @@ export function Pagination(props: {
                     return (
                       <Show
                         fallback={
-                          <GoTor
+                          <GoToPageEditable
                             current={state.current}
                             disabled={state.disabled}
                             gotoPage={actions.gotoPage}
@@ -190,7 +197,7 @@ export function Pagination(props: {
                             >
                               <IconEllipsis />
                             </button>
-                          </GoTor>
+                          </GoToPageEditable>
                         }
                         when={page.type === "page"}
                       >

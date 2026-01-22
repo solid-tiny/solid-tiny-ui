@@ -13,7 +13,11 @@ import { PaginationCore } from "../../primitives";
 
 export type PaginationSize = "small" | "middle" | "large";
 
-function GoTorInput(props: { onBlur: (e: FocusEvent) => void; value: number }) {
+function GoTorInput(props: {
+  onBlur: (e: FocusEvent) => void;
+  value: number;
+  width: number;
+}) {
   let ref!: HTMLInputElement;
 
   onMount(() => {
@@ -26,6 +30,9 @@ function GoTorInput(props: { onBlur: (e: FocusEvent) => void; value: number }) {
       min="1"
       onBlur={props.onBlur}
       ref={ref}
+      style={{
+        "--width": `${props.width}px`,
+      }}
       type="number"
       value={props.value}
     />
@@ -40,6 +47,7 @@ function GoTor(props: {
 }) {
   const [editable, setEditable] = createSignal(false);
   const [ref, setRef] = createSignal<Element | null>(null);
+  const [w, setW] = createSignal(0);
 
   createWatch(ref, (el) => {
     if (!el) {
@@ -47,6 +55,7 @@ function GoTor(props: {
     }
 
     makeEventListener(el, "click", () => {
+      setW((el as HTMLElement).offsetWidth);
       setEditable(true);
     });
   });
@@ -61,6 +70,7 @@ function GoTor(props: {
           setEditable(false);
         }}
         value={props.current}
+        width={w()}
       />
     </Show>
   );
@@ -94,6 +104,7 @@ function DensePages(props: {
       >
         /
       </span>
+
       <button
         class="tiny-pagination-item"
         disabled={props.disabled}
@@ -167,13 +178,19 @@ export function Pagination(props: {
                     return (
                       <Show
                         fallback={
-                          <span
-                            aria-disabled={state.disabled}
-                            class="tiny-pagination-ellipsis"
-                            data-disabled={dataIf(state.disabled)}
+                          <GoTor
+                            current={state.current}
+                            disabled={state.disabled}
+                            gotoPage={actions.gotoPage}
                           >
-                            <IconEllipsis />
-                          </span>
+                            <button
+                              class="tiny-pagination-item"
+                              disabled={state.disabled}
+                              type="button"
+                            >
+                              <IconEllipsis />
+                            </button>
+                          </GoTor>
                         }
                         when={page.type === "page"}
                       >

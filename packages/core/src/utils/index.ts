@@ -51,10 +51,6 @@ export function makeStyles<
   };
 }
 
-export function mergeClassNames(classNames: (string | undefined)[]) {
-  return classNames.filter((cn) => !!cn).join(" ");
-}
-
 export function createClassStyles<
   Fields extends string,
   State extends object,

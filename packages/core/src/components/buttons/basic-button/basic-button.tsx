@@ -1,11 +1,10 @@
 import basicBtnCss from "sass:./basic-button.scss";
 import { children, createMemo, type JSX, mergeProps, Show } from "solid-js";
-import { dataIf, mountStyle } from "solid-tiny-utils";
+import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
 import {
   extraAriasAndDatasets,
   makeClassNames,
   makeStyles,
-  mergeClassNames,
 } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 
@@ -88,7 +87,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       {...extraAriasAndDatasets(real)}
-      class={mergeClassNames(["tiny-btn", classNames().root])}
+      class={combineClass("tiny-btn", classNames().root)}
       data-color={real.disabled ? undefined : real.color}
       data-disabled={dataIf(real.disabled ?? false)}
       data-icon-only={dataIf(iconOnly())}
@@ -103,7 +102,7 @@ export const Button = (props: ButtonProps) => {
     >
       <Show when={resolvedIcon()}>
         <div
-          class={mergeClassNames(["tiny-btn__icon", classNames().icon])}
+          class={combineClass("tiny-btn__icon", classNames().icon)}
           style={styles().icon}
         >
           {resolvedIcon()}
@@ -111,7 +110,7 @@ export const Button = (props: ButtonProps) => {
       </Show>
       <Show when={resolvedChild()}>
         <div
-          class={mergeClassNames(["tiny-btn__content", classNames().content])}
+          class={combineClass("tiny-btn__content", classNames().content)}
           style={styles().content}
         >
           {resolvedChild()}

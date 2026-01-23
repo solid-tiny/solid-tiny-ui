@@ -5,27 +5,27 @@ type Color = number;
 
 const lightRamp: [Light, Color][] = [
   [96, 0.021], // 0 tint
-  [90, 0.06], // 1 subtle
+  [91.5, 0.04], // 1 subtle
   [85, 0.09], // 2 bg accent
-  [80, 0.13], // 3 soft
-  [74, 0.17], // 4 pre-primary
-  [62, 0.22], // 5 ← PRIMARY
-  [54, 0.21], // 6 active
-  [45, 0.19], // 7 strong
+  [79, 0.13], // 3 soft
+  [73, 0.17], // 4 pre-primary
+  [64, 0.22], // 5 ← PRIMARY
+  [55, 0.21], // 6 active
+  [48, 0.19], // 7 strong
   [36, 0.16], // 8 emphasis
-  [27, 0.13], // 9 deep
+  [28, 0.13], // 9 deep
 ];
 
 const darkRamp: [Light, Color][] = [
   [21, 0.03], // 0 deep tint
-  [28, 0.06], // 1 subtle
-  [36, 0.08], // 2 bg accent
-  [40, 0.11], // 3 soft
-  [47, 0.15], // 4 pre-primary
-  [55, 0.19], // 5 ← PRIMARY
+  [29, 0.06], // 1 subtle
+  [37, 0.08], // 2 bg accent
+  [44, 0.11], // 3 soft
+  [51, 0.15], // 4 pre-primary
+  [57, 0.19], // 5 ← PRIMARY
   [63, 0.16], // 6 active
-  [73, 0.12], // 7 strong
-  [81, 0.09], // 8 emphasis
+  [71, 0.12], // 7 strong
+  [79, 0.09], // 8 emphasis
   [88, 0.05], // 9 glow
 ];
 
@@ -96,7 +96,7 @@ export function getNeutralColors(hue: number): {
   const neutralizeRamp = (ramp: [Light, Color][]) => {
     return ramp.map(([l, c]) => {
       // Reduce chroma for neutral colors
-      const newC = c * 0.08;
+      const newC = c * 0.06;
       const newL = l + (c - newC) * 0.5; // Adjust lightness slightly
       return [newL, newC] as [Light, Color];
     });

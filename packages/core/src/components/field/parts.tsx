@@ -33,15 +33,9 @@ export function Root(
 export function Title(
   props: {
     children?: JSX.Element;
-    required?: boolean;
   } & OmitComponentProps<typeof Flex<"label">, "children">
 ) {
-  const [local, others] = splitProps(props, [
-    "required",
-    "children",
-    "class",
-    "gap",
-  ]);
+  const [local, others] = splitProps(props, ["children", "class", "gap"]);
   return (
     <Flex
       {...others}
@@ -50,12 +44,17 @@ export function Title(
       gap={local.gap ?? "xs"}
     >
       {local.children}
-      <Show when={local.required}>
-        <span aria-hidden="true" class="tiny-field__required-indicator">
-          *
-        </span>
-      </Show>
     </Flex>
+  );
+}
+
+export function RequiredIndicator(props: { show?: boolean }) {
+  return (
+    <Show when={props.show}>
+      <span aria-hidden="true" class="tiny-field__required-indicator">
+        *
+      </span>
+    </Show>
   );
 }
 

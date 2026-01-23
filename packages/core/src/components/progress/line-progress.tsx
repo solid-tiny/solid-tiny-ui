@@ -1,6 +1,7 @@
 import css from "sass:./progress.scss";
 import { createMemo } from "solid-js";
 import {
+  clamp,
   combineClass,
   combineStyle,
   dataIf,
@@ -32,7 +33,7 @@ export function LineProgress(props: {
     if (props.percent === undefined) {
       return 45;
     }
-    return Math.min(100, Math.max(0, props.percent));
+    return clamp(props.percent, 0, 100);
   });
 
   const background = createMemo(() => {
@@ -68,6 +69,7 @@ export function LineProgress(props: {
           display: "flex",
           "align-items": "center",
           "border-radius": "3px",
+          width: props.width || "100%",
         },
         styles().root
       )}

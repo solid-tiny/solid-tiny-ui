@@ -1,7 +1,14 @@
 import css from "sass:./tabs.scss";
 import { createSignal, For, type JSX } from "solid-js";
-import { dataIf, mountStyle } from "solid-tiny-utils";
+import {
+  combineClass,
+  combineStyle,
+  dataIf,
+  mountStyle,
+} from "solid-tiny-utils";
 import { AnimatedGroup } from "../../primitives/animated-group";
+import { createClassStyles } from "../../utils";
+import type { ClassNames, Styles } from "../../utils/types";
 
 export interface TabItem {
   /**
@@ -20,6 +27,18 @@ export interface TabsProps {
   items: TabItem[];
   activeKey: string;
   onChange?: (key: string) => void;
+  classNames?: ClassNames<
+    "root" | "header" | "tab" | "content" | "item",
+    {
+      activeKey: string;
+    }
+  >;
+  styles?: Styles<
+    "root" | "header" | "tab" | "content" | "item",
+    {
+      activeKey: string;
+    }
+  >;
 }
 
 export function Tabs(props: TabsProps) {
@@ -28,16 +47,30 @@ export function Tabs(props: TabsProps) {
   const [dir, setDir] = createSignal<"left" | "right" | null>(null);
   const [prev, setPrev] = createSignal<string>("");
 
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({
+      activeKey: props.activeKey,
+    })
+  );
+
   return (
     <AnimatedGroup activeKey={props.activeKey} onChange={props.onChange}>
       {(state, actions) => {
         return (
-          <div class="tiny-tabs">
-            <div class="tiny-tabs__header">
+          <div
+            class={combineClass("tiny-tabs", classes().root)}
+            style={combineStyle({}, styles().root)}
+          >
+            <div
+              class={combineClass("tiny-tabs__header", classes().header)}
+              style={combineStyle({}, styles().header)}
+            >
               <For each={props.items}>
                 {(item) => (
                   <button
-                    class="tiny-tabs__tab"
+                    class={combineClass("tiny-tabs__tab", classes().tab)}
                     data-active={dataIf(state.active === item.key)}
                     data-dir={dir() || undefined}
                     data-prev={dataIf(
@@ -58,6 +91,7 @@ export function Tabs(props: TabsProps) {
                       setPrev(state.active);
                       actions.setState("active", item.key);
                     }}
+                    style={combineStyle({}, styles().tab)}
                     type="button"
                   >
                     {item.label ?? item.key}
@@ -65,13 +99,17 @@ export function Tabs(props: TabsProps) {
                 )}
               </For>
             </div>
-            <div class="tiny-tabs__content">
+            <div
+              class={combineClass("tiny-tabs__content", classes().content)}
+              style={combineStyle({}, styles().content)}
+            >
               <For each={props.items}>
                 {(item) => (
                   <AnimatedGroup.Panel
-                    class="tiny-tabs__item"
+                    class={combineClass("tiny-tabs__item", classes().item)}
                     data-dir={dir() || undefined}
                     key={item.key}
+                    style={combineStyle({}, styles().item)}
                   >
                     {item.content}
                   </AnimatedGroup.Panel>

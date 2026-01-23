@@ -1,8 +1,14 @@
 import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
+import { combineStyle } from "solid-tiny-utils";
 import { Flex } from "../../../layout";
 import { CheckboxGroupCore } from "../../../primitives/checkbox-group";
-import type { OmitComponentProps } from "../../../utils/types";
+import { createClassStyles } from "../../../utils";
+import type {
+  ClassNames,
+  OmitComponentProps,
+  Styles,
+} from "../../../utils/types";
 import { Checkbox } from "../checkbox";
 
 export interface CheckboxOption<T> {
@@ -18,6 +24,18 @@ export function CheckboxGroup<T extends string | number>(
     onChange?: (value: T[]) => void;
     disabled?: boolean;
     name?: string;
+    classNames?: ClassNames<
+      "root",
+      {
+        disabled: boolean;
+      }
+    >;
+    styles?: Styles<
+      "root",
+      {
+        disabled: boolean;
+      }
+    >;
   } & OmitComponentProps<typeof Flex, "children">
 ) {
   const [local, others] = splitProps(props, [
@@ -26,7 +44,18 @@ export function CheckboxGroup<T extends string | number>(
     "onChange",
     "disabled",
     "name",
+    "classNames",
+    "styles",
   ]);
+
+  const [classes, styles] = createClassStyles(
+    () => local.classNames,
+    () => local.styles,
+    () => ({
+      disabled: local.disabled ?? false,
+    })
+  );
+
   return (
     <CheckboxGroupCore
       disabled={local.disabled}
@@ -35,7 +64,13 @@ export function CheckboxGroup<T extends string | number>(
       selectValues={local.value}
     >
       {(state, actions) => (
-        <Flex data-disabled={state.disabled} gap="md" {...others}>
+        <Flex
+          class={classes().root}
+          data-disabled={state.disabled}
+          gap="md"
+          style={combineStyle({}, styles().root)}
+          {...others}
+        >
           <For each={local.options}>
             {(o) => (
               <Checkbox

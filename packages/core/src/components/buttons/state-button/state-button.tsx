@@ -1,6 +1,11 @@
 import css from "sass:./state-button.scss";
 import { createMemo, createSignal, splitProps } from "solid-js";
-import { dataIf, type MaybePromise, mountStyle } from "solid-tiny-utils";
+import {
+  dataIf,
+  isString,
+  type MaybePromise,
+  mountStyle,
+} from "solid-tiny-utils";
 import { SpinRing } from "../../spin";
 import { Tooltip } from "../../tooltip";
 import { Button, type ButtonProps } from "../basic-button";
@@ -47,7 +52,7 @@ export function StateButton(props: StateButtonProps) {
   return (
     <Tooltip
       content={typeof local.disabled === "string" ? local.disabled : ""}
-      disabled={!local.disabled || typeof local.disabled !== "string"}
+      disabled={!(local.disabled && isString(local.disabled))}
     >
       <div class="tiny-state-btn" data-loading={dataIf(loading())}>
         <Button

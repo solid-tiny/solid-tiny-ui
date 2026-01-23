@@ -1,6 +1,11 @@
 import css from "sass:./textarea.scss";
 import { type JSX, mergeProps } from "solid-js";
-import { combineClass, combineStyle, mountStyle } from "solid-tiny-utils";
+import {
+  combineClass,
+  combineStyle,
+  dataIf,
+  mountStyle,
+} from "solid-tiny-utils";
 import { createClassStyles } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 
@@ -19,6 +24,7 @@ export function Textarea(props: {
   >;
   styles?: Styles<"root", { disabled: boolean }>;
   onChange?: (value: string) => void;
+  invalid?: boolean;
   value?: string;
   id?: string;
   name?: string;
@@ -43,6 +49,7 @@ export function Textarea(props: {
   return (
     <textarea
       class={combineClass("tiny-textarea", classes().root)}
+      data-invalid={dataIf(real.invalid ?? false)}
       disabled={real.disabled}
       id={props.id}
       maxLength={real.maxLength}

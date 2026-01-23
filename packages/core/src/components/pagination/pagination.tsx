@@ -3,6 +3,7 @@ import { Ref } from "@solid-primitives/refs";
 import { createSignal, type JSX, onMount, Show } from "solid-js";
 import {
   combineClass,
+  combineStyle,
   createWatch,
   dataIf,
   makeEventListener,
@@ -10,6 +11,8 @@ import {
 } from "solid-tiny-utils";
 import { IconArrowLeft, IconArrowRight, IconEllipsis } from "../../icons";
 import { PaginationCore } from "../../primitives";
+import { createClassStyles } from "../../utils";
+import type { ClassNames, Styles } from "../../utils/types";
 
 export type PaginationSize = "small" | "middle" | "large";
 
@@ -17,6 +20,8 @@ function GoToPageInput(props: {
   onBlur: (e: FocusEvent) => void;
   value: number;
   width: number;
+  class?: string;
+  style?: JSX.CSSProperties | string;
 }) {
   let ref!: HTMLInputElement;
 
@@ -32,14 +37,17 @@ function GoToPageInput(props: {
 
   return (
     <input
-      class="tiny-pagination-input"
+      class={combineClass("tiny-pagination-input", props.class)}
       min="1"
       onBlur={props.onBlur}
       onKeyDown={handleKeyDown}
       ref={ref}
-      style={{
-        "--width": `${props.width}px`,
-      }}
+      style={combineStyle(
+        {
+          "--width": `${props.width}px`,
+        },
+        props.style
+      )}
       type="number"
       value={props.value}
     />
@@ -51,6 +59,8 @@ function GoToPageEditable(props: {
   children: JSX.Element;
   gotoPage: (page: number) => void;
   disabled: boolean;
+  inputClass?: string;
+  inputStyle?: JSX.CSSProperties | string;
 }) {
   const [editable, setEditable] = createSignal(false);
   const [ref, setRef] = createSignal<Element | null>(null);
@@ -69,6 +79,7 @@ function GoToPageEditable(props: {
   return (
     <Show fallback={<Ref ref={setRef}>{props.children}</Ref>} when={editable()}>
       <GoToPageInput
+        class={props.inputClass}
         onBlur={(e) => {
           const tryTo = (e.currentTarget as HTMLInputElement).valueAsNumber;
           if (tryTo > 0 && tryTo !== props.current) {
@@ -76,6 +87,7 @@ function GoToPageEditable(props: {
           }
           setEditable(false);
         }}
+        style={props.inputStyle}
         value={props.current}
         width={w()}
       />
@@ -88,6 +100,12 @@ function DensePages(props: {
   totalPages: number;
   onPageClick: (page: number) => void;
   disabled: boolean;
+  itemClass?: string;
+  itemStyle?: JSX.CSSProperties | string;
+  separatorClass?: string;
+  separatorStyle?: JSX.CSSProperties | string;
+  inputClass?: string;
+  inputStyle?: JSX.CSSProperties | string;
 }) {
   return (
     <>
@@ -95,10 +113,13 @@ function DensePages(props: {
         current={props.current}
         disabled={props.disabled}
         gotoPage={props.onPageClick}
+        inputClass={props.inputClass}
+        inputStyle={props.inputStyle}
       >
         <button
-          class="tiny-pagination-item"
+          class={combineClass("tiny-pagination-item", props.itemClass)}
           disabled={props.disabled}
+          style={combineStyle({}, props.itemStyle)}
           type="button"
         >
           {props.current}
@@ -106,16 +127,18 @@ function DensePages(props: {
       </GoToPageEditable>
 
       <span
-        class="tiny-pagination-separator"
+        class={combineClass("tiny-pagination-separator", props.separatorClass)}
         data-disabled={dataIf(props.disabled)}
+        style={combineStyle({}, props.separatorStyle)}
       >
         /
       </span>
 
       <button
-        class="tiny-pagination-item"
+        class={combineClass("tiny-pagination-item", props.itemClass)}
         disabled={props.disabled}
         onClick={() => props.onPageClick(props.totalPages)}
+        style={combineStyle({}, props.itemStyle)}
         type="button"
       >
         {props.totalPages}
@@ -137,12 +160,37 @@ export function Pagination(props: {
   disabled?: boolean;
   maxVisiblePages?: number;
   size?: PaginationSize;
-  class?: string;
   dense?: boolean;
+  classNames?: ClassNames<
+    "root" | "prev" | "items" | "item" | "separator" | "next" | "input",
+    {
+      disabled: boolean;
+      size: PaginationSize;
+      dense: boolean;
+    }
+  >;
+  styles?: Styles<
+    "root" | "prev" | "items" | "item" | "separator" | "next" | "input",
+    {
+      disabled: boolean;
+      size: PaginationSize;
+      dense: boolean;
+    }
+  >;
 }) {
   mountStyle(css, "tiny-pagination");
 
   const size = () => props.size ?? "middle";
+
+  const [classes, styles] = createClassStyles(
+    () => props.classNames,
+    () => props.styles,
+    () => ({
+      disabled: props.disabled ?? false,
+      size: size(),
+      dense: props.dense ?? false,
+    })
+  );
 
   return (
     <PaginationCore
@@ -156,25 +204,36 @@ export function Pagination(props: {
       {(state, actions) => {
         return (
           <div
-            class={combineClass("tiny-pagination", props.class)}
+            class={combineClass("tiny-pagination", classes().root)}
             data-disabled={dataIf(state.disabled)}
             data-size={size()}
+            style={combineStyle({}, styles().root)}
           >
             <button
-              class="tiny-pagination-prev"
+              class={combineClass("tiny-pagination-prev", classes().prev)}
               disabled={state.disabled || state.current <= 1}
               onClick={actions.prev}
+              style={combineStyle({}, styles().prev)}
               type="button"
             >
               <IconArrowLeft />
             </button>
-            <div class="tiny-pagination-items">
+            <div
+              class={combineClass("tiny-pagination-items", classes().items)}
+              style={combineStyle({}, styles().items)}
+            >
               <Show
                 fallback={
                   <DensePages
                     current={state.current}
                     disabled={state.disabled}
+                    inputClass={classes().input}
+                    inputStyle={styles().input}
+                    itemClass={classes().item}
+                    itemStyle={styles().item}
                     onPageClick={actions.gotoPage}
+                    separatorClass={classes().separator}
+                    separatorStyle={styles().separator}
                     totalPages={state.totalPages}
                   />
                 }
@@ -189,10 +248,16 @@ export function Pagination(props: {
                             current={state.current}
                             disabled={state.disabled}
                             gotoPage={actions.gotoPage}
+                            inputClass={classes().input}
+                            inputStyle={styles().input}
                           >
                             <button
-                              class="tiny-pagination-item"
+                              class={combineClass(
+                                "tiny-pagination-item",
+                                classes().item
+                              )}
                               disabled={state.disabled}
+                              style={combineStyle({}, styles().item)}
                               type="button"
                             >
                               <IconEllipsis />
@@ -202,10 +267,14 @@ export function Pagination(props: {
                         when={page.type === "page"}
                       >
                         <button
-                          class="tiny-pagination-item"
+                          class={combineClass(
+                            "tiny-pagination-item",
+                            classes().item
+                          )}
                           data-active={dataIf(page.page === state.current)}
                           disabled={state.disabled}
                           onClick={() => actions.gotoPage(page.page)}
+                          style={combineStyle({}, styles().item)}
                           type="button"
                         >
                           {page.page}
@@ -218,9 +287,10 @@ export function Pagination(props: {
             </div>
 
             <button
-              class="tiny-pagination-next"
+              class={combineClass("tiny-pagination-next", classes().next)}
               disabled={state.disabled || state.current >= state.totalPages}
               onClick={actions.next}
+              style={combineStyle({}, styles().next)}
               type="button"
             >
               <IconArrowRight />

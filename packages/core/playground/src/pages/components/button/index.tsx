@@ -64,7 +64,7 @@ function PlayStateButton() {
         iconPlacement: ["start", "end"],
         color: [
           "primary",
-          "secondary",
+          "neutral",
           "info",
           "warning",
           "success",

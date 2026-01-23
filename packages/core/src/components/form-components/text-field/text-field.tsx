@@ -1,16 +1,15 @@
-import css from "sass:./password-input.scss";
-import { createSignal, type JSX } from "solid-js";
+import css from "sass:./text-field.scss";
+import { children, type JSX, Show } from "solid-js";
 import {
   combineClass,
   combineStyle,
   dataIf,
   mountStyle,
 } from "solid-tiny-utils";
-import { EyeLine, EyeOffLine } from "../../../icons";
 import { createClassStyles, extraAriasAndDatasets } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 
-export interface PasswordInputProps {
+export interface TextFieldProps {
   value?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -19,31 +18,31 @@ export interface PasswordInputProps {
   size?: "small" | "medium" | "large";
   id?: string;
   name?: string;
-  width?: JSX.CSSProperties["width"];
+  prefix?: JSX.Element;
+  suffix?: JSX.Element;
   invalid?: boolean;
   classNames?: ClassNames<
-    "wrapper" | "input" | "toggle",
+    "root" | "input" | "prefix" | "suffix",
     {
       disabled: boolean;
       invalid: boolean;
       size: "small" | "medium" | "large";
-      visible: boolean;
     }
   >;
   styles?: Styles<
-    "wrapper" | "input" | "toggle",
+    "root" | "input" | "prefix" | "suffix",
     {
       disabled: boolean;
       invalid: boolean;
       size: "small" | "medium" | "large";
-      visible: boolean;
     }
   >;
 }
 
-export function PasswordInput(props: PasswordInputProps) {
-  mountStyle(css, "tiny-password-input");
-  const [visible, setVisible] = createSignal(false);
+export function TextField(props: TextFieldProps) {
+  mountStyle(css, "tiny-text-field");
+  const prefix = children(() => props.prefix);
+  const suffix = children(() => props.suffix);
 
   const [classes, styles] = createClassStyles(
     () => props.classNames,
@@ -52,7 +51,6 @@ export function PasswordInput(props: PasswordInputProps) {
       disabled: props.disabled ?? false,
       invalid: props.invalid ?? false,
       size: (props.size || "medium") as "small" | "medium" | "large",
-      visible: visible(),
     })
   );
 
@@ -65,15 +63,23 @@ export function PasswordInput(props: PasswordInputProps) {
 
   return (
     <div
-      class={combineClass("tiny-password-input-wrapper", classes().wrapper)}
+      class={combineClass("tiny-text-field", classes().root)}
       data-disabled={dataIf(props.disabled ?? false)}
       data-invalid={dataIf(props.invalid ?? false)}
       data-size={props.size || "medium"}
-      style={combineStyle({ width: props.width }, styles().wrapper)}
+      style={combineStyle({}, styles().root)}
     >
+      <Show when={prefix()}>
+        <div
+          class={combineClass("tiny-text-field-prefix", classes().prefix)}
+          style={combineStyle({}, styles().prefix)}
+        >
+          {prefix()}
+        </div>
+      </Show>
       <input
         {...extraAriasAndDatasets(props)}
-        class={combineClass("tiny-password-input", classes().input)}
+        class={combineClass("tiny-text-field-input", classes().input)}
         disabled={props.disabled}
         id={props.id}
         name={props.name}
@@ -83,20 +89,17 @@ export function PasswordInput(props: PasswordInputProps) {
         onKeyDown={handleKeyDown}
         placeholder={props.placeholder}
         style={combineStyle({}, styles().input)}
-        type={visible() ? "text" : "password"}
+        type="text"
         value={props.value}
       />
-      <button
-        aria-label={visible() ? "Hide password" : "Show password"}
-        class={combineClass("tiny-password-input-toggle", classes().toggle)}
-        data-disabled={dataIf(props.disabled ?? false)}
-        disabled={props.disabled}
-        onClick={() => setVisible(!visible())}
-        style={combineStyle({}, styles().toggle)}
-        type="button"
-      >
-        {visible() ? <EyeOffLine /> : <EyeLine />}
-      </button>
+      <Show when={suffix()}>
+        <div
+          class={combineClass("tiny-text-field-suffix", classes().suffix)}
+          style={combineStyle({}, styles().suffix)}
+        >
+          {suffix()}
+        </div>
+      </Show>
     </div>
   );
 }

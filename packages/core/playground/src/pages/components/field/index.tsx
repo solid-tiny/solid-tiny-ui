@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { list } from "solid-tiny-utils";
-import { Combobox, Field, Switcher } from "~";
+import { Combobox, Field, Flex, Switcher } from "~";
 import { PlayIt } from "~play/components/play-it";
 
 export default function FieldPage() {
@@ -14,7 +14,9 @@ export default function FieldPage() {
     <PlayIt onChange={setParams} properties={params}>
       <Show when={params.vertical}>
         <Field>
-          <Field.Title required={params.required}>Select Item</Field.Title>
+          <Field.Title>
+            Select Item <Field.RequiredIndicator show={params.required} />
+          </Field.Title>
           <Combobox
             options={list(20).map((v) => ({
               label: `Option ${v + 1}`,
@@ -38,12 +40,10 @@ export default function FieldPage() {
         <Field orientation="horizontal">
           {(state) => (
             <>
-              <Field.Title
-                for={state.uniqueId}
-                required={params.required}
-                vertical
-              >
-                Enabled
+              <Field.Title for={state.uniqueId} vertical>
+                <Flex gap="sm">
+                  Enabled <Field.RequiredIndicator show={params.required} />
+                </Flex>
                 <Field.Description>
                   Please click the switcher to enable the feature.
                 </Field.Description>

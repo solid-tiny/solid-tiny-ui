@@ -1,12 +1,13 @@
 import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Input } from "~";
+import { Textarea } from "~";
 import { PlayIt } from "../../../components/play-it";
 
-function PlayInput() {
+function PlayTextarea() {
   const [params, setParams] = createStore({
     disabled: false,
     placeholder: "Enter text here...",
+    invalid: false,
   });
 
   const [val, setVal] = createSignal("");
@@ -14,10 +15,11 @@ function PlayInput() {
   return (
     <PlayIt onChange={setParams} properties={params}>
       <div>
-        <div>{val()}</div>
+        <div>value: {val()}</div>
         <div>
-          <Input
+          <Textarea
             disabled={params.disabled}
+            invalid={params.invalid}
             onChange={setVal}
             placeholder={params.placeholder}
             value={val()}
@@ -28,10 +30,10 @@ function PlayInput() {
   );
 }
 
-export default function InputPage() {
+export default function TextareaPage() {
   return (
     <div>
-      <PlayInput />
+      <PlayTextarea />
     </div>
   );
 }

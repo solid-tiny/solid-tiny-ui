@@ -1,10 +1,20 @@
 import css from "sass:./radio-group.scss";
 import { For, splitProps } from "solid-js";
 import type { JSX } from "solid-js/jsx-runtime";
-import { combineClass, dataIf, mountStyle } from "solid-tiny-utils";
+import {
+  combineClass,
+  combineStyle,
+  dataIf,
+  mountStyle,
+} from "solid-tiny-utils";
 import { Flex } from "../../../layout";
 import { RadioGroupCore } from "../../../primitives";
-import type { OmitComponentProps } from "../../../utils/types";
+import { createClassStyles } from "../../../utils";
+import type {
+  ClassNames,
+  OmitComponentProps,
+  Styles,
+} from "../../../utils/types";
 
 export interface RadioOption<T> {
   label: JSX.Element;
@@ -19,6 +29,18 @@ export function RadioGroup<T extends string | number>(
     onChange?: (value: T) => void;
     name?: string;
     disabled?: boolean;
+    classNames?: ClassNames<
+      "root" | "item" | "circle" | "label",
+      {
+        disabled: boolean;
+      }
+    >;
+    styles?: Styles<
+      "root" | "item" | "circle" | "label",
+      {
+        disabled: boolean;
+      }
+    >;
   } & OmitComponentProps<typeof Flex, "children">
 ) {
   mountStyle(css, "tiny-radio-group");
@@ -30,7 +52,17 @@ export function RadioGroup<T extends string | number>(
     "name",
     "disabled",
     "class",
+    "classNames",
+    "styles",
   ]);
+
+  const [classes, styles] = createClassStyles(
+    () => local.classNames,
+    () => local.styles,
+    () => ({
+      disabled: local.disabled ?? false,
+    })
+  );
 
   return (
     <RadioGroupCore
@@ -41,25 +73,54 @@ export function RadioGroup<T extends string | number>(
     >
       {(rootState) => (
         <Flex
-          class={combineClass("tiny-radio-group", local.class)}
+          class={combineClass("tiny-radio-group", classes().root, local.class)}
           data-disabled={dataIf(rootState.disabled)}
           gap="md"
+          style={combineStyle({}, styles().root)}
           {...others}
         >
           <For each={local.options}>
             {(o) => (
               <RadioGroupCore.Item disabled={o.disabled} value={o.value}>
-                {(itemState) => (
-                  <RadioGroupCore.ItemLabel
-                    class="tiny-radio-item"
-                    data-checked={dataIf(itemState.checked)}
-                    data-disabled={dataIf(itemState.disabled)}
-                  >
-                    <RadioGroupCore.ItemInput />
-                    <span class="tiny-radio-circle" />
-                    <span class="tiny-radio-label">{o.label}</span>
-                  </RadioGroupCore.ItemLabel>
-                )}
+                {(itemState) => {
+                  const [itemClasses, itemStyles] = createClassStyles(
+                    () => local.classNames,
+                    () => local.styles,
+                    () => ({
+                      disabled: itemState.disabled,
+                    })
+                  );
+
+                  return (
+                    <RadioGroupCore.ItemLabel
+                      class={combineClass(
+                        "tiny-radio-item",
+                        itemClasses().item
+                      )}
+                      data-checked={dataIf(itemState.checked)}
+                      data-disabled={dataIf(itemState.disabled)}
+                      style={combineStyle({}, itemStyles().item)}
+                    >
+                      <RadioGroupCore.ItemInput />
+                      <span
+                        class={combineClass(
+                          "tiny-radio-circle",
+                          itemClasses().circle
+                        )}
+                        style={combineStyle({}, itemStyles().circle)}
+                      />
+                      <span
+                        class={combineClass(
+                          "tiny-radio-label",
+                          itemClasses().label
+                        )}
+                        style={combineStyle({}, itemStyles().label)}
+                      >
+                        {o.label}
+                      </span>
+                    </RadioGroupCore.ItemLabel>
+                  );
+                }}
               </RadioGroupCore.Item>
             )}
           </For>

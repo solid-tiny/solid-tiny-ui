@@ -1,5 +1,6 @@
 import { createMemo, Show } from "solid-js";
-import { dataIf } from "solid-tiny-utils";
+import type { JSX } from "solid-js/jsx-runtime";
+import { combineClass, combineStyle, dataIf } from "solid-tiny-utils";
 import { VisuallyHidden } from "../../visually-hidden";
 
 export function TimeTrigger(props: {
@@ -9,6 +10,8 @@ export function TimeTrigger(props: {
   second: number | null;
   size: "small" | "medium" | "large";
   disabled: boolean;
+  class?: string;
+  style?: JSX.CSSProperties | string;
 }) {
   const typeIndex = createMemo(() =>
     ["hour", "minute", "second"].indexOf(props.type)
@@ -22,9 +25,13 @@ export function TimeTrigger(props: {
   };
   return (
     <button
-      class="tiny-time-picker-trigger tiny-time-picker-trigger-vars"
+      class={combineClass(
+        "tiny-time-picker-trigger tiny-time-picker-trigger-vars",
+        props.class
+      )}
       data-disabled={dataIf(props.disabled)}
       data-size={props.size}
+      style={combineStyle({}, props.style)}
       type="button"
     >
       <VisuallyHidden>

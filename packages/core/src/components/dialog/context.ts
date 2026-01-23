@@ -11,8 +11,11 @@ export const context = createComponentState({
       this.actions.setState("dialogs", (dialogs) =>
         dialogs.filter((dialog) => dialog.id !== id)
       );
-      // biome-ignore lint/style/noNonNullAssertion: remove open state when dialog is removed
-      this.actions.setState("openStates", id, undefined!);
+      this.actions.setState("openStates", (states) => {
+        const newStates = { ...states };
+        delete newStates[id];
+        return newStates;
+      });
     },
     closeDialog(id: string) {
       this.actions.setState("openStates", id, false);

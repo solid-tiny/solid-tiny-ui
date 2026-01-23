@@ -1,7 +1,7 @@
 import css from "sass:./time-picker.scss";
-import { mountStyle, noop } from "solid-tiny-utils";
+import { combineClass, mountStyle, noop } from "solid-tiny-utils";
 import { getHours, getMinutes, getSeconds } from "time-core";
-import { createClassStyles, mergeClassNames } from "../../../utils";
+import { createClassStyles } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 import { Popover } from "../../popover";
 import { TimePanel } from "./panel";
@@ -75,10 +75,10 @@ export function TimePicker(props: {
             />
           </Popover.Trigger>
           <Popover.Content
-            class={mergeClassNames([
+            class={combineClass(
               "tiny-time-picker-popover tiny-time-picker-popover-vars",
-              classes().popover,
-            ])}
+              classes().popover
+            )}
             data-size={props.size || "medium"}
             style={styles().popover}
           >

@@ -31,6 +31,11 @@ function HiddenAutoDismiss(props: {
         // biome-ignore lint/style/noNonNullAssertion: safe
         const percent = ref.offsetWidth / ref.parentElement!.offsetWidth;
 
+        if (percent === 0 && duration > 0) {
+          props.onEnd();
+          return;
+        }
+
         if (pause) {
           ref.style.width = `${percent * 100}%`;
           ref.style.transition = "none";

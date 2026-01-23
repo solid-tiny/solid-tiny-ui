@@ -6,11 +6,13 @@ import {
 } from "solid-tiny-utils";
 import { Modal, ModalHelper } from "../modal";
 import { context } from "./context";
-import type { Dialog } from "./type";
+import type { Dialog, DialogCallbackParams } from "./type";
 
 export function OneDialog(props: Dialog) {
   const [state, actions] = context.useContext();
   const [open, setOpen] = createSignal(state.openStates[props.id] ?? false);
+
+  const callbackParams = (): DialogCallbackParams => ({ id: props.id });
 
   createWatch(
     () => state.openStates[props.id],
@@ -54,38 +56,17 @@ export function OneDialog(props: Dialog) {
           <Show when={props.title}>
             <ModalHelper.Header
               title={
-                callMaybeCallableChild(props.title, {
-                  id: props.id,
-                  content: props.content,
-                  width: props.width,
-                  closable: props.closable,
-                  maskClosable: props.maskClosable,
-                  footer: props.footer,
-                }) as string
+                callMaybeCallableChild(props.title, callbackParams()) as string
               }
               closable={props.closable}
             />
           </Show>
           <ModalHelper.Body>
-            {callMaybeCallableChild(props.content, {
-              id: props.id,
-              title: props.title,
-              width: props.width,
-              closable: props.closable,
-              maskClosable: props.maskClosable,
-              footer: props.footer,
-            })}
+            {callMaybeCallableChild(props.content, callbackParams())}
           </ModalHelper.Body>
           <Show when={props.footer}>
             <ModalHelper.Footer>
-              {callMaybeCallableChild(props.footer, {
-                id: props.id,
-                title: props.title,
-                content: props.content,
-                width: props.width,
-                closable: props.closable,
-                maskClosable: props.maskClosable,
-              })}
+              {callMaybeCallableChild(props.footer, callbackParams())}
             </ModalHelper.Footer>
           </Show>
         </ModalHelper>

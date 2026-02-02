@@ -9,13 +9,13 @@ import type { ToastPosition } from "./type";
 
 function ToasterContainer(props: {
   children: JSX.Element;
-  zIndex?: number;
+  zIndex: number | "auto";
   padding?: number;
 }) {
   return (
     <div
       style={{
-        "z-index": props.zIndex ?? 9999,
+        "z-index": props.zIndex,
         position: "fixed",
         inset: props.padding ? `${props.padding}px` : "16px",
         "pointer-events": "none",
@@ -28,6 +28,7 @@ function ToasterContainer(props: {
 
 export function TinyToasterProvider(props: {
   children: JSX.Element;
+  zIndex?: number | "auto";
   defaultDuration?: number;
   defaultPosition?: ToastPosition;
 }) {
@@ -36,9 +37,10 @@ export function TinyToasterProvider(props: {
   const Context = context.initial({
     defaultDuration: () => props.defaultDuration,
     defaultPosition: () => props.defaultPosition,
+    zIndex: () => props.zIndex,
   });
 
-  const [, actions] = Context.value;
+  const [state, actions] = Context.value;
 
   const positions = [
     "top-left",
@@ -52,7 +54,7 @@ export function TinyToasterProvider(props: {
   return (
     <Context.Provider>
       <Portal>
-        <ToasterContainer>
+        <ToasterContainer zIndex={state.zIndex}>
           <For each={positions}>
             {(pos) => (
               <ToasterLocator position={pos}>

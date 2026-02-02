@@ -4,10 +4,15 @@
     --dot-size: 8px;
     --fs-label: var(--tiny-fs-sm);
 
-    --c-dot: var(--tiny-c-text-label);
+    --c-dot: rgb(var(--tiny-rgb-neutral-0));
     --c-dot-bg: transparent;
     --c-border: var(--tiny-c-border);
     --c-label: var(--tiny-c-text-label);
+}
+
+.tiny-radio-item[data-checked]:not([data-disabled]) {
+    --c-dot-bg: rgb(var(--tiny-rgb-brand-5));
+    --c-border: rgb(var(--tiny-rgb-brand-5));
 }
 
 .tiny-radio-item[data-disabled] {
@@ -51,7 +56,6 @@
     border-radius: 50%;
     background: var(--c-dot);
     opacity: 0;
-    transition: opacity 120ms ease;
 }
 
 .tiny-radio-item[data-checked] .tiny-radio-circle::after {

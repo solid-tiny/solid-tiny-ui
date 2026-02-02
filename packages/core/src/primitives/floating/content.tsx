@@ -17,13 +17,13 @@ import { runSolidEventHandler } from "./utils";
 
 function FloatingContentCore(
   props: {
-    zindex?: number;
+    zIndex?: number | "auto";
   } & JSX.HTMLAttributes<HTMLDivElement>
 ) {
   const [state, actions, staticData] = context.useContext();
   const [localProps, otherProps] = splitProps(props, [
     "children",
-    "zindex",
+    "zIndex",
     "ref",
     "onMouseEnter",
     "onMouseLeave",
@@ -89,7 +89,7 @@ function FloatingContentCore(
         top: 0,
         left: 0,
         position: "fixed",
-        "z-index": localProps.zindex ?? "auto",
+        "z-index": localProps.zIndex ?? "auto",
         "min-width": "max-content",
         "pointer-events": "auto",
         opacity: state.initialized ? 1 : 0,
@@ -128,7 +128,7 @@ function FloatingContentCore(
 
 export function Content(
   props: {
-    zindex?: number;
+    zIndex?: number | "auto";
   } & JSX.HTMLAttributes<HTMLDivElement>
 ) {
   const [state, , staticData] = context.useContext();

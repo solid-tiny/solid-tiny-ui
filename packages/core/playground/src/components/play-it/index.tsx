@@ -29,7 +29,7 @@ export function PlayIt<
   return (
     <div class="b b-t-border m-1 flex rounded-md p-1">
       <div
-        class="flex w-[calc(100%-185px)] flex-1 flex-col justify-start overflow-auto px-4 py-20"
+        class="flex w-[calc(100%-185px)] flex-1 flex-col items-start justify-start overflow-auto px-4 py-20"
         style={{
           "background-image":
             "radial-gradient(circle, var(--tiny-c-neutral-3) 1px, transparent 1px)",

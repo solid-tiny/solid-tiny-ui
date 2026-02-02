@@ -11,6 +11,7 @@ function Root(props: Parameters<typeof FloatingUiCore>[0]) {
 
 function Content(props: {
   children: JSX.Element;
+  zIndex?: number | "auto";
   class?: string;
   style?: JSX.CSSProperties | string;
 }) {
@@ -65,6 +66,7 @@ function Content(props: {
         },
         props.style
       )}
+      zIndex={props.zIndex}
     >
       {props.children}
     </FloatingUiCore.Content>

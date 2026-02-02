@@ -73,19 +73,16 @@ export function Button(props: ButtonProps) {
     })
   );
 
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = async (e: MouseEvent) => {
     if (state.loading) {
       return;
     }
     setIsHandling(true);
-    const runClick = async (e: MouseEvent) => {
-      try {
-        await props.onClick?.(e);
-      } finally {
-        setIsHandling(false);
-      }
-    };
-    runClick(e);
+    try {
+      await props.onClick?.(e);
+    } finally {
+      setIsHandling(false);
+    }
   };
 
   return (

@@ -7,6 +7,7 @@ import type { ClassNames, Styles } from "../../utils/types";
 
 export interface TooltipProps {
   placement?: "top" | "bottom" | "left" | "right";
+  zIndex?: number | "auto";
   content: string;
   children: JSX.Element;
   disabled?: boolean;
@@ -44,6 +45,7 @@ export function Tooltip(props: TooltipProps) {
       <FloatingUiCore.Content
         class={combineClass("tiny-tooltip__content", classes().content)}
         style={combineStyle({}, styles().content)}
+        zIndex={props.zIndex}
       >
         {props.content}
       </FloatingUiCore.Content>

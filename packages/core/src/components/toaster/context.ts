@@ -8,6 +8,7 @@ export const context = createComponentState({
     pauseRemoval: false,
     defaultDuration: 3000,
     defaultPosition: "top-center" as Toast["position"],
+    zIndex: 9800 as number | "auto",
   }),
   methods: {
     removeToast(id: string) {

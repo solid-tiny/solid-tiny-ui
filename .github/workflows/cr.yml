@@ -34,4 +34,4 @@ jobs:
 
       - name: Release Packages
         run: |
-          pnpm dlx pkg-pr-new publish './packages/*'
+          pnpm dlx pkg-pr-new publish './packages/*' --pnpm

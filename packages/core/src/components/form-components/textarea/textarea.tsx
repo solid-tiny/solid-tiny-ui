@@ -8,6 +8,7 @@ import {
 } from "solid-tiny-utils";
 import { createClassStyles } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
+import { ReTextArea } from "../../reset";
 
 export function Textarea(props: {
   autosize?: boolean;
@@ -47,7 +48,7 @@ export function Textarea(props: {
   );
 
   return (
-    <textarea
+    <ReTextArea
       class={combineClass("tiny-textarea", classes().root)}
       data-invalid={dataIf(real.invalid ?? false)}
       disabled={real.disabled}

@@ -10,6 +10,7 @@ import {
 } from "solid-tiny-utils";
 import { createClassStyles, extraAriasAndDatasets } from "../../utils";
 import type { ClassNames, Styles } from "../../utils/types";
+import { ReButton } from "../reset";
 import { SpinRing } from "../spin";
 import { Tooltip } from "../tooltip";
 import { context } from "./context";
@@ -91,7 +92,7 @@ export function Button(props: ButtonProps) {
         content={typeof state.disabled === "string" ? state.disabled : ""}
         disabled={!(state.disabled && isString(state.disabled))}
       >
-        <button
+        <ReButton
           {...extraAriasAndDatasets(props)}
           class={combineClass("tiny-btn", classes().root)}
           data-color={state.disabled ? undefined : state.color}
@@ -105,7 +106,7 @@ export function Button(props: ButtonProps) {
           disabled={!!state.disabled}
           onClick={handleClick}
           style={styles().root}
-          type={props.type ?? "button"}
+          type={props.type}
         >
           <Show when={resolvedIcon()}>
             <div
@@ -126,7 +127,7 @@ export function Button(props: ButtonProps) {
           <div class="tiny-btn__loader">
             <SpinRing color="currentColor" size={18} />
           </div>
-        </button>
+        </ReButton>
       </Tooltip>
     </Ctx.Provider>
   );

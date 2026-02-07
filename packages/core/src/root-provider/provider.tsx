@@ -1,5 +1,5 @@
 import globalStyles from "sass:./global.scss";
-import type { JSX } from "solid-js";
+import { type ComponentProps, type JSX, splitProps } from "solid-js";
 import { createWatch, mountStyle } from "solid-tiny-utils";
 import { context } from "./context";
 import {
@@ -34,13 +34,14 @@ export function RootProvider(props: { children?: JSX.Element; hue?: number }) {
   return <Context.Provider>{props.children}</Context.Provider>;
 }
 
-export function Color(props: { children?: JSX.Element; hue: number }) {
+export function Color(props: { hue: number } & ComponentProps<"div">) {
+  const [local, others] = splitProps(props, ["hue", "children"]);
   return (
-    <div data-hue={props.hue}>
+    <div {...others} data-hue={local.hue}>
       <style>
-        {genColorStyles(getBrandColors(props.hue), `[data-hue="${props.hue}"]`)}
+        {genColorStyles(getBrandColors(local.hue), `[data-hue="${local.hue}"]`)}
       </style>
-      {props.children}
+      {local.children}
     </div>
   );
 }

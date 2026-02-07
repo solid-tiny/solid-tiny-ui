@@ -11,6 +11,7 @@ import {
 } from "solid-tiny-utils";
 import { createClassStyles, extraAriasAndDatasets } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
+import { ReInput } from "../../reset";
 
 export interface NumberInputProps<Nullable extends boolean> {
   value?: number;
@@ -147,7 +148,7 @@ export function NumberInput<Nullable extends boolean = false>(
       data-size={props.size || "medium"}
       style={combineStyle({ width: props.width }, styles().wrapper)}
     >
-      <input
+      <ReInput
         {...extraAriasAndDatasets(props)}
         class={combineClass("tiny-number-input", classes().input)}
         disabled={props.disabled}

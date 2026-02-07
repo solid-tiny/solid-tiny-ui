@@ -13,6 +13,7 @@ import { Listbox } from "../../../primitives/listbox";
 import { createClassStyles } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
 import { Popover } from "../../popover";
+import { ReInput } from "../../reset";
 
 export interface ComboboxProps<
   T extends {
@@ -81,7 +82,7 @@ export function Combobox<
               data-size={props.size ?? "medium"}
               style={combineStyle({}, styles().trigger)}
             >
-              <input
+              <ReInput
                 aria-expanded={state.open}
                 autocomplete="off"
                 id={props.id}

@@ -8,6 +8,7 @@ import {
 } from "solid-tiny-utils";
 import { createClassStyles, extraAriasAndDatasets } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
+import { ReInput } from "../../reset";
 
 export interface TextFieldProps {
   value?: string;
@@ -77,7 +78,7 @@ export function TextField(props: TextFieldProps) {
           {prefix()}
         </div>
       </Show>
-      <input
+      <ReInput
         {...extraAriasAndDatasets(props)}
         class={combineClass("tiny-text-field-input", classes().input)}
         disabled={props.disabled}

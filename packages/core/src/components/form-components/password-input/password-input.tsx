@@ -9,6 +9,7 @@ import {
 import { EyeLine, EyeOffLine } from "../../../icons";
 import { createClassStyles, extraAriasAndDatasets } from "../../../utils";
 import type { ClassNames, Styles } from "../../../utils/types";
+import { ReInput } from "../../reset";
 
 export interface PasswordInputProps {
   value?: string;
@@ -71,7 +72,7 @@ export function PasswordInput(props: PasswordInputProps) {
       data-size={props.size || "medium"}
       style={combineStyle({ width: props.width }, styles().wrapper)}
     >
-      <input
+      <ReInput
         {...extraAriasAndDatasets(props)}
         class={combineClass("tiny-password-input", classes().input)}
         disabled={props.disabled}

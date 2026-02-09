@@ -9,7 +9,7 @@ import { combineStyle, isString } from "solid-tiny-utils";
 import { getGlobalToken } from "../../utils";
 import type { OmitComponentProps } from "../../utils/types";
 
-export function Flex<T extends ValidComponent>(
+export function Flex<T extends ValidComponent = "div">(
   props: {
     children: JSX.Element;
     vertical?: boolean;

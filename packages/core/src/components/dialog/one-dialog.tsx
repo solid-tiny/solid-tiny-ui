@@ -1,75 +1,78 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, Match, Show, Switch } from "solid-js";
+import { callMaybeCallableChild, createWatch } from "solid-tiny-utils";
 import {
-  callMaybeCallableChild,
-  createPresence,
-  createWatch,
-} from "solid-tiny-utils";
+  CloseLine,
+  IconCheckboxCircleLine,
+  IconErrorWarningLine,
+  IconLoading,
+  InformationLine,
+} from "../../icons";
+import { Flex } from "../../layout";
+import { Button } from "../button";
 import { Modal, ModalHelper } from "../modal";
 import { context } from "./context";
-import type { Dialog, DialogCallbackParams } from "./type";
+import type { Dialog, DialogCallbackParams, DialogType } from "./type";
+
+function Header(props: { title: string; type: DialogType; closable: boolean }) {
+  return (
+    <Flex align="center">
+      <Switch>
+        <Match when={props.type === "info"}>
+          <InformationLine size="20px" />
+        </Match>
+        <Match when={props.type === "success"}>
+          <IconCheckboxCircleLine size="20px" />
+        </Match>
+        <Match when={props.type === "error" || props.type === "warning"}>
+          <IconErrorWarningLine size="20px" />
+        </Match>
+        <Match when={props.type === "loading"}>
+          <IconLoading size="20px" />
+        </Match>
+      </Switch>
+      <Show when={props.closable}>
+        <ModalHelper.Close>
+          <Button icon={<CloseLine />} variant="text" />
+        </ModalHelper.Close>
+      </Show>
+    </Flex>
+  );
+}
 
 export function OneDialog(props: Dialog) {
   const [state, actions] = context.useContext();
-  const [open, setOpen] = createSignal(state.openStates[props.id] ?? false);
+  const [open, setOpen] = createSignal(false);
 
   const callbackParams = (): DialogCallbackParams => ({ id: props.id });
 
   createWatch(
-    () => state.openStates[props.id],
-    (isOpen) => {
-      if (isOpen !== undefined) {
-        setOpen(isOpen);
-      }
+    () => state.dismissSignal[props.id],
+    (isDismissed) => {
+      setOpen(!isDismissed);
     }
   );
 
-  const handleClose = () => {
-    actions.closeDialog(props.id);
-  };
-
-  const presence = createPresence(open, {
-    enterDuration: 250,
-    exitDuration: 200,
-    initialEnter: false,
-  });
-
-  onMount(() => {
-    createWatch(presence.isMounted, (shouldMount) => {
-      if (!shouldMount && !open()) {
-        actions.removeDialog(props.id);
-      }
-    });
-  });
-
   return (
     <Modal
-      open={open()}
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          handleClose();
+      onPhaseChange={(phase) => {
+        if (phase === "exited") {
+          actions.removeDialog(props.id);
         }
       }}
-      maskClosable={props.maskClosable}
+      open={open()}
     >
       <Modal.Content width={props.width}>
-        <ModalHelper>
-          <Show when={props.title}>
-            <ModalHelper.Header
-              title={
-                callMaybeCallableChild(props.title, callbackParams()) as string
-              }
-              closable={props.closable}
-            />
-          </Show>
-          <ModalHelper.Body>
-            {callMaybeCallableChild(props.content, callbackParams())}
-          </ModalHelper.Body>
-          <Show when={props.footer}>
-            <ModalHelper.Footer>
-              {callMaybeCallableChild(props.footer, callbackParams())}
-            </ModalHelper.Footer>
-          </Show>
-        </ModalHelper>
+        <Flex vertical>
+          <Header
+            closable={props.closable ?? true}
+            title={props.type}
+            type={props.type}
+          />
+          <Flex>{callMaybeCallableChild(props.content, callbackParams())}</Flex>
+          <Flex gap="sm" justify="end">
+            <Button>取消</Button>
+          </Flex>
+        </Flex>
       </Modal.Content>
     </Modal>
   );

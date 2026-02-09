@@ -6,6 +6,7 @@ export interface DialogCallbackParams {
 
 export interface Dialog {
   id: string;
+  type: DialogType;
   title: MaybeCallableChild<[DialogCallbackParams]>;
   content: MaybeCallableChild<[DialogCallbackParams]>;
   width?: string;
@@ -15,3 +16,11 @@ export interface Dialog {
 }
 
 export type DialogOptions = Partial<Omit<Dialog, "id" | "content">>;
+
+export type DialogType =
+  | "success"
+  | "error"
+  | "warning"
+  | "info"
+  | "blank"
+  | "loading";

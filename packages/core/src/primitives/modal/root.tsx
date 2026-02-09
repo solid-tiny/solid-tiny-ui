@@ -5,6 +5,7 @@ import {
   createWatch,
   type MaybeCallableChild,
   mountStyle,
+  type PresencePhase,
 } from "solid-tiny-utils";
 import { getAnimationDurationMs } from "../../utils/duration";
 import { context } from "./context";
@@ -12,7 +13,7 @@ import { context } from "./context";
 export function Root(props: {
   children: MaybeCallableChild<ReturnType<typeof context.useContext>>;
   open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onPhaseChange?: (phase: PresencePhase) => void;
   closeOnClickMask?: boolean;
   closeOnEsc?: boolean;
 }) {
@@ -30,6 +31,18 @@ export function Root(props: {
 
   staticData.isMounted = presence.isMounted;
   staticData.presencePhase = presence.phase;
+
+  if (props.onPhaseChange) {
+    createWatch(
+      () => presence.phase(),
+      (phase) => {
+        props.onPhaseChange?.(phase);
+      },
+      {
+        defer: true,
+      }
+    );
+  }
 
   const id = `ps__${createUniqueId()}`;
 

@@ -1,7 +1,7 @@
 import { createUniqueId } from "solid-js";
 import type { MaybeCallableChild } from "solid-tiny-utils";
 import { context } from "./context";
-import type { Dialog, DialogOptions } from "./type";
+import type { DialogOptions } from "./type";
 
 type DialogFunction = (
   content: MaybeCallableChild<[{ id: string }]>,
@@ -22,18 +22,18 @@ export function useDialog() {
         id,
         title: opt?.title ?? "",
         content,
+        type: opt?.type ?? "blank",
         width: opt?.width ?? "500px",
         closable: opt?.closable ?? true,
         maskClosable: opt?.maskClosable ?? true,
         footer: opt?.footer ?? null,
       },
     ]);
-    actions.openDialog(id);
     return id;
   };
 
   return Object.assign(dialog, {
-    close: actions.closeDialog,
+    dismiss: actions.dismissDialog,
     update: actions.updateDialog,
   });
 }
